@@ -18,31 +18,50 @@ body {
     width: 80%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem; /* Reduced padding */
+    padding: 1rem;
 }
 
 header {
     background: #0073e6;
     color: white;
-    padding: 0.75rem 0; /* Reduced padding */
+    padding: 0.5rem 0; /* Reduced padding for a more compact header */
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header .container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 2rem; /* Adjusted font size */
+    margin: 0.5rem 0; /* Space between title and navigation */
+}
+
+nav {
+    margin-top: 0.5rem; /* Space between title and navigation */
 }
 
 nav ul {
     list-style: none;
     padding: 0;
+    display: flex; /* Align navigation items horizontally */
+    justify-content: center;
+    margin: 0; /* Remove default margin */
 }
 
 nav ul li {
-    display: inline;
-    margin: 0 0.5rem; /* Slightly reduced margin */
+    margin: 0 0.75rem; /* Adjusted margin for spacing */
 }
 
 nav ul li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    font-size: 0.875rem; /* Adjusted font size for navigation links */
 }
 
 h1, h2, h3 {
@@ -50,7 +69,7 @@ h1, h2, h3 {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 2rem; /* Adjusted size for prominence */
 }
 
 h2 {
@@ -79,10 +98,20 @@ footer {
     background: #0073e6;
     color: white;
     text-align: center;
-    padding: 0.75rem 0; /* Reduced padding */
+    padding: 1rem 0; /* Increased padding for better spacing */
     position: relative;
     bottom: 0;
     width: 100%;
+}
+
+footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer p {
+    margin: 0.5rem 0; /* Adjusted margin for footer text */
 }
 
 /* New Styles for the Download Page */
@@ -148,7 +177,7 @@ footer {
     background-color: #005bb5;
 }
 
-/* Media Queries for Responsiveness */
+/* Media Queries for Responsive Adjustments */
 @media (max-width: 1024px) {
     .container {
         width: 90%;
@@ -160,6 +189,27 @@ footer {
     .container {
         width: 95%;
         padding: 0.75rem;
+    }
+
+    header {
+        padding: 0.25rem 0; /* Further reduce padding on smaller screens */
+    }
+
+    nav ul li {
+        margin: 0 0.5rem; /* Adjusted margin for smaller screens */
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Adjust font size for smaller screens */
+        margin: 0.25rem 0; /* Adjust spacing */
+    }
+
+    nav {
+        margin-top: 0.25rem; /* Adjust spacing */
+    }
+
+    nav ul li a {
+        font-size: 0.75rem; /* Adjust font size for navigation links on smaller screens */
     }
 }
 
