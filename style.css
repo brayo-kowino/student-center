@@ -1,0 +1,179 @@
+/* Box-Sizing Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Existing Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    background-color: #f0f8ff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem; /* Reduced padding */
+}
+
+header {
+    background: #0073e6;
+    color: white;
+    padding: 0.75rem 0; /* Reduced padding */
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 0.5rem; /* Slightly reduced margin */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+h1, h2, h3 {
+    color: #0073e6;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+}
+
+section {
+    margin: 2rem 0; /* Reduced section margins */
+}
+
+section h2 {
+    border-bottom: 2px solid #0073e6;
+    padding-bottom: 0.5rem; /* Reduced padding */
+    margin-bottom: 1rem; /* Reduced margin */
+}
+
+.project {
+    margin-bottom: 1rem; /* Reduced project margin */
+}
+
+footer {
+    background: #0073e6;
+    color: white;
+    text-align: center;
+    padding: 0.75rem 0; /* Reduced padding */
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* New Styles for the Download Page */
+.main-download {
+    padding: 1.25rem;
+}
+
+.main-download h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.625rem;
+}
+
+.main-download p {
+    margin-bottom: 0.9375rem;
+    color: #333;
+    text-align: left;
+}
+
+.screenshot-gallery {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.625rem 0;
+}
+
+.screenshot-gallery img {
+    display: inline-block;
+    margin-right: 0.625rem;
+    border: 2px solid #ddd;
+    border-radius: 0.3125rem;
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Photo Styling */
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+    float: left;
+}
+
+/* Center the Download Button */
+.main-download .download-button-container {
+    text-align: center;
+    margin-top: 1.25rem;
+}
+
+.main-download a {
+    display: inline-block;
+    background-color: #0073e6;
+    color: white;
+    padding: 0.625rem 0.9375rem;
+    text-decoration: none;
+    border-radius: 0.3125rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.main-download a:hover {
+    background-color: #005bb5;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .main-download h2 {
+        font-size: 1.5rem;
+    }
+
+    .main-download p {
+        font-size: 0.875rem;
+    }
+}
