@@ -155,6 +155,60 @@ footer p {
     margin-right: 1rem;
     float: left;
 }
+/* Form Styles */
+form {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 0.3125rem;
+    padding: 1rem;
+    max-width: 600px;
+    margin: 1.25rem auto;
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 0.625rem;
+    border: 1px solid #ddd;
+    border-radius: 0.3125rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+form textarea {
+    resize: vertical;
+}
+
+form button {
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.3125rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #005bb5;
+}
+
+form input:focus, form textarea:focus {
+    border-color: #0073e6;
+    outline: none;
+}
+
+form .form-group {
+    margin-bottom: 1rem;
+}
 
 /* Center the Download Button */
 .main-download .download-button-container {
