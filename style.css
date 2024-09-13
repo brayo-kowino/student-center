@@ -6,7 +6,7 @@
 /* Existing Styles */
 body {
     font-family: 'Roboto', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     background-color: #f0f8ff;
     color: #333;
     margin: 0;
@@ -21,77 +21,79 @@ body {
     padding: 1rem;
 }
 
+/* Header Adjustments */
 header {
     background: #0073e6;
     color: white;
-    padding: 0.5rem 0; /* Reduced padding for a more compact header */
+    padding: 1rem 0; /* Increased padding for a more prominent header */
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header .container {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
 h1 {
-    font-size: 2rem; /* Adjusted font size */
-    margin: 0.5rem 0; /* Space between title and navigation */
+    font-size: 2.5rem; /* Increased font size for emphasis */
+    margin: 0.5rem 0;
 }
 
 nav {
-    margin-top: 0.5rem; /* Space between title and navigation */
+    margin-top: 1rem; /* Added more spacing between the title and navigation */
 }
 
 nav ul {
     list-style: none;
     padding: 0;
-    display: flex; /* Align navigation items horizontally */
+    display: flex;
     justify-content: center;
-    margin: 0; /* Remove default margin */
+    margin: 0;
 }
 
 nav ul li {
-    margin: 0 0.75rem; /* Adjusted margin for spacing */
+    margin: 0 rem; /* Adjusted margin for more spacing */
 }
 
 nav ul li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.875rem; /* Adjusted font size for navigation links */
+    font-size: 20px; /* Slightly larger font size for navigation links */
 }
 
+/* Section Heading Adjustments */
 h1, h2, h3 {
     color: #0073e6;
 }
 
 h1 {
-    font-size: 2rem; /* Adjusted size for prominence */
+    font-size: 2.5rem;
 }
 
 h2 {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
 }
 
 h3 {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
 }
 
 section {
-    margin: 2rem 0; /* Reduced section margins */
+    margin: 2rem 0;
 }
 
 section h2 {
     border-bottom: 2px solid #0073e6;
-    padding-bottom: 0.5rem; /* Reduced padding */
-    margin-bottom: 1rem; /* Reduced margin */
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
 }
 
 .project {
-    margin-bottom: 1rem; /* Reduced project margin */
+    margin-bottom: 1rem;
 }
 
 footer {
@@ -99,6 +101,7 @@ footer {
     color: white;
     text-align: center;
     padding: 1rem 0; /* Increased padding for better spacing */
+    font-size: 0.5rem; /* Reduced font size for footer */
     position: relative;
     bottom: 0;
     width: 100%;
@@ -111,7 +114,8 @@ footer .container {
 }
 
 footer p {
-    margin: 0.5rem 0; /* Adjusted margin for footer text */
+    margin: 0.25rem 0;
+    font-size: 0.575rem; /* Adjusted for smaller text suitable for footer */
 }
 
 /* New Styles for the Download Page */
@@ -280,4 +284,4 @@ form .form-group {
     .main-download p {
         font-size: 0.875rem;
     }
-}
+    }
