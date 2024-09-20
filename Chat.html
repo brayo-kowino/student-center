@@ -8,7 +8,7 @@
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, orderBy, query } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
     // Your web app's Firebase configuration
     const firebaseConfig = {
@@ -53,23 +53,47 @@
       });
     };
 
-    // Handle sign-in
-    const provider = new GoogleAuthProvider();
-    const signIn = () => {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          const user = result.user;
-          username = user.displayName; // Use Google display name
-          document.getElementById('sign-in').style.display = 'none'; // Hide sign-in button
-          loadMessages(); // Load messages after sign-in
+    // Register a new user
+    const register = (email, password) => {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          alert("Registration successful! Now you can log in.");
+        })
+        .catch((error) => {
+          console.error("Error during registration: ", error);
+        });
+    };
+
+    // Sign in an existing user
+    const signIn = (email, password) => {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          username = email; // Use email as username
+          document.getElementById('auth-section').style.display = 'none'; // Hide auth form
+          loadMessages(); // Load chat messages after signing in
         })
         .catch((error) => {
           console.error("Error during sign-in: ", error);
         });
     };
 
+    // Sign out the user
+    const signOutUser = () => {
+      signOut(auth)
+        .then(() => {
+          alert("Signed out successfully!");
+          document.getElementById('auth-section').style.display = 'block'; // Show auth form again
+        })
+        .catch((error) => {
+          console.error("Error during sign-out: ", error);
+        });
+    };
+
     let username = '';
     document.addEventListener('DOMContentLoaded', () => {
+      // Handle message sending
       document.getElementById('send-button').addEventListener('click', () => {
         const message = document.getElementById('message-input').value;
         if (message.trim() !== "") {
@@ -78,7 +102,22 @@
         }
       });
 
-      document.getElementById('sign-in').addEventListener('click', signIn);
+      // Handle registration
+      document.getElementById('register-button').addEventListener('click', () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        register(email, password);
+      });
+
+      // Handle sign-in
+      document.getElementById('sign-in-button').addEventListener('click', () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        signIn(email, password);
+      });
+
+      // Handle sign-out
+      document.getElementById('sign-out-button').addEventListener('click', signOutUser);
     });
   </script>
   <style>
@@ -87,15 +126,29 @@
     #message-input { width: 70%; padding: 10px; }
     #send-button { padding: 10px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
     .message { margin-bottom: 10px; }
+    .auth-section { margin-bottom: 20px; }
+    input[type="email"], input[type="password"] { padding: 10px; margin: 5px; width: 100%; }
   </style>
 </head>
 <body>
 
   <h1>Chat Room</h1>
-  <button id="sign-in">Sign In with Google</button>
+
+  <!-- Authentication Section -->
+  <div id="auth-section" class="auth-section">
+    <h3>Sign In / Register</h3>
+    <input type="email" id="email" placeholder="Enter your email" required>
+    <input type="password" id="password" placeholder="Enter your password" required>
+    <button id="register-button">Register</button>
+    <button id="sign-in-button">Sign In</button>
+  </div>
+
+  <!-- Chat Section -->
   <div id="chat-box"></div>
   <input type="text" id="message-input" placeholder="Type a message">
   <button id="send-button">Send</button>
+  <br>
+  <button id="sign-out-button">Sign Out</button>
 
 </body>
 </html>
