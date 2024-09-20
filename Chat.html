@@ -19,7 +19,6 @@
       appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
       measurementId: "G-54E0SH3VJQ"
     };
-
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
@@ -34,7 +33,6 @@
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Save user info in Firestore using setDoc with UID as the document ID
         await setDoc(doc(db, "users", user.uid), {
           email: user.email,
           uid: user.uid,
@@ -52,57 +50,51 @@
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         currentUser = userCredential.user;
 
-        document.getElementById('auth-section').style.display = 'none'; // Hide auth form
-        loadUsers(); // Load user list after sign-in
+        document.getElementById('auth-section').style.display = 'none';
+        loadUsers();
       } catch (error) {
         console.error("Error during sign-in: ", error);
       }
     };
 
-    // Sign-out function
     const signOutUser = () => {
-      signOut(auth)
-        .then(() => {
-          alert("Signed out successfully!");
-          document.getElementById('auth-section').style.display = 'block'; // Show auth form again
-          currentUser = null;
-        })
-        .catch((error) => {
-          console.error("Error during sign-out: ", error);
-        });
+      signOut(auth).then(() => {
+        alert("Signed out successfully!");
+        document.getElementById('auth-section').style.display = 'block';
+        currentUser = null;
+      }).catch((error) => {
+        console.error("Error during sign-out: ", error);
+      });
     };
 
-    // Fetch and display users
     const loadUsers = () => {
       const usersRef = collection(db, "users");
       onSnapshot(usersRef, (snapshot) => {
         const userList = document.getElementById('user-list');
-        userList.innerHTML = ""; // Clear user list
+        userList.innerHTML = "";
         snapshot.forEach(doc => {
           const user = doc.data();
-          if (user.uid !== currentUser.uid) { // Do not show the current user in the list
+          if (user.uid !== currentUser.uid) {
             userList.innerHTML += `<div class="user" data-uid="${user.uid}">${user.email}</div>`;
           }
         });
 
-        // Add click event to each user to start a private chat
         document.querySelectorAll('.user').forEach(item => {
           item.addEventListener('click', (event) => {
             currentChatUser = event.target.getAttribute('data-uid');
-            loadMessages(currentChatUser); // Load chat with the selected user
+            loadMessages(currentChatUser);
           });
         });
       });
     };
 
-    // Function to send messages
     const sendMessage = async (message) => {
       if (!currentChatUser) {
         alert("Please select a user to chat with.");
         return;
       }
 
-      const chatId = getChatId(currentUser.uid, currentChatUser); // Generate a unique chat ID
+      const chatId = getChatId(currentUser.uid, currentChatUser);
 
       try {
         await addDoc(collection(db, "chats", chatId, "messages"), {
@@ -115,60 +107,57 @@
       }
     };
 
-    // Load messages between current user and selected user
     const loadMessages = (chatUserId) => {
-      const chatId = getChatId(currentUser.uid, chatUserId); // Generate chat ID
+      const chatId = getChatId(currentUser.uid, chatUserId);
       const messagesRef = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
       onSnapshot(messagesRef, (snapshot) => {
         const chatBox = document.getElementById('chat-box');
-        chatBox.innerHTML = ""; // Clear chat box
+        chatBox.innerHTML = "";
         snapshot.forEach(doc => {
           const message = doc.data();
-          chatBox.innerHTML += `<div class="message">${message.senderId === currentUser.uid ? 'You' : 'Them'}: ${message.text}</div>`;
+          const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
+          chatBox.innerHTML += `<div class="message ${messageClass}">${message.text}</div>`;
         });
-        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
+        chatBox.scrollTop = chatBox.scrollHeight;
       });
     };
 
-    // Generate a unique chat ID based on user IDs
     const getChatId = (uid1, uid2) => {
-      return uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`; // Ensure consistent chat ID regardless of order
+      return uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Handle message sending
       document.getElementById('send-button').addEventListener('click', () => {
         const message = document.getElementById('message-input').value;
         if (message.trim() !== "") {
           sendMessage(message);
-          document.getElementById('message-input').value = ""; // Clear input
+          document.getElementById('message-input').value = "";
         }
       });
 
-      // Handle registration
       document.getElementById('register-button').addEventListener('click', () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         register(email, password);
       });
 
-      // Handle sign-in
       document.getElementById('sign-in-button').addEventListener('click', () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         signIn(email, password);
       });
 
-      // Handle sign-out
       document.getElementById('sign-out-button').addEventListener('click', signOutUser);
     });
   </script>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; }
-    #chat-box { height: 400px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; background-color: white; }
+    #chat-box { height: 400px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; background-color: white; display: flex; flex-direction: column; }
     #message-input { width: 70%; padding: 10px; }
     #send-button { padding: 10px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
-    .message { margin-bottom: 10px; }
+    .message { margin-bottom: 10px; padding: 10px; border-radius: 10px; max-width: 60%; word-wrap: break-word; }
+    .sent { align-self: flex-end; background-color: #DCF8C6; } /* WhatsApp green for sent messages */
+    .received { align-self: flex-start; background-color: #FFFFFF; border: 1px solid #ddd; } /* White for received messages */
     .user { cursor: pointer; padding: 5px; background-color: #007BFF; color: white; margin-bottom: 5px; }
     .user:hover { background-color: #0056b3; }
     input[type="email"], input[type="password"] { padding: 10px; margin: 5px; width: 100%; }
@@ -200,4 +189,4 @@
   <button id="sign-out-button">Sign Out</button>
 
 </body>
-  </html>
+                                           </html>
