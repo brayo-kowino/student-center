@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat App</title>
   <script type="module">
-    // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, orderBy, query } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-    // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
       authDomain: "my-website-d875f.firebaseapp.com",
@@ -21,16 +19,92 @@
       measurementId: "G-54E0SH3VJQ"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    // Function to send messages
-    const sendMessage = async (username, message) => {
+    let currentUser = null;
+    let currentChatUser = null;
+
+    // Store user info when registering
+    const register = async (email, password) => {
       try {
-        await addDoc(collection(db, "messages"), {
-          username: username,
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Save user info in Firestore
+        await addDoc(collection(db, "users"), {
+          email: user.email,
+          uid: user.uid
+        });
+
+        alert("Registration successful! Now you can log in.");
+      } catch (error) {
+        console.error("Error during registration: ", error);
+      }
+    };
+
+    // Sign in a user
+    const signIn = async (email, password) => {
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        currentUser = userCredential.user;
+
+        document.getElementById('auth-section').style.display = 'none'; // Hide auth form
+        loadUsers(); // Load user list after sign-in
+      } catch (error) {
+        console.error("Error during sign-in: ", error);
+      }
+    };
+
+    // Sign out
+    const signOutUser = () => {
+      signOut(auth)
+        .then(() => {
+          alert("Signed out successfully!");
+          document.getElementById('auth-section').style.display = 'block'; // Show auth form again
+          currentUser = null;
+        })
+        .catch((error) => {
+          console.error("Error during sign-out: ", error);
+        });
+    };
+
+    // Fetch and display users
+    const loadUsers = () => {
+      const usersRef = collection(db, "users");
+      onSnapshot(usersRef, (snapshot) => {
+        const userList = document.getElementById('user-list');
+        userList.innerHTML = ""; // Clear user list
+        snapshot.forEach(doc => {
+          const user = doc.data();
+          if (user.uid !== currentUser.uid) { // Do not show the current user in the list
+            userList.innerHTML += `<div class="user" data-uid="${user.uid}">${user.email}</div>`;
+          }
+        });
+
+        // Add click event to each user to start a private chat
+        document.querySelectorAll('.user').forEach(item => {
+          item.addEventListener('click', (event) => {
+            currentChatUser = event.target.getAttribute('data-uid');
+            loadMessages(currentChatUser); // Load chat with the selected user
+          });
+        });
+      });
+    };
+
+    // Function to send messages
+    const sendMessage = async (message) => {
+      if (!currentChatUser) {
+        alert("Please select a user to chat with.");
+        return;
+      }
+
+      const chatId = getChatId(currentUser.uid, currentChatUser); // Generate a unique chat ID
+
+      try {
+        await addDoc(collection(db, "chats", chatId, "messages"), {
+          senderId: currentUser.uid,
           text: message,
           timestamp: new Date()
         });
@@ -39,65 +113,32 @@
       }
     };
 
-    // Load chat messages
-    const loadMessages = () => {
-      const messagesRef = query(collection(db, "messages"), orderBy("timestamp"));
+    // Load messages between current user and selected user
+    const loadMessages = (chatUserId) => {
+      const chatId = getChatId(currentUser.uid, chatUserId); // Generate chat ID
+      const messagesRef = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
       onSnapshot(messagesRef, (snapshot) => {
         const chatBox = document.getElementById('chat-box');
         chatBox.innerHTML = ""; // Clear chat box
         snapshot.forEach(doc => {
           const message = doc.data();
-          chatBox.innerHTML += `<div class="message"><strong>${message.username}:</strong> ${message.text}</div>`;
+          chatBox.innerHTML += `<div class="message">${message.senderId === currentUser.uid ? 'You' : 'Them'}: ${message.text}</div>`;
         });
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
       });
     };
 
-    // Register a new user
-    const register = (email, password) => {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          alert("Registration successful! Now you can log in.");
-        })
-        .catch((error) => {
-          console.error("Error during registration: ", error);
-        });
+    // Generate a unique chat ID based on user IDs
+    const getChatId = (uid1, uid2) => {
+      return uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`; // Ensure consistent chat ID regardless of order
     };
 
-    // Sign in an existing user
-    const signIn = (email, password) => {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          username = email; // Use email as username
-          document.getElementById('auth-section').style.display = 'none'; // Hide auth form
-          loadMessages(); // Load chat messages after signing in
-        })
-        .catch((error) => {
-          console.error("Error during sign-in: ", error);
-        });
-    };
-
-    // Sign out the user
-    const signOutUser = () => {
-      signOut(auth)
-        .then(() => {
-          alert("Signed out successfully!");
-          document.getElementById('auth-section').style.display = 'block'; // Show auth form again
-        })
-        .catch((error) => {
-          console.error("Error during sign-out: ", error);
-        });
-    };
-
-    let username = '';
     document.addEventListener('DOMContentLoaded', () => {
       // Handle message sending
       document.getElementById('send-button').addEventListener('click', () => {
         const message = document.getElementById('message-input').value;
         if (message.trim() !== "") {
-          sendMessage(username, message);
+          sendMessage(message);
           document.getElementById('message-input').value = ""; // Clear input
         }
       });
@@ -126,7 +167,8 @@
     #message-input { width: 70%; padding: 10px; }
     #send-button { padding: 10px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
     .message { margin-bottom: 10px; }
-    .auth-section { margin-bottom: 20px; }
+    .user { cursor: pointer; padding: 5px; background-color: #007BFF; color: white; margin-bottom: 5px; }
+    .user:hover { background-color: #0056b3; }
     input[type="email"], input[type="password"] { padding: 10px; margin: 5px; width: 100%; }
   </style>
 </head>
@@ -143,7 +185,12 @@
     <button id="sign-in-button">Sign In</button>
   </div>
 
+  <!-- User List -->
+  <h3>Users</h3>
+  <div id="user-list"></div>
+
   <!-- Chat Section -->
+  <h3>Chat</h3>
   <div id="chat-box"></div>
   <input type="text" id="message-input" placeholder="Type a message">
   <button id="send-button">Send</button>
