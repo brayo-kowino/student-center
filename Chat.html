@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat App</title>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, orderBy, query } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
+      authDomain: "my-website-d875f.firebaseapp.com",
+      projectId: "my-website-d875f",
+      storageBucket: "my-website-d875f.appspot.com",
+      messagingSenderId: "1084724880551",
+      appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
+      measurementId: "G-54E0SH3VJQ"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // Function to send messages
+    const sendMessage = async (username, message) => {
+      try {
+        await addDoc(collection(db, "messages"), {
+          username: username,
+          text: message,
+          timestamp: new Date()
+        });
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
+    };
+
+    // Load chat messages
+    const loadMessages = () => {
+      const messagesRef = query(collection(db, "messages"), orderBy("timestamp"));
+      onSnapshot(messagesRef, (snapshot) => {
+        const chatBox = document.getElementById('chat-box');
+        chatBox.innerHTML = ""; // Clear chat box
+        snapshot.forEach(doc => {
+          const message = doc.data();
+          chatBox.innerHTML += `<div class="message"><strong>${message.username}:</strong> ${message.text}</div>`;
+        });
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
+      });
+    };
+
+    // Handle sign-in
+    const provider = new GoogleAuthProvider();
+    const signIn = () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          username = user.displayName; // Use Google display name
+          document.getElementById('sign-in').style.display = 'none'; // Hide sign-in button
+          loadMessages(); // Load messages after sign-in
+        })
+        .catch((error) => {
+          console.error("Error during sign-in: ", error);
+        });
+    };
+
+    let username = '';
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('send-button').addEventListener('click', () => {
+        const message = document.getElementById('message-input').value;
+        if (message.trim() !== "") {
+          sendMessage(username, message);
+          document.getElementById('message-input').value = ""; // Clear input
+        }
+      });
+
+      document.getElementById('sign-in').addEventListener('click', signIn);
+    });
+  </script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; }
+    #chat-box { height: 400px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; background-color: white; }
+    #message-input { width: 70%; padding: 10px; }
+    #send-button { padding: 10px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
+    .message { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>Chat Room</h1>
+  <button id="sign-in">Sign In with Google</button>
+  <div id="chat-box"></div>
+  <input type="text" id="message-input" placeholder="Type a message">
+  <button id="send-button">Send</button>
+
+</body>
+</html>
