@@ -9,6 +9,7 @@
     import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
       authDomain: "my-website-d875f.firebaseapp.com",
@@ -19,6 +20,7 @@
       measurementId: "G-54E0SH3VJQ"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
@@ -26,7 +28,7 @@
     let currentUser = null;
     let currentChatUser = null;
 
-    // Store user info when registering
+    // Register a new user
     const register = async (email, password) => {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -44,7 +46,7 @@
       }
     };
 
-    // Sign in a user
+    // Sign in an existing user
     const signIn = async (email, password) => {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -57,25 +59,28 @@
       }
     };
 
-    // Sign out
+    // Sign out the user
     const signOutUser = () => {
       signOut(auth)
         .then(() => {
           alert("Signed out successfully!");
           document.getElementById('auth-section').style.display = 'block'; // Show auth form again
           currentUser = null;
+          document.getElementById('user-list').innerHTML = ""; // Clear user list
+          document.getElementById('chat-box').innerHTML = ""; // Clear chat box
         })
         .catch((error) => {
           console.error("Error during sign-out: ", error);
         });
     };
 
-    // Fetch and display users
+    // Fetch and display the list of users
     const loadUsers = () => {
       const usersRef = collection(db, "users");
       onSnapshot(usersRef, (snapshot) => {
         const userList = document.getElementById('user-list');
         userList.innerHTML = ""; // Clear user list
+
         snapshot.forEach(doc => {
           const user = doc.data();
           if (user.uid !== currentUser.uid) { // Do not show the current user in the list
@@ -93,7 +98,7 @@
       });
     };
 
-    // Function to send messages
+    // Send a message in the chat
     const sendMessage = async (message) => {
       if (!currentChatUser) {
         alert("Please select a user to chat with.");
@@ -113,7 +118,7 @@
       }
     };
 
-    // Load messages between current user and selected user
+    // Load messages between the current user and the selected user
     const loadMessages = (chatUserId) => {
       const chatId = getChatId(currentUser.uid, chatUserId); // Generate chat ID
       const messagesRef = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
@@ -124,11 +129,11 @@
           const message = doc.data();
           chatBox.innerHTML += `<div class="message">${message.senderId === currentUser.uid ? 'You' : 'Them'}: ${message.text}</div>`;
         });
-        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
       });
     };
 
-    // Generate a unique chat ID based on user IDs
+    // Generate a unique chat ID based on user UIDs
     const getChatId = (uid1, uid2) => {
       return uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`; // Ensure consistent chat ID regardless of order
     };
@@ -139,7 +144,7 @@
         const message = document.getElementById('message-input').value;
         if (message.trim() !== "") {
           sendMessage(message);
-          document.getElementById('message-input').value = ""; // Clear input
+          document.getElementById('message-input').value = ""; // Clear input field
         }
       });
 
@@ -170,6 +175,7 @@
     .user { cursor: pointer; padding: 5px; background-color: #007BFF; color: white; margin-bottom: 5px; }
     .user:hover { background-color: #0056b3; }
     input[type="email"], input[type="password"] { padding: 10px; margin: 5px; width: 100%; }
+    #auth-section { margin-bottom: 20px; }
   </style>
 </head>
 <body>
