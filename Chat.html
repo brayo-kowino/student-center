@@ -26,6 +26,7 @@
     const auth = getAuth(app);
     let currentUser = null;
     let currentChatUser = null;
+  let selectedImage = null;
 
     // Register function
     const register = async (email, password) => {
@@ -117,7 +118,20 @@ const formatTime = (timestamp) => {
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format as HH:mm
 };
 
-// Send Message Function (with status)
+
+
+document.getElementById('image-input').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      selectedImage = reader.result; // Store the image data URL
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// Modify the sendMessage function
 const sendMessage = async (message) => {
   if (!currentChatUser) {
     alert("Please select a user to chat with.");
@@ -130,19 +144,21 @@ const sendMessage = async (message) => {
     await addDoc(collection(db, "chats", chatId, "messages"), {
       senderId: currentUser.uid,
       text: message,
+      image: selectedImage, // Add the image data URL
       timestamp: new Date(),
-      status: "sent" // Initial status
+      status: "sent"
     });
+    selectedImage = null; // Reset after sending
   } catch (error) {
     console.error("Error adding document: ", error);
   }
 };
 
-// Load Messages and Format Time and Status
+// Update loadMessages function to display images
 const loadMessages = (chatUserId) => {
   const chatId = getChatId(currentUser.uid, chatUserId);
   const messagesRef = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
-  
+
   onSnapshot(messagesRef, (snapshot) => {
     const chatBox = document.getElementById('chat-box');
     chatBox.innerHTML = "";
@@ -150,21 +166,21 @@ const loadMessages = (chatUserId) => {
     snapshot.forEach(doc => {
       const message = doc.data();
       const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
-      const time = formatTime(message.timestamp); // Get formatted time
+      const time = formatTime(message.timestamp);
+      const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
 
-      // Include status for sent messages
       const status = message.senderId === currentUser.uid ? `<span class="status">${message.status}</span>` : '';
       chatBox.innerHTML += `
         <div class="message ${messageClass}">
           ${message.text}
+          ${image}
           <div class="time-status">${time} ${status}</div>
         </div>`;
     });
 
     chatBox.scrollTop = chatBox.scrollHeight;
   });
-};
-  
+};  
 
 // Update message status after it has been read/delivered
 const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
@@ -228,64 +244,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
         menu.style.display = 'none';
       }
     });
-    // Reference to the user's status in Firebase
-const userStatusDatabaseRef = doc(db, "users", currentUser.uid);
 
-// Set the user status to "online" when the user is active
-const setUserOnline = async () => {
-  try {
-    await setDoc(userStatusDatabaseRef, {
-      status: "online",
-      lastSeen: new Date()
-    }, { merge: true });
-  } catch (error) {
-    console.error("Error setting online status: ", error);
-  }
-};
-
-// Set the user status to "offline" and record the last seen time
-const setUserOffline = async () => {
-  try {
-    await setDoc(userStatusDatabaseRef, {
-      status: "offline",
-      lastSeen: new Date()
-    }, { merge: true });
-  } catch (error) {
-    console.error("Error setting offline status: ", error);
-  }
-};
-
-// Listen for when the user closes the app or goes offline
-window.addEventListener('beforeunload', () => {
-  setUserOffline();
-});
-
-// Set the user status to "online" when the page loads
-window.addEventListener('load', () => {
-  setUserOnline();
-  // Function to format the last seen time
-const formatLastSeen = (timestamp) => {
-  const date = timestamp.toDate(); // Convert Firestore Timestamp to JS Date
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format as HH:mm
-};
-
-// Load the user's status (online/offline)
-const loadUserStatus = (chatUserId) => {
-  const userStatusRef = doc(db, "users", chatUserId);
-
-  onSnapshot(userStatusRef, (doc) => {
-    const userData = doc.data();
-    const statusElement = document.getElementById('user-status');
-
-    if (userData.status === 'online') {
-      statusElement.innerText = 'Online';
-    } else if (userData.status === 'offline' && userData.lastSeen) {
-      const lastSeenTime = formatLastSeen(userData.lastSeen);
-      statusElement.innerText = `Last seen at ${lastSeenTime}`;
-    }
-  });
-};
-});
 
   </script>
    <style>
@@ -375,13 +334,13 @@ const loadUserStatus = (chatUserId) => {
 
   .time-status {
   font-size: 12px;
-  color: gray;
+  color: #333333;
   text-align: right;
 }
 
 .status {
   font-style: italic;
-  color: #999;
+  color: #E0FFFF;
 }   
   #register-button {
       background-color: #42b72a;
@@ -478,7 +437,7 @@ const loadUserStatus = (chatUserId) => {
 
 #message-input {
     flex: 1; /* Take up remaining space */
-    padding: 10px;
+    padding: 13px;
     border: 1px solid #ccc;
     border-radius: 20px;
 }
@@ -503,12 +462,13 @@ const loadUserStatus = (chatUserId) => {
 
     .sent {
       align-self: flex-end;
-      background-color: #DCF8C6;
+      color: white;
+      background-color: #0084ff;
     }
 
     .received {
       align-self: flex-start;
-      background-color: #FFFFFF;
+      background-color: #CCE7FF;
       border: 1px solid #ddd;
     }
 
@@ -601,7 +561,9 @@ const loadUserStatus = (chatUserId) => {
   <div id="chat-box"></div>
 
 <div class="message-input-container">
-    <button id="attachment-button">📎</button> <!-- Attachment Icon -->
+  <!-- Inside the message-input-container div -->
+<input type="file" id="image-input" accept="image/*" style="display: none;" />
+<button id="attachment-button" onclick="document.getElementById('image-input').click();">📎</button>
     <input type="text" id="message-input" placeholder="Type a message">
     <button id="send-button">Send</button> <!-- Send Icon -->
 </div>
@@ -625,4 +587,4 @@ const loadUserStatus = (chatUserId) => {
     });
 </script>
 </body>
-  </html>
+</html>
