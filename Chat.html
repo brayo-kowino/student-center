@@ -33,7 +33,7 @@ const storage = getStorage(app); // Initialize Firebase Storage
 let currentUser = null;
 let currentChatUser = null;
 let selectedImage = null;
- let userImage = null;   
+ let userPictures = {};   
   
   // Register function
     const register = async (email, password) => {
@@ -80,37 +80,26 @@ const signIn = async (email, password) => {
       });
     };
   const showProfileDialog = async () => {
-  if (currentUser) {
-    alert(`Current User ID: ${currentUser.uid}`); // Alert with the current user ID
-    
+  if (currentUser) {    
     try {
-      alert('Fetching user data from Firestore...'); // Alert before fetching data
-      
+            
       // Fetch user data from Firestore
       const userDoc = await getDoc(doc(db, "users", currentUser.uid));
       
-      alert('User data fetched successfully'); // Alert after data is fetched
-
       if (userDoc.exists()) {
-        alert('User document exists'); // Alert if user document exists
-
-        const userData = userDoc.data();
-        alert(`User Name: ${userData.name}\nEmail: ${userData.email}\nProfile Picture: ${userData.profilePicture}`); // Alert with user data
         
+        const userData = userDoc.data();
+                
         // Update dialog elements with user data
         document.getElementById('profile-picture').src = userData.profilePicture || 'pic4.png';
-        alert('Profile picture updated'); // Alert after profile picture is updated
-        
+             
         document.getElementById('profile-name').textContent = userData.name || 'No Name';
-        alert('Profile name updated'); // Alert after name is updated
-        
+      
         document.getElementById('profile-email').textContent = userData.email;
-        alert('Profile email updated'); // Alert after email is updated
-
+        
         // Show the dialog
         document.getElementById('profile-dialog').style.display = 'flex';
-        alert('Dialog should be visible now'); // Alert after showing dialog
-      } else {
+          } else {
         alert("User document does not exist."); // Alert if user document doesn't exist
       }
     } catch (error) {
@@ -129,10 +118,9 @@ const closeProfileDialog = () => {
 document.getElementById('close-button').addEventListener('click', closeProfileDialog);
 document.getElementById('edit-button').addEventListener('click', () => {
   showProfileUpdateDialog(currentUser);
+  document.getElementById('profile-dialog').style.display = 'none';
 });
-
- 
-const loadUsers = () => {  
+const loadUsers = () => {
   const usersRef = collection(db, "users");
   onSnapshot(usersRef, (snapshot) => {
     const userList = document.getElementById('overflow-menu');
@@ -140,18 +128,18 @@ const loadUsers = () => {
     snapshot.forEach(doc => {
       const user = doc.data();
       if (user.uid !== currentUser.uid) {
+        userPictures[user.uid] = user.profilePicture ? user.profilePicture : 'pic4.png'; // Store profile pic or default in map
+
         const menuItem = document.createElement('div');
         menuItem.classList.add('menu-item');
-        const profilePic = user.profilePicture ? user.profilePicture : 'pic4.png'; // Fallback to default if no picture
-        userImage = profilePic;
         menuItem.innerHTML = `
-          <img src="${profilePic}" alt="Profile Pic" class="profile-pic-small">
+          <img src="${userPictures[user.uid]}" alt="Profile Pic" class="profile-pic-small">
           <span>${user.name}</span>
         `;
         menuItem.setAttribute('data-uid', user.uid);
         menuItem.addEventListener('click', () => {
           currentChatUser = user.uid;
-          updateSelectedUser(user.name, 'Online',user.profilePicture); // Placeholder for status
+          updateSelectedUser(user.name, 'Online', userPictures[user.uid]);
           loadMessages(currentChatUser);
           userList.style.display = 'none'; // Hide menu after selection
         });
@@ -160,6 +148,48 @@ const loadUsers = () => {
     });
   });
 };
+
+// Load messages and use the correct profile picture for each sender
+const loadMessages = (chatUserId) => {
+  const chatId = getChatId(currentUser.uid, chatUserId);
+  const messagesRef = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
+
+  onSnapshot(messagesRef, (snapshot) => {
+    const chatBox = document.getElementById('chat-box');
+    chatBox.innerHTML = "";
+
+    // Add the end-to-end encryption message at the start of the chat
+    chatBox.innerHTML += `
+      <div class="encryption-message">
+        Messages sent by Student Center are end-to-end encrypted. Nobody outside this chat, not even Student Center, can access them.
+      </div>
+    `;
+
+    snapshot.forEach(doc => {
+      const message = doc.data();
+      const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
+      const time = formatTime(message.timestamp);
+      const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
+
+      // Fetch the sender's profile picture from the userPictures map or use default
+      const profilePic = message.senderId !== currentUser.uid ? `<img src="${userPictures[message.senderId] || 'pic4.png'}" alt="Profile Pic" class="profile-pic" />` : '';
+
+      const status = message.senderId === currentUser.uid ? `<span class="status">${message.status}</span>` : '';
+      chatBox.innerHTML += `
+        <div class="message-container ${messageClass}">
+          ${profilePic}
+          <div class="message ${messageClass}">
+            ${message.text}
+            ${image}
+            <div class="time-status">${time} ${status}</div>
+          </div>
+        </div>`;
+    });
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
+}; 
+
   const markAsRead = async (chatId, messageId) => {
   const messageRef = doc(db, "chats", chatId, "messages", messageId);
   
@@ -220,8 +250,7 @@ const sendMessage = async (message) => {
 
   async function handleFormSubmit(event) {
     event.preventDefault();
-    alert("Form submit event triggered.");
-
+    
     if (!currentUser) {
       alert("No user is currently logged in.");
       return;
@@ -231,36 +260,21 @@ const sendMessage = async (message) => {
     const name = document.getElementById('name-input').value;
     const profilePictureFile = document.getElementById('profile-picture-input').files[0];
 
-    alert(`Profile name: ${name}`);
-    alert(`Profile picture file: ${profilePictureFile}`);
-
     let profilePictureURL = '';
 
 if (profilePictureFile) {
   try {
-    alert("Uploading file...");
-    console.log("Starting file upload:", profilePictureFile.name);
-
-    // Check the file size and type before uploading
-    alert(`File size: ${profilePictureFile.size} bytes`);
-    alert(`File type: ${profilePictureFile.type}`);
-
+    alert("Processing, please wait");
+    
     // Create storage reference
     const storageRef = ref(storage, `profile_pictures/${currentUser.uid}/${profilePictureFile.name}`);
-    alert(`Storage reference created: ${storageRef.fullPath}`);
-
+    
     // Start uploading the file
-    alert("Starting file upload to Firebase Storage...");
-    const snapshot = await uploadBytes(storageRef, profilePictureFile);
-
-    // This alert should be shown if the upload succeeds
-    alert("File uploaded successfully.");
-    console.log("File upload snapshot:", snapshot);
+      const snapshot = await uploadBytes(storageRef, profilePictureFile);
 
     // Get the uploaded image's URL
     profilePictureURL = await getDownloadURL(snapshot.ref);
-    alert(`File uploaded successfully. URL: ${profilePictureURL}`);
-  } catch (error) {
+    } catch (error) {
     // If upload fails, show detailed error messages
     alert("File upload failed. Error details below:");
     alert(`Error code: ${error.code}`);
@@ -280,23 +294,19 @@ if (profilePictureFile) {
 }
     try {
       // Update the profile in Firebase Auth
-      alert("Updating Firebase Auth profile...");
-      await updateProfile(currentUser, {
+        await updateProfile(currentUser, {
         displayName: name,
         photoURL: profilePictureURL
       });
-      alert("Profile updated in Firebase Auth");
-
+      
       // Store additional info in Firestore
-      alert("Updating Firestore profile...");
-      await setDoc(doc(db, "users", currentUser.uid), {
+        await setDoc(doc(db, "users", currentUser.uid), {
         email: currentUser.email,
         uid: currentUser.uid,
         name: name,
         profilePicture: profilePictureURL
       });
-      alert("Profile updated in Firestore");
-
+      
       alert("Profile updated successfully!");
 
       // Hide the dialog
@@ -307,42 +317,7 @@ if (profilePictureFile) {
     }
   }
 }; 
-  const loadMessages = (chatUserId) => {
-  const chatId = getChatId(currentUser.uid, chatUserId);
-  const messagesRef = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
-
-  onSnapshot(messagesRef, (snapshot) => {
-    const chatBox = document.getElementById('chat-box');
-    chatBox.innerHTML = "";
-
-    // Add the end-to-end encryption message at the start of the chat
-    chatBox.innerHTML += `
-      <div class="encryption-message">
-        Messages sent by Student Center are end-to-end encrypted. Nobody outside this chat, not even Student Center, can access them.
-      </div>
-    `;
-
-    snapshot.forEach(doc => {
-      const message = doc.data();
-      const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
-      const time = formatTime(message.timestamp);
-      const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
-      const profilePic = message.senderId !== currentUser.uid? `<img src="${user.profilePicture ? user.profilePicture : 'pic4.jpg'}" alt="Profile Pic" class="profile-pic" />`: ''; // Use an empty string if the message is from the current user
-      const status = message.senderId === currentUser.uid ? `<span class="status">${message.status}</span>` : '';
-      chatBox.innerHTML += `
-        <div class="message-container ${messageClass}">
-          ${profilePic}
-          <div class="message ${messageClass}">
-            ${message.text}
-            ${image}
-            <div class="time-status">${time} ${status}</div>
-          </div>
-        </div>`;
-    });
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-  });
-};
+  
 // Update message status after it has been read/delivered
 const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
   const chatId = getChatId(currentUser.uid, chatUserId);
