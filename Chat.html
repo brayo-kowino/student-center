@@ -52,23 +52,75 @@ let selectedImage = null;
       }
     };
 
-  // Sign-in function
+
+   let inactivityTimeout;
+
+// Function to update user status in Firestore
+const updateUserStatus = async (userId, status) => {
+  try {
+    await setDoc(doc(db, "users", userId), { status }, { merge: true });
+  } catch (error) {
+    console.error("Error updating user status: ", error);
+  }
+};
+
+// Function to reset inactivity timer
+const resetInactivityTimer = () => {
+  clearTimeout(inactivityTimeout);
+  updateUserStatus(currentUser.uid, "Online"); // Set status to Online
+  inactivityTimeout = setTimeout(() => {
+    updateUserStatus(currentUser.uid, "Away"); // Set status to Away after inactivity
+  }, 300000); // 5 minutes of inactivity
+};
+
+// Function to monitor network activity
+const monitorNetworkActivity = () => {
+  // Overriding fetch to detect network requests
+  const originalFetch = window.fetch;
+  window.fetch = async (...args) => {
+    resetInactivityTimer(); // Reset timer on network activity
+    return originalFetch.apply(this, args);
+  };
+
+  // Detect mouse movements and keyboard presses
+  document.addEventListener('mousemove', resetInactivityTimer);
+  document.addEventListener('keypress', resetInactivityTimer);
+};
+
+// Function to set up user presence
+const setupUserPresence = (user) => {
+  currentUser = user;
+  updateUserStatus(currentUser.uid, "Online"); // Set initial status
+  monitorNetworkActivity(); // Start monitoring network activity
+
+  // Firebase onDisconnect to set the last seen status
+  const presenceRef = doc(db, "presence", user.uid);
+  const lastSeen = `Last seen at ${new Date().toLocaleString()}`;
+  onDisconnect(presenceRef).set({ status: lastSeen });
+
+  // Listen for presence changes
+  onSnapshot(presenceRef, (doc) => {
+    const data = doc.data();
+    if (data) {
+      updateUserStatus(user.uid, data.status);
+    }
+  });
+};
+
 const signIn = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const currentUser = userCredential.user;
-
-    // After sign-in, show the dialog to update profile
-    showProfileUpdateDialog(currentUser);
+    setupUserPresence(userCredential.user); // Setup presence on sign-in
 
     document.getElementById('auth-section').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
+    showProfileUpdateDialog(currentUser);
     loadUsers();
-
   } catch (error) {
     console.error("Error during sign-in: ", error);
   }
 };
+
     const signOutUser = () => {
       signOut(auth).then(() => {
         alert("Signed out successfully!");
@@ -134,12 +186,12 @@ const loadUsers = () => {
         menuItem.classList.add('menu-item');
         menuItem.innerHTML = `
           <img src="${userPictures[user.uid]}" alt="Profile Pic" class="profile-pic-small">
-          <span>${user.name}</span>
+          <span>${user.name}</span> - <span>${user.status || 'Offline'}</span>
         `;
         menuItem.setAttribute('data-uid', user.uid);
         menuItem.addEventListener('click', () => {
           currentChatUser = user.uid;
-          updateSelectedUser(user.name, 'Online', userPictures[user.uid]);
+          updateSelectedUser(user.name, user.status, userPictures[user.uid]);
           loadMessages(currentChatUser);
           userList.style.display = 'none'; // Hide menu after selection
         });
