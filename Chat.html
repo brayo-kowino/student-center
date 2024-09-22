@@ -511,15 +511,15 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
     }
 
     #profile-pic {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       margin-left: -5px;
       margin-right: 10px;
     }
   .profile-pic-small {
-  width: 60px; /* Set width */
-  height: 60px; /* Set height */
+  width: 70px; /* Set width */
+  height: 70px; /* Set height */
   border-radius: 50%; /* Makes the image round */
   object-fit: cover; /* Ensures the image covers the area without distortion */
 }
@@ -585,8 +585,8 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
 }
 
 .profile-pic-large {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
 }
 
@@ -641,7 +641,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       flex: 1;
       overflow-y: auto;
       padding: 5px;
-      padding-bottom: 60px;
+      padding-bottom: 45px;
       background-color: #ffffff;
      /* border: 1px solid #ddd;*/
     }
@@ -674,11 +674,13 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
 }
 
 #send-button {
-    background-color: #0084ff; /* Adjust background color */
+    background: none; /* Remove default button styles */
+    border: none;
     color: white;
     border: none;
-    padding: 10px 12px;
-    margin-left: 10px; /* Space between input and button */
+  font-size: 20px; /* Adjust size of the icon */
+    padding: 5px 15px;
+    margin-left: 5px; /* Space between input and button */
     border-radius: 50%;
     cursor: pointer; /* Show pointer cursor on hover */
 }
@@ -700,7 +702,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       background-color: white;
       border: 1px solid #ddd;
       z-index: 100;
-      width: 200px;
+      width: 250px;
       max-height: 500px;
       overflow-y: auto;
     }
@@ -869,11 +871,10 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
 
 <div class="message-input-container">
   <!-- Inside the message-input-container div -->
-<input type="file" id="image-input" accept="image/*" style="display: none;" />
-<button id="attachment-button" onclick="document.getElementById('image-input').click();">📎</button>
-    <input type="text" id="message-input" placeholder="Type a message">
-    <button id="send-button" class="send-button">Send</button> 
-</div>
+  <input type="file" id="image-input" accept="image/*" style="display: none;" />
+  <button id="attachment-button" onclick="document.getElementById('image-input').click();">📎</button>
+  <input type="text" id="message-input" placeholder="Type a message">
+  <button id="send-button" class="send-button">✈️</button> <!-- Using a paper plane emoji for the send button -->
 </div>
 <script>
   document.getElementById('overflow-button').addEventListener('click', () => {
