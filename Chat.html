@@ -327,8 +327,7 @@ if (profilePictureFile) {
       const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
       const time = formatTime(message.timestamp);
       const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
-      const profilePic = message.senderId !== currentUser.uid ? user.profilePicture ? user.profilePicture  alt="Profile Pic" class="profile-pic" /> // Use appropriate profile pic
-
+      const profilePic = message.senderId !== currentUser.uid? `<img src="${user.profilePicture ? user.profilePicture : 'pic4.jpg'}" alt="Profile Pic" class="profile-pic" />`: ''; // Use an empty string if the message is from the current user
       const status = message.senderId === currentUser.uid ? `<span class="status">${message.status}</span>` : '';
       chatBox.innerHTML += `
         <div class="message-container ${messageClass}">
