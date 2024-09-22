@@ -5,36 +5,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>S.C Space</title>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { getFirestore, collection, setDoc, doc, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+  <script type="module">    
+// Import Firebase libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getFirestore, setDoc, getDoc, doc, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
 
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
-      authDomain: "my-website-d875f.firebaseapp.com",
-      projectId: "my-website-d875f",
-      storageBucket: "my-website-d875f.appspot.com",
-      messagingSenderId: "1084724880551",
-      appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
-      measurementId: "G-54E0SH3VJQ"
-    };    
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-    let currentUser = null;
-    let currentChatUser = null;
-  let selectedImage = null;
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
+  authDomain: "my-website-d875f.firebaseapp.com",
+  projectId: "my-website-d875f",
+  storageBucket: "my-website-d875f.appspot.com",
+  messagingSenderId: "1084724880551",
+  appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
+  measurementId: "G-54E0SH3VJQ"
+};
 
-    // Register function
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app); // Initialize Firestore
+const auth = getAuth(app); // Initialize Firebase Auth
+const storage = getStorage(app); // Initialize Firebase Storage
+
+// User and image variables
+let currentUser = null;
+let currentChatUser = null;
+let selectedImage = null;
+  
+  // Register function
     const register = async (email, password) => {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
-        await setDoc(doc(db, "users", user.uid), {
+         await setDoc(doc(db, "users", user.uid), {
           email: user.email,
           uid: user.uid,
         });
@@ -45,20 +50,24 @@
         console.error("Error during registration: ", error);
       }
     };
+
   // Sign-in function
-    const signIn = async (email, password) => {
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        currentUser = userCredential.user;
-        document.getElementById('auth-section').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
+const signIn = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const currentUser = userCredential.user;
 
-        loadUsers();
-      } catch (error) {
-        console.error("Error during sign-in: ", error);
-      }
-    };
+    // After sign-in, show the dialog to update profile
+    showProfileUpdateDialog(currentUser);
 
+    document.getElementById('auth-section').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+    loadUsers();
+
+  } catch (error) {
+    console.error("Error during sign-in: ", error);
+  }
+};
     const signOutUser = () => {
       signOut(auth).then(() => {
         alert("Signed out successfully!");
@@ -69,31 +78,86 @@
         console.error("Error during sign-out: ", error);
       });
     };
- 
-    const loadUsers = () => {
-      const usersRef = collection(db, "users");
-      onSnapshot(usersRef, (snapshot) => {
-        const userList = document.getElementById('overflow-menu');
-        userList.innerHTML = "";
-        snapshot.forEach(doc => {
-          const user = doc.data();
-          if (user.uid !== currentUser.uid) {
-            const menuItem = document.createElement('div');
-            menuItem.classList.add('menu-item');
-            menuItem.textContent = user.email; // Assume email as name
-            menuItem.setAttribute('data-uid', user.uid);
-            menuItem.addEventListener('click', () => {
-              currentChatUser = user.uid;
-              updateSelectedUser(user.email, 'Online'); // Placeholder for status
-              loadMessages(currentChatUser);
-              userList.style.display = 'none'; // Hide menu after selection
-            });
-            userList.appendChild(menuItem);
-          }
-        });
-      });
-    };
+  const showProfileDialog = async () => {
+  if (currentUser) {
+    alert(`Current User ID: ${currentUser.uid}`); // Alert with the current user ID
+    
+    try {
+      alert('Fetching user data from Firestore...'); // Alert before fetching data
+      
+      // Fetch user data from Firestore
+      const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+      
+      alert('User data fetched successfully'); // Alert after data is fetched
 
+      if (userDoc.exists()) {
+        alert('User document exists'); // Alert if user document exists
+
+        const userData = userDoc.data();
+        alert(`User Name: ${userData.name}\nEmail: ${userData.email}\nProfile Picture: ${userData.profilePicture}`); // Alert with user data
+        
+        // Update dialog elements with user data
+        document.getElementById('profile-picture').src = userData.profilePicture || 'pic4.png';
+        alert('Profile picture updated'); // Alert after profile picture is updated
+        
+        document.getElementById('profile-name').textContent = userData.name || 'No Name';
+        alert('Profile name updated'); // Alert after name is updated
+        
+        document.getElementById('profile-email').textContent = userData.email;
+        alert('Profile email updated'); // Alert after email is updated
+
+        // Show the dialog
+        document.getElementById('profile-dialog').style.display = 'flex';
+        alert('Dialog should be visible now'); // Alert after showing dialog
+      } else {
+        alert("User document does not exist."); // Alert if user document doesn't exist
+      }
+    } catch (error) {
+      alert("Error fetching user data: " + error.message); // Alert in case of error
+    }
+  } else {
+    alert("No current user is signed in."); // Alert if no user is signed in
+  }
+};
+  // Close Profile Dialog
+const closeProfileDialog = () => {
+  document.getElementById('profile-dialog').style.display = 'none';
+};
+
+// Event Listeners for Buttons
+document.getElementById('close-button').addEventListener('click', closeProfileDialog);
+document.getElementById('edit-button').addEventListener('click', () => {
+  alert('Edit functionality to be implemented');
+});
+
+ 
+const loadUsers = () => {  
+  const usersRef = collection(db, "users");
+  onSnapshot(usersRef, (snapshot) => {
+    const userList = document.getElementById('overflow-menu');
+    userList.innerHTML = "";
+    snapshot.forEach(doc => {
+      const user = doc.data();
+      if (user.uid !== currentUser.uid) {
+        const menuItem = document.createElement('div');
+        menuItem.classList.add('menu-item');
+        const profilePic = user.profilePicture ? user.profilePicture : 'pic4.png'; // Fallback to default if no picture
+        menuItem.innerHTML = `
+          <img src="${profilePic}" alt="Profile Pic" class="profile-pic-small">
+          <span>${user.name}</span>
+        `;
+        menuItem.setAttribute('data-uid', user.uid);
+        menuItem.addEventListener('click', () => {
+          currentChatUser = user.uid;
+          updateSelectedUser(user.name, 'Online',user.profilePicture); // Placeholder for status
+          loadMessages(currentChatUser);
+          userList.style.display = 'none'; // Hide menu after selection
+        });
+        userList.appendChild(menuItem);
+      }
+    });
+  });
+};
   const markAsRead = async (chatId, messageId) => {
   const messageRef = doc(db, "chats", chatId, "messages", messageId);
   
@@ -106,30 +170,16 @@
     console.error("Error updating document: ", error);
   }
 };
-    const updateSelectedUser = (name, status) => {
-      document.getElementById('selected-user').textContent = name;
-      document.getElementById('user-status').textContent = status;
-      document.getElementById('profile-pic').src = 'pic4.png'; // Update with actual URL
-    };
-
+    const updateSelectedUser = (name, status, profilePicture) => {
+  document.getElementById('selected-user').textContent = name;
+  document.getElementById('user-status').textContent = status;
+  document.getElementById('profile-pic').src = profilePicture ? profilePicture : 'pic4.png';
+};
 // Function to format the timestamp
 const formatTime = (timestamp) => {
   const date = timestamp.toDate(); // Convert Firestore Timestamp to JS Date
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format as HH:mm
 };
-
-
-
-document.getElementById('image-input').addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      selectedImage = reader.result; // Store the image data URL
-    };
-    reader.readAsDataURL(file);
-  }
-});
 
 // Modify the sendMessage function
 const sendMessage = async (message) => {
@@ -154,7 +204,108 @@ const sendMessage = async (message) => {
   }
 };
 
-const loadMessages = (chatUserId) => {
+  const showProfileUpdateDialog = (currentUser) => {
+  const dialog = document.getElementById('profile-update-dialog');
+  dialog.style.display = 'block';
+
+  const form = document.getElementById('update-profile-form');
+
+  // Remove any existing event listeners to avoid multiple submissions
+  form.removeEventListener('submit', handleFormSubmit);
+
+  // Attach the event listener for form submission
+  form.addEventListener('submit', handleFormSubmit);
+
+  async function handleFormSubmit(event) {
+    event.preventDefault();
+    alert("Form submit event triggered.");
+
+    if (!currentUser) {
+      alert("No user is currently logged in.");
+      return;
+    }
+
+    // Get the values from the form
+    const name = document.getElementById('name-input').value;
+    const profilePictureFile = document.getElementById('profile-picture-input').files[0];
+
+    alert(`Profile name: ${name}`);
+    alert(`Profile picture file: ${profilePictureFile}`);
+
+    let profilePictureURL = '';
+
+if (profilePictureFile) {
+  try {
+    alert("Uploading file...");
+    console.log("Starting file upload:", profilePictureFile.name);
+
+    // Check the file size and type before uploading
+    alert(`File size: ${profilePictureFile.size} bytes`);
+    alert(`File type: ${profilePictureFile.type}`);
+
+    // Create storage reference
+    const storageRef = ref(storage, `profile_pictures/${currentUser.uid}/${profilePictureFile.name}`);
+    alert(`Storage reference created: ${storageRef.fullPath}`);
+
+    // Start uploading the file
+    alert("Starting file upload to Firebase Storage...");
+    const snapshot = await uploadBytes(storageRef, profilePictureFile);
+
+    // This alert should be shown if the upload succeeds
+    alert("File uploaded successfully.");
+    console.log("File upload snapshot:", snapshot);
+
+    // Get the uploaded image's URL
+    profilePictureURL = await getDownloadURL(snapshot.ref);
+    alert(`File uploaded successfully. URL: ${profilePictureURL}`);
+  } catch (error) {
+    // If upload fails, show detailed error messages
+    alert("File upload failed. Error details below:");
+    alert(`Error code: ${error.code}`);
+    alert(`Error message: ${error.message}`);
+    alert(`Error stack: ${error.stack}`);
+
+    // Specific error handling based on error codes
+    if (error.code === 'storage/unauthorized') {
+      alert("User doesn't have permission to access the object.");
+    } else if (error.code === 'storage/canceled') {
+      alert("User canceled the upload.");
+    } else if (error.code === 'storage/unknown') {
+      alert("Unknown error occurred.");
+    }
+    return;
+  }
+}
+    try {
+      // Update the profile in Firebase Auth
+      alert("Updating Firebase Auth profile...");
+      await updateProfile(currentUser, {
+        displayName: name,
+        photoURL: profilePictureURL
+      });
+      alert("Profile updated in Firebase Auth");
+
+      // Store additional info in Firestore
+      alert("Updating Firestore profile...");
+      await setDoc(doc(db, "users", currentUser.uid), {
+        email: currentUser.email,
+        uid: currentUser.uid,
+        name: name,
+        profilePicture: profilePictureURL
+      });
+      alert("Profile updated in Firestore");
+
+      alert("Profile updated successfully!");
+
+      // Hide the dialog
+      dialog.style.display = 'none';
+    } catch (error) {
+      alert("Failed to update profile. Please try again.");
+      console.error("Failed to update profile:", error);
+    }
+  }
+}; 
+  const loadMessages = (chatUserId) => {
   const chatId = getChatId(currentUser.uid, chatUserId);
   const messagesRef = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
 
@@ -225,21 +376,19 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
           document.getElementById('message-input').value = "";
         }
       });
-
+   document.getElementById('my-profile-button').addEventListener('click', showProfileDialog);
       document.getElementById('register-button').addEventListener('click', () => {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        register(email, password);
-      });
-
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+   register(email, password);
+});
       document.getElementById('sign-in-button').addEventListener('click', () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         signIn(email, password);
       });
 
-      document.getElementById('sign-out-button').addEventListener('click', signOutUser);
-      document.getElementById('overflow-button').addEventListener('click', () => {
+        document.getElementById('overflow-button').addEventListener('click', () => {
         const menu = document.getElementById('overflow-menu');
         loadUsers(); // Ensure the menu is updated before showing
         menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
@@ -392,6 +541,12 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       margin-left: -5px;
       margin-right: 10px;
     }
+  .profile-pic-small {
+  width: 60px; /* Set width */
+  height: 60px; /* Set height */
+  border-radius: 50%; /* Makes the image round */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+}
 
     #selected-user {
       font-size: 16px;
@@ -431,11 +586,44 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
   margin-left: -5px;
   align-self: flex-start;
 }
+  /* Dialog Styling */
+.dialog {
+  display: none; /* Initially hidden */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Overlay background */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* On top of other elements */
+}
+
+.dialog-content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  width: 300px;
+}
+
+.profile-pic-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.dialog-buttons button {
+  margin: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
 
 /* Styles for received messages */
 .received .message {
   display: inline-block;
-  background-color: #CCE7FF; /* Light blue for received messages */
+    background-color: #CCE7FF; /* Light blue for received messages */
   border: 1px solid #ddd;
   padding: 4px;
   border-radius: 10px;
@@ -477,7 +665,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       flex: 1;
       overflow-y: auto;
       padding: 5px;
-      padding-bottom: 45px;
+      padding-bottom: 60px;
       background-color: #ffffff;
      /* border: 1px solid #ddd;*/
     }
@@ -493,7 +681,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       border-top: 1px solid #ddd;
       box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
     }
-  
+     
 #attachment-button {
     background: none; /* Remove default button styles */
     border: none;
@@ -513,7 +701,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
     background-color: #0084ff; /* Adjust background color */
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px 12px;
     margin-left: 10px; /* Space between input and button */
     border-radius: 50%;
     cursor: pointer; /* Show pointer cursor on hover */
@@ -536,7 +724,8 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       background-color: white;
       border: 1px solid #ddd;
       z-index: 100;
-      max-height: 200px;
+      width: 200px;
+      max-height: 500px;
       overflow-y: auto;
     }
 
@@ -549,7 +738,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       background-color: #f0f0f0;
     }
 
-    #sign-out-button {
+    #my-profile-button {
       position: absolute;
       top: 2px;
       right: 6px;
@@ -560,7 +749,75 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       border-radius: 20px;
       cursor: pointer;
     }
+/* Center the dialog on the screen */
+#profile-update-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border: 1px solid #ccc;
+  width: 300px;
+  background-color: #f9f9f9;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
+/* Title styling */
+#profile-update-dialog h2 {
+  color: #007bff; /* Blue color */
+  margin-bottom: 20px;
+}
+
+/* Form styling */
+#update-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input fields styling */
+#update-profile-form label {
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#update-profile-form input[type="text"],
+#update-profile-form input[type="file"] {
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button styling */
+.profile-button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Cancel button styling */
+.button-cancel {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+/* Button container styling */
+.profile-button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Flex layout for buttons */
+.profile-button-container .profile-button {
+  flex: 1;
+}
     #overlay {
       position: fixed;
       top: 0;
@@ -576,9 +833,24 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
   </style>
 </head>
 <body>
-   <div id="overlay"></div> <!-- Overlay to prevent clicks outside the form -->
-  
-  
+
+<div id="profile-update-dialog" style="display:none;">
+  <h2>Please hang on a minute to complete your profile</h2>
+  <form id="update-profile-form">
+    <label for="name-input">Name:</label>
+    <input type="text" id="name-input" required>
+
+    <label for="profile-picture-input">Profile Picture:</label>
+    <input type="file" id="profile-picture-input" accept="image/*">
+
+    <div class="profile-button-container">
+  <button type="submit" class="profile-button">Update Profile</button>
+  <button type="button" class="profile-button button-cancel">Cancel</button>
+</div> 
+  </form>
+</div>
+  <div id="overlay"></div> <!-- Overlay to prevent clicks outside the form -->
+ 
   <h1></h1>
     <button id="overflow-button">Show Users</button>
   <div id="overflow-menu" class="overflow-menu"></div>
@@ -600,7 +872,20 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
     <p>Already have an account? <button id="sign-in-button">Sign In</button></p>
     <p>By continuing, you agree to our <a id="privacy-policy-link" href="https://briano-odhiambo-dev-studentcenter.netlify.app/download#privacy-policy">Privacy Policy</a>.</p>
   </div>
- 
+  <!-- Profile Dialog -->
+<div id="profile-dialog" class="dialog">
+  <div class="dialog-content">
+    <img id="profile-picture" class="profile-pic-large" src="pic4.png" alt="Profile Picture">
+    <h2 id="profile-name">User Name</h2>
+    <p id="profile-email">user@example.com</p>
+    <div class="dialog-buttons">
+      <button id="edit-button">Edit</button>
+      <button id="close-button">Close</button>
+    </div>
+  </div>
+</div>
+    <button id="my-profile-button">My profile</button>
+
 <!-- Chat Section -->
 <div class="container">
   <!-- Chat Section -->
@@ -611,10 +896,9 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
 <input type="file" id="image-input" accept="image/*" style="display: none;" />
 <button id="attachment-button" onclick="document.getElementById('image-input').click();">📎</button>
     <input type="text" id="message-input" placeholder="Type a message">
-    <button id="send-button">Send</button> <!-- Send Icon -->
+    <button id="send-button" class="send-button">Send</button> 
 </div>
 </div>
-  <button id="sign-out-button">Sign Out</button>
 <script>
   document.getElementById('overflow-button').addEventListener('click', () => {
         const menu = document.getElementById('overflow-menu');
@@ -633,4 +917,4 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
     });
 </script>
 </body>
-  </html>
+</html>
