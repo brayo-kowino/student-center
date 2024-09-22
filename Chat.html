@@ -33,6 +33,7 @@ const storage = getStorage(app); // Initialize Firebase Storage
 let currentUser = null;
 let currentChatUser = null;
 let selectedImage = null;
+ let userImage = null;   
   
   // Register function
     const register = async (email, password) => {
@@ -142,6 +143,7 @@ const loadUsers = () => {
         const menuItem = document.createElement('div');
         menuItem.classList.add('menu-item');
         const profilePic = user.profilePicture ? user.profilePicture : 'pic4.png'; // Fallback to default if no picture
+        userImage = profilePic;
         menuItem.innerHTML = `
           <img src="${profilePic}" alt="Profile Pic" class="profile-pic-small">
           <span>${user.name}</span>
@@ -325,7 +327,7 @@ if (profilePictureFile) {
       const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
       const time = formatTime(message.timestamp);
       const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
-      const profilePic = message.senderId !== currentUser.uid ? `<img src="pic4.png" alt="Profile Pic" class="profile-pic" />` : ''; // Use appropriate profile pic
+      const profilePic = userImage? `<img src="pic4.png" alt="Profile Pic" class="profile-pic" />` : ''; // Use appropriate profile pic
 
       const status = message.senderId === currentUser.uid ? `<span class="status">${message.status}</span>` : '';
       chatBox.innerHTML += `
