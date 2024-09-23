@@ -368,10 +368,12 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
         currentUser = user;
         document.getElementById('auth-section').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
+        updateOnlineStatus(currentUser.uid);
         loadUsers();
       } else {
         document.getElementById('auth-section').style.display = 'block';
         document.getElementById('overlay').style.display = 'block';
+        updateOnlineStatus(currentUser.uid);
       }
     });
 
