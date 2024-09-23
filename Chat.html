@@ -390,6 +390,62 @@ document.getElementById('image-input').addEventListener('change', (event) => {
     }
   }
 };
+    // Real-time listener to detect new messages
+const listenForMessages = (chatUserId) => {
+  const chatId = getChatId(currentUser.uid, chatUserId);
+  const messagesRef = collection(db, "chats", chatId, "messages");
+
+  const unsubscribe = onSnapshot(messagesRef, (snapshot) => {
+    snapshot.docChanges().forEach(async (change) => {
+      if (change.type === "added") {
+        const messageData = change.doc.data();
+
+        // Only observe messages sent by the other user that are still marked as "sent"
+        if (messageData.senderId !== currentUser.uid && messageData.status === "sent") {
+          const messageElement = document.getElementById(`message-${change.doc.id}`);
+
+          // Use Intersection Observer to detect visibility
+          if (messageElement) {
+            observeMessageVisibility(chatUserId, change.doc.id, messageElement);
+          }
+        }
+      }
+    });
+  });
+
+  // Stop listening when user leaves chat
+  return unsubscribe;
+};
+
+// Observer to detect when the message is visible on the screen
+const observeMessageVisibility = (chatUserId, messageId, messageElement) => {
+  const observer = new IntersectionObserver(
+    async (entries) => {
+      entries.forEach(async (entry) => {
+        if (entry.isIntersecting) {
+          // The message is visible, update its status to "read"
+          await updateMessageStatus(chatUserId, messageId, "read");
+          observer.unobserve(messageElement); // Stop observing after marking as read
+        }
+      });
+    },
+    { threshold: 1.0 } // Fully visible message
+  );
+
+  observer.observe(messageElement);
+};
+
+// Update message status in Firestore
+const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
+  const chatId = getChatId(currentUser.uid, chatUserId);
+  const messageRef = doc(db, "chats", chatId, "messages", messageId);
+
+  try {
+    await setDoc(messageRef, { status: newStatus }, { merge: true }); // Update the status
+  } catch (error) {
+    console.error("Error updating message status: ", error);
+  }
+};
 
     // Modify the sendMessage function
 const sendMessage = async (message) => {
@@ -399,6 +455,8 @@ const sendMessage = async (message) => {
   }
 
   const chatId = getChatId(currentUser.uid, currentChatUser);
+  // Call this function when the user enters the chat
+listenForMessages(currentChatUser);
 
   try {
     await addDoc(collection(db, "chats", chatId, "messages"), {
