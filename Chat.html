@@ -228,23 +228,25 @@ updateUserStatusInTextView(currentChatUser);
     </div>
   `;
 
+  
   snapshot.forEach(doc => {
     const message = doc.data();
     const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
-    const time = formatTime(message.timestamp);
+    const time = formattTime(message.timestamp);
     const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
-
-    // Fetch the sender's profile picture from the userPictures map or use default
+    
     const profilePic = message.senderId !== currentUser.uid ? `<img src="${userPictures[message.senderId] || 'pic4.png'}" alt="Profile Pic" class="profile-pic" />` : '';
 
     const status = message.senderId === currentUser.uid ? `<span class="status">${message.status}</span>` : '';
+    const timeStatus = message.senderId === currentUser.uid ? `${time} • ${status}` : time; // Adjust this line
+
     chatBox.innerHTML += `
       <div class="message-container ${messageClass}">
         ${profilePic}
         <div class="message ${messageClass}">
           ${message.text}
           ${image}
-          <div class="time-status">${time} ${status}</div>
+          <div class="time-status">${timeStatus}</div>
         </div>
       </div>`;
 
@@ -257,7 +259,16 @@ updateUserStatusInTextView(currentChatUser);
 
   chatBox.scrollTop = chatBox.scrollHeight;
 });
+}; 
+
+const formattTime = (timestamp) => {
+  if (timestamp && timestamp.seconds) {
+    const date = new Date(timestamp.seconds * 1000);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+  }
+  return ''; // Return empty if no timestamp
 };
+
   const showProfileDialog = async () => {
   if (currentUser) {    
     try {
