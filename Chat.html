@@ -268,8 +268,97 @@ const formatTime = (timestamp) => {
   const date = timestamp.toDate(); // Convert Firestore Timestamp to JS Date
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format as HH:mm
 };
+document.getElementById('image-input').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      selectedImage = reader.result; // Store the image data URL
+    };
+    reader.readAsDataURL(file);
+  }
+});
+    const showProfileUpdateDialog = (currentUser) => {
+  const dialog = document.getElementById('profile-update-dialog');
+  dialog.style.display = 'block';
 
-// Modify the sendMessage function
+  const form = document.getElementById('update-profile-form');
+  const cancelButton = document.querySelector('.button-cancel'); // Select the cancel button using its class
+
+  // Remove any existing event listeners to avoid multiple submissions
+  form.removeEventListener('submit', handleFormSubmit);
+
+  // Attach the event listener for form submission
+  form.addEventListener('submit', handleFormSubmit);
+
+  // Attach event listener for the cancel button
+  cancelButton.addEventListener('click', () => {
+    dialog.style.display = 'none'; // Close the dialog
+  });
+
+  async function handleFormSubmit(event) {
+    event.preventDefault();
+    if (!currentUser) {
+      return;
+    }
+    const name = document.getElementById('name-input').value;
+    const profilePictureFile = document.getElementById('profile-picture-input').files[0];
+
+    let profilePictureURL = '';
+
+    if (profilePictureFile) {
+      try {
+        alert("Uploading file, please wait");
+        console.log("Starting file upload:", profilePictureFile.name);
+
+        // Create storage reference
+        const storageRef = ref(storage, `profile_pictures/${currentUser.uid}/${profilePictureFile.name}`);
+        const snapshot = await uploadBytes(storageRef, profilePictureFile);
+
+        // Get the uploaded image's URL
+        profilePictureURL = await getDownloadURL(snapshot.ref);
+      } catch (error) {
+        // If upload fails, show detailed error messages
+        alert("File upload failed. Error details below:");
+        alert(`Error code: ${error.code}`);
+        alert(`Error message: ${error.message}`);
+        alert(`Error stack: ${error.stack}`);
+
+        // Specific error handling based on error codes
+        if (error.code === 'storage/unauthorized') {
+          alert("User doesn't have permission to access the object.");
+        } else if (error.code === 'storage/canceled') {
+          alert("User canceled the upload.");
+        } else if (error.code === 'storage/unknown') {
+          alert("Unknown error occurred.");
+        }
+        return;
+      }
+    }
+
+    try {
+      await updateProfile(currentUser, {
+        displayName: name,
+        photoURL: profilePictureURL
+      });
+      await setDoc(doc(db, "users", currentUser.uid), {
+        email: currentUser.email,
+        uid: currentUser.uid,
+        name: name,
+        profilePicture: profilePictureURL
+      });
+      alert("Profile updated successfully!");
+
+      // Hide the dialog
+      dialog.style.display = 'none';
+    } catch (error) {
+      alert("Failed to update profile. Please try again.");
+      console.error("Failed to update profile:", error);
+    }
+  }
+};
+
+    // Modify the sendMessage function
 const sendMessage = async (message) => {
   if (!currentChatUser) {
     alert("Please select a user to chat with.");
@@ -292,89 +381,7 @@ const sendMessage = async (message) => {
   }
 };
 
-  const showProfileUpdateDialog = (currentUser) => {
-  const dialog = document.getElementById('profile-update-dialog');
-  dialog.style.display = 'block';
-
-  const form = document.getElementById('update-profile-form');
-
-  // Remove any existing event listeners to avoid multiple submissions
-  form.removeEventListener('submit', handleFormSubmit);
-
-  // Attach the event listener for form submission
-  form.addEventListener('submit', handleFormSubmit);
-
-  async function handleFormSubmit(event) {
-    event.preventDefault();
-    
-    if (!currentUser) {
-      alert("No user is currently logged in.");
-      return;
-    }
-
-    // Get the values from the form
-    const name = document.getElementById('name-input').value;
-    const profilePictureFile = document.getElementById('profile-picture-input').files[0];
-
-    let profilePictureURL = '';
-
-if (profilePictureFile) {
-  try {
-    alert("Processing, please wait");
-    
-    // Create storage reference
-    const storageRef = ref(storage, `profile_pictures/${currentUser.uid}/${profilePictureFile.name}`);
-    
-    // Start uploading the file
-      const snapshot = await uploadBytes(storageRef, profilePictureFile);
-
-    // Get the uploaded image's URL
-    profilePictureURL = await getDownloadURL(snapshot.ref);
-    } catch (error) {
-    // If upload fails, show detailed error messages
-    alert("File upload failed. Error details below:");
-    alert(`Error code: ${error.code}`);
-    alert(`Error message: ${error.message}`);
-    alert(`Error stack: ${error.stack}`);
-
-    // Specific error handling based on error codes
-    if (error.code === 'storage/unauthorized') {
-      alert("User doesn't have permission to access the object.");
-    } else if (error.code === 'storage/canceled') {
-      alert("User canceled the upload.");
-    } else if (error.code === 'storage/unknown') {
-      alert("Unknown error occurred.");
-    }
-    return;
-  }
-}
-    try {
-      // Update the profile in Firebase Auth
-        await updateProfile(currentUser, {
-        displayName: name,
-        photoURL: profilePictureURL
-      });
-      
-      // Store additional info in Firestore
-        await setDoc(doc(db, "users", currentUser.uid), {
-        email: currentUser.email,
-        uid: currentUser.uid,
-        name: name,
-        profilePicture: profilePictureURL
-      });
-      
-      alert("Profile updated successfully!");
-
-      // Hide the dialog
-      dialog.style.display = 'none';
-    } catch (error) {
-      alert("Failed to update profile. Please try again.");
-      console.error("Failed to update profile:", error);
-    }
-  }
-}; 
-  
-// Update message status after it has been read/delivered
+  // Update message status after it has been read/delivered
 const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
   const chatId = getChatId(currentUser.uid, chatUserId);
   const messageRef = doc(db, "chats", chatId, "messages", messageId);
