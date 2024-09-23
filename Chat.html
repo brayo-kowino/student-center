@@ -175,6 +175,7 @@ const loadUsers = () => {
         const menuItem = document.createElement('div');
         menuItem.classList.add('menu-item');
         menuItem.innerHTML = `
+          <img src="${userPictures[user.uid]}" alt="Profile Pic" class="profile-pic-small">
   <span>${user.name}</span><br>
   <span style="color: grey;">${status}</span>
         `;
@@ -231,7 +232,7 @@ updateUserStatusInTextView(currentChatUser);
       const message = doc.data();
       const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
       const time = formatTime(message.timestamp);
-      const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 60%; height: auto;"/>` : '';
+      const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
 
       // Fetch the sender's profile picture from the userPictures map or use default
       const profilePic = message.senderId !== currentUser.uid ? `<img src="${userPictures[message.senderId] || 'pic4.png'}" alt="Profile Pic" class="profile-pic" />` : '';
