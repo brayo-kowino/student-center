@@ -218,41 +218,46 @@ updateUserStatusInTextView(currentChatUser);
   const messagesRef = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
 
   onSnapshot(messagesRef, (snapshot) => {
-    const chatBox = document.getElementById('chat-box');
-    chatBox.innerHTML = "";
+  const chatBox = document.getElementById('chat-box');
+  chatBox.innerHTML = "";
 
-    // Add the end-to-end encryption message at the start of the chat
+  // Add the end-to-end encryption message at the start of the chat
+  chatBox.innerHTML += `
+    <div class="encryption-message">
+      Messages sent by Student Center are end-to-end encrypted. Nobody outside this chat, not even Student Center, can access them.
+    </div>
+  `;
+
+  snapshot.forEach(doc => {
+    const message = doc.data();
+    const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
+    const time = formatTime(message.timestamp);
+    const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
+
+    // Fetch the sender's profile picture from the userPictures map or use default
+    const profilePic = message.senderId !== currentUser.uid ? `<img src="${userPictures[message.senderId] || 'pic4.png'}" alt="Profile Pic" class="profile-pic" />` : '';
+
+    const status = message.senderId === currentUser.uid ? `<span class="status">${message.status}</span>` : '';
     chatBox.innerHTML += `
-      <div class="encryption-message">
-        Messages sent by Student Center are end-to-end encrypted. Nobody outside this chat, not even Student Center, can access them.
-      </div>
-    `;
+      <div class="message-container ${messageClass}">
+        ${profilePic}
+        <div class="message ${messageClass}">
+          ${message.text}
+          ${image}
+          <div class="time-status">${time} ${status}</div>
+        </div>
+      </div>`;
 
-    snapshot.forEach(doc => {
-      const message = doc.data();
-      const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
-      const time = formatTime(message.timestamp);
-      const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
-
-      // Fetch the sender's profile picture from the userPictures map or use default
-      const profilePic = message.senderId !== currentUser.uid ? `<img src="${userPictures[message.senderId] || 'pic4.png'}" alt="Profile Pic" class="profile-pic" />` : '';
-
-      const status = message.senderId === currentUser.uid ? `<span class="status">${message.status}</span>` : '';
-      chatBox.innerHTML += `
-        <div class="message-container ${messageClass}">
-          ${profilePic}
-          <div class="message ${messageClass}">
-            ${message.text}
-            ${image}
-            <div class="time-status">${time} ${status}</div>
-          </div>
-        </div>`;
-    });
-
-    chatBox.scrollTop = chatBox.scrollHeight;
+    // Update the status of the message to "read" if it's a received message
+    if (message.senderId !== currentUser.uid && message.status !== "read") {
+      const messageRef = doc.ref;  // Reference to the specific message document
+      updateDoc(messageRef, { status: "read" });
+    }
   });
-}; 
 
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+};
   const showProfileDialog = async () => {
   if (currentUser) {    
     try {
