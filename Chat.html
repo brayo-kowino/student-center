@@ -147,11 +147,11 @@ const formatLastSeen = (timestamp) => {
     const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
 
     if (timeDiff < oneDay) {
-      return `Last seen today at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      return `Last seen today at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
     } else if (timeDiff < 2 * oneDay) {
       return 'Last seen yesterday';
     } else {
-      return `Last seen on ${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      return `Last seen on ${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
     }
   }
   return ''; // Return empty if no timestamp
