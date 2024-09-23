@@ -72,6 +72,27 @@ const signIn = async (email, password) => {
     console.error("Error during sign-in: ", error);
   }
 };
+    const updateUserStatusInTextView = (userId) => {
+  // Reference to the user's document in Firestore
+  const userRef = doc(db, "users", userId);
+
+  // Listen for real-time updates to the user's status and last seen
+  onSnapshot(userRef, (doc) => {
+    if (doc.exists()) {
+      const user = doc.data();
+
+      // Format lastSeen and determine the current status
+      const lastSeen = user.lastSeen ? formatLastSeen(user.lastSeen) : '';
+      const status = user.status === 'online' ? 'Online' : lastSeen ? lastSeen : 'Offline';
+
+      // Update the text content of the user-status element
+      document.getElementById('user-status').textContent = status;
+    } else {
+      console.log("User document not found!");
+    }
+  });
+};
+    
 
 const updateOnlineStatus = async (uid) => {
   const userRef = doc(db, "users", uid);
@@ -218,6 +239,7 @@ document.getElementById('edit-button').addEventListener('click', () => {
 
 // Load messages and use the correct profile picture for each sender
 const loadMessages = (chatUserId) => {
+  updateUserStatusInTextView(currentChatUser);
   const chatId = getChatId(currentUser.uid, chatUserId);
   const messagesRef = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
 
