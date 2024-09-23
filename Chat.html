@@ -78,13 +78,57 @@ const updateOnlineStatus = async (uid) => {
   await setDoc(userRef, { status: "online", lastSeen: null }, { merge: true });
 };
 
-window.addEventListener('beforeunload', async () => {
+// Function to set user status to offline
+const setUserOffline = async () => {
   if (currentUser) {
     const userRef = doc(db, "users", currentUser.uid);
     await setDoc(userRef, { status: "offline", lastSeen: new Date() }, { merge: true });
   }
+};
+
+// Set online status when the user is active
+const setUserOnline = async () => {
+  if (currentUser) {
+    const userRef = doc(db, "users", currentUser.uid);
+    await setDoc(userRef, { status: "online", lastSeen: null }, { merge: true });
+    }
+};
+
+// Listen for visibility changes
+document.addEventListener('visibilitychange', async () => {
+  if (document.hidden) {
+    await setUserOffline();
+  } else {
+    await setUserOnline();
+  }
 });
 
+// Listen for beforeunload event
+window.addEventListener('beforeunload', async () => {
+  await setUserOffline();
+});
+
+const formatLastSeen = (timestamp) => {
+  if (timestamp && timestamp.seconds) {
+    const date = new Date(timestamp.seconds * 1000);
+    const now = new Date();
+
+    // Check the difference in time
+    const timeDiff = now - date;
+    const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+
+    if (timeDiff < oneDay) {
+      return `Last seen today at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    } else if (timeDiff < 2 * oneDay) {
+      return 'Last seen yesterday';
+    } else {
+      return `Last seen on ${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    }
+  }
+  return ''; // Return empty if no timestamp
+};
+
+// Load users and display their last seen time
 const loadUsers = () => {
   const usersRef = collection(db, "users");
   onSnapshot(usersRef, (snapshot) => {
@@ -95,16 +139,22 @@ const loadUsers = () => {
       if (user.uid !== currentUser.uid) {
         userPictures[user.uid] = user.profilePicture ? user.profilePicture : 'pic4.png'; // Store profile pic or default in map
 
+        // Format lastSeen using the conversion function
+        const lastSeen = user.lastSeen ? formatLastSeen(user.lastSeen) : ''; 
+        const status = user.status === 'online' ? 'Online' : lastSeen ? lastSeen : 'Offline';
+
         const menuItem = document.createElement('div');
         menuItem.classList.add('menu-item');
         menuItem.innerHTML = `
-          <img src="${userPictures[user.uid]}" alt="Profile Pic" class="profile-pic-small">
-          <span>${user.name}</span> - <span>${user.status || 'Offline'}</span>
-        `;
-        menuItem.setAttribute('data-uid', user.uid);
+  <img src="${userPictures[user.uid]}" alt="Profile Pic" class="profile-pic-small">
+  <span>${user.name}</span><br>
+  <span>${status}</span>
+`;
+        
+       menuItem.setAttribute('data-uid', user.uid);
         menuItem.addEventListener('click', () => {
           currentChatUser = user.uid;
-          updateSelectedUser(user.name, user.status || 'Offline', userPictures[user.uid]);
+          updateSelectedUser(user.name, status, userPictures[user.uid]);
           loadMessages(currentChatUser);
           userList.style.display = 'none'; // Hide menu after selection
         });
@@ -113,13 +163,6 @@ const loadUsers = () => {
     });
   });
 };
-window.addEventListener('beforeunload', async () => {
-  if (currentUser) {
-    const userRef = doc(db, "users", currentUser.uid);
-    await setDoc(userRef, { status: "offline", lastSeen: new Date() }, { merge: true });
-  }
-});
-
 
     const signOutUser = () => {
       signOut(auth).then(() => {
