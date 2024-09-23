@@ -110,12 +110,15 @@ const setupUserPresence = (user) => {
 const signIn = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    setupUserPresence(userCredential.user); // Setup presence on sign-in
+    const currentUser = userCredential.user;
+
+    // After sign-in, show the dialog to update profile
+    showProfileUpdateDialog(currentUser);
 
     document.getElementById('auth-section').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
-    showProfileUpdateDialog(currentUser);
     loadUsers();
+
   } catch (error) {
     console.error("Error during sign-in: ", error);
   }
@@ -161,7 +164,7 @@ const signIn = async (email, password) => {
     alert("No current user is signed in."); // Alert if no user is signed in
   }
 };
-  // Close Profile Dialog
+    // Close Profile Dialog
 const closeProfileDialog = () => {
   document.getElementById('profile-dialog').style.display = 'none';
 };
@@ -186,12 +189,12 @@ const loadUsers = () => {
         menuItem.classList.add('menu-item');
         menuItem.innerHTML = `
           <img src="${userPictures[user.uid]}" alt="Profile Pic" class="profile-pic-small">
-          <span>${user.name}</span> - <span>${user.status || 'Offline'}</span>
+          <span>${user.name}</span>
         `;
         menuItem.setAttribute('data-uid', user.uid);
         menuItem.addEventListener('click', () => {
           currentChatUser = user.uid;
-          updateSelectedUser(user.name, user.status, userPictures[user.uid]);
+          updateSelectedUser(user.name, 'Online', userPictures[user.uid]);
           loadMessages(currentChatUser);
           userList.style.display = 'none'; // Hide menu after selection
         });
@@ -200,6 +203,7 @@ const loadUsers = () => {
     });
   });
 };
+
 
 // Load messages and use the correct profile picture for each sender
 const loadMessages = (chatUserId) => {
@@ -384,12 +388,11 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       return uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
     };
 
-    onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, (user) => {
       if (user) {
         currentUser = user;
         document.getElementById('auth-section').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
-        setupUserPresence(currentUser); // Setup presence on sign-in
         loadUsers();
       } else {
         document.getElementById('auth-section').style.display = 'block';
