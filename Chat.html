@@ -245,9 +245,10 @@ const loadMessages = (chatUserId) => {
       messageContainer.className = `message-container ${messageClass}`;
       messageContainer.innerHTML = `
         ${profilePic}
-        ${image}
+      
         <div class="message ${messageClass}">
           ${message.text}
+          ${image}
           <div class="time-status">${timeStatus}</div>
         </div>
       `;
