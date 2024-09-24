@@ -143,13 +143,16 @@ const formatLastSeen = (timestamp) => {
     const date = new Date(timestamp.seconds * 1000);
     const now = new Date();
 
-    // Check the difference in time
-    const timeDiff = now - date;
-    const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+    // Create date objects without time components for comparison
+    const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const nowOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    if (timeDiff < oneDay) {
+    // Check the difference in days
+    const timeDiffInDays = (nowOnly - dateOnly) / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+
+    if (timeDiffInDays < 1) {
       return `Last seen today at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
-    } else if (timeDiff < 2 * oneDay) {
+    } else if (timeDiffInDays < 2) {
       return 'Last seen yesterday';
     } else {
       return `Last seen on ${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
@@ -267,11 +270,14 @@ const loadMessages = (chatUserId) => {
       `;
       
       // Add long click listener
-      messageContainer.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        openBottomSheet(doc.ref, message.text, chatId); // Pass chatId here
-      });
-
+messageContainer.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  
+  // Check if the message is sent by the current user
+  if (message.senderId === currentUser.uid) {
+    openBottomSheet(doc.ref, message.text, chatId); // Pass chatId here
+  }
+});
       chatBox.appendChild(messageContainer);
 
       if (message.senderId !== currentUser.uid && message.status !== "read" && !message.isDeleted) {
