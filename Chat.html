@@ -9,9 +9,9 @@
   <script type="module">    
 // Import Firebase libraries
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getFirestore, updateDoc, setDoc, getDoc, doc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+import { getFirestore, updateDoc, setDoc, getDoc, doc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, deleteField} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
 
 
 
@@ -245,6 +245,7 @@ const loadMessages = (chatUserId) => {
         messageText = message.text;
         time = formattTime(message.timestamp); // Use original timestamp
       }
+      const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
 
       const profilePic = message.senderId !== currentUser.uid ? 
         `<img src="${userPictures[message.senderId] || 'pic4.png'}" alt="Profile Pic" class="profile-pic" />` : '';
@@ -260,6 +261,7 @@ const loadMessages = (chatUserId) => {
       
         <div class="message ${messageClass}">
           ${messageText}
+          ${image
           <div class="time-status">${timeStatus}</div>
         </div>
       `;
@@ -312,19 +314,50 @@ const openBottomSheet = (messageRef, messageText, chatId) => {
 
 const deleteMessage = (messageId, chatId) => {
   const messageRef = doc(db, "chats", chatId, "messages", messageId);
-  updateDoc(messageRef, { 
-    text: "🚫 <i>The message has been deleted</i>",
-    isDeleted: true,
-    deletedBy: currentUser.uid,
-    deletedAt: serverTimestamp() // Set the timestamp for when the message is deleted
-  })
-  .then(() => {
-    console.log("Message deleted successfully!");
-  })
-  .catch(error => {
-    console.error("Error deleting message: ", error);
+  
+  // Get the message document to check for an image
+  getDoc(messageRef).then(docSnapshot => {
+    if (docSnapshot.exists()) {
+      const message = docSnapshot.data();
+      
+      // Check if the message has an image
+      if (message.image) {
+        // Remove the image from Firebase Storage
+        const storage = getStorage();
+        const imageRef = ref(storage, message.image); // Assuming `message.image` is the image URL or path
+        
+        deleteObject(imageRef)
+          .then(() => {
+            console.log("Image deleted successfully from storage.");
+          })
+          .catch(error => {
+            console.error("Error deleting image from storage: ", error);
+          });
+      }
+      
+      // Update the message document
+      updateDoc(messageRef, { 
+        text: "🚫 <i>The message has been deleted</i>",
+        isDeleted: true,
+        deletedBy: currentUser.uid,
+        deletedAt: serverTimestamp(), // Set the timestamp for when the message is deleted
+        image: deleteField() // Remove the image field from the document
+      })
+      .then(() => {
+        console.log("Message updated successfully!");
+      })
+      .catch(error => {
+        console.error("Error updating message: ", error);
+      });
+      
+    } else {
+      console.error("Message not found!");
+    }
+  }).catch(error => {
+    console.error("Error fetching message: ", error);
   });
 };
+
 // Function to handle message editing
 const editMessage = (messageId, currentText, chatId) => {
   const bottomSheet = document.createElement('div');
