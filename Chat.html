@@ -300,8 +300,8 @@ const openBottomSheet = (messageRef, messageText, chatId) => {
 // Function to handle message deletion
 const deleteMessage = (messageId, chatId) => {
   const messageRef = doc(db, "chats", chatId, "messages", messageId);
-  updateDoc(messageRef, { text: "This message was deleted" })
-    .then(() => {
+  updateDoc(messageRef, { text: "🚫 *This message was deleted*" });
+      .then(() => {
       console.log("Message deleted successfully!");
     })
     .catch(error => {
@@ -1309,7 +1309,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
     <img id="profile-pic" src="pic4.png" alt="Profile Picture">
     <div>
       <div id="selected-user">Select a user</div>
-      <div id="user-status">Status: Offline</div>
+      <div id="user-status">Not available</div>
     </div>
   </div>
   
