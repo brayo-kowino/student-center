@@ -234,6 +234,7 @@ const loadMessages = (chatUserId) => {
       const message = doc.data();
       const messageClass = message.senderId === currentUser.uid ? 'sent' : 'received';
       const time = formattTime(message.timestamp);
+      const image = message.image ? `<img src="${message.image}" alt="Image" style="max-width: 100%; height: auto;"/>` : '';
       
       const profilePic = message.senderId !== currentUser.uid ? 
         `<img src="${userPictures[message.senderId] || 'pic4.png'}" alt="Profile Pic" class="profile-pic" />` : '';
@@ -244,6 +245,7 @@ const loadMessages = (chatUserId) => {
       messageContainer.className = `message-container ${messageClass}`;
       messageContainer.innerHTML = `
         ${profilePic}
+        ${image}
         <div class="message ${messageClass}">
           ${message.text}
           <div class="time-status">${timeStatus}</div>
@@ -300,7 +302,7 @@ const openBottomSheet = (messageRef, messageText, chatId) => {
 // Function to handle message deletion
 const deleteMessage = (messageId, chatId) => {
   const messageRef = doc(db, "chats", chatId, "messages", messageId);
-  updateDoc(messageRef, { text: "🚫 *This message was deleted*" })
+  updateDoc(messageRef, { text: ""🚫 <i>The message has been deleted by the sender</i>" })
       .then(() => {
       console.log("Message deleted successfully!");
     })
