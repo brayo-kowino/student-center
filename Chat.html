@@ -1379,7 +1379,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
     max-height: 90%; /* Responsive height */
 }
 
-.close {
+.clotse {
     position: absolute;
     top: 15px;
     right: 25px;
@@ -1388,6 +1388,12 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
     font-weight: bold;
     cursor: pointer;
 }
+     #caption {
+       position: absolute;
+       font-size: 35px;
+       color: white;
+     }
+       
 
 /* Overlay styling */
 #overlay {
@@ -1470,7 +1476,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
 
 <!-- Modal for Image Preview -->
 <div id="image-modal" class="modal">
-    <span class="close" id="modal-close">&times;</span>
+    <span class="clotse" id="modal-close">&times;</span>
     <img class="modal-content" id="modal-image" />
     <div id="caption"></div>
 </div>
