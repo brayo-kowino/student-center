@@ -153,7 +153,7 @@ const formatLastSeen = (timestamp) => {
     if (timeDiffInDays < 1) {
       return `Last seen today at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
     } else if (timeDiffInDays < 2) {
-      return 'Last seen yesterday';
+      return `Last seen yesterday at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
     } else {
       return `Last seen on ${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
     }
