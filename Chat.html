@@ -78,28 +78,40 @@ const signIn = async (email, password) => {
   }
 };
 
-// This will create the document or update the field if the document exists
+// Function to update Firestore with typing status
 const setTypingStatus = (userId, isTyping) => {
   const userRef = doc(db, "users", userId);
 
-  setDoc(userRef, {
+  console.log(`Attempting to update typing status to ${isTyping} for user ${userId}`);
+
+  updateDoc(userRef, {
     typing: isTyping
-  }, { merge: true }).then(() => {
-    console.log("Typing status set/updated:", isTyping);
+  }).then(() => {
+    console.log(`Typing status successfully updated to ${isTyping} for user ${userId}`);
   }).catch((error) => {
-    console.error("Error setting typing status:", error);
+    console.error("Error updating typing status:", error);
   });
 };
 
-// Function to start typing detection (should be called after user sign-in)
+// Start typing detection (called after user is authenticated)
 const startTypingDetection = (userId) => {
   const messageInput = document.getElementById('message-input');
+  console.log("Starting typing detection...");
+
+  if (!messageInput) {
+    console.error("Message input field not found!");
+    return;
+  }
+
+  console.log("Setting up keypress listener on message input.");
 
   let typingTimer;
   const typingInterval = 3000; // 3 seconds
 
   // Event listener for keypress in the message input field
   messageInput.addEventListener('keypress', () => {
+    console.log("User is typing...");
+
     // Clear the timer if the user is still typing
     clearTimeout(typingTimer);
 
@@ -108,10 +120,25 @@ const startTypingDetection = (userId) => {
 
     // Set a timer to turn off typing status after 3 seconds of inactivity
     typingTimer = setTimeout(() => {
+      console.log("User stopped typing after inactivity.");
+      setTypingStatus(userId, false);
+    }, typingInterval);
+  });
+
+  // Alternatively, use 'input' event if 'keypress' doesn't work
+  messageInput.addEventListener('input', () => {
+    console.log("User is typing (input event)...");
+
+    clearTimeout(typingTimer);
+    setTypingStatus(userId, true);
+
+    typingTimer = setTimeout(() => {
+      console.log("User stopped typing after inactivity (input event).");
       setTypingStatus(userId, false);
     }, typingInterval);
   });
 };
+
 
 // Function to update user's status in text view (with last seen and typing)
 const updateUserStatusInTextView = (userId) => {
