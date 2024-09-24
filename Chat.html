@@ -54,6 +54,7 @@ let selectedImage = null;
       }
     };
     
+// Sign-in function
 const signIn = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -68,32 +69,66 @@ const signIn = async (email, password) => {
 
     // Update user online status
     updateOnlineStatus(currentUser.uid);
+
+    // Now that the user is authenticated, start typing detection
+    startTypingDetection(currentUser.uid);
+
   } catch (error) {
     console.error("Error during sign-in: ", error);
   }
 };
+
+// Function to update the user's typing status in Firestore
+const setTypingStatus = (userId, isTyping) => {
+  const userRef = doc(db, "users", userId);
+  updateDoc(userRef, { typing: isTyping }).catch((error) => {
+    console.error("Error updating typing status:", error);
+  });
+};
+
+// Function to start typing detection (should be called after user sign-in)
+const startTypingDetection = (userId) => {
+  const messageInput = document.getElementById('message-input');
+
+  let typingTimer;
+  const typingInterval = 3000; // 3 seconds
+
+  // Event listener for keypress in the message input field
+  messageInput.addEventListener('keypress', () => {
+    // Clear the timer if the user is still typing
+    clearTimeout(typingTimer);
+
+    // Set typing to true in Firestore
+    setTypingStatus(userId, true);
+
+    // Set a timer to turn off typing status after 3 seconds of inactivity
+    typingTimer = setTimeout(() => {
+      setTypingStatus(userId, false);
+    }, typingInterval);
+  });
+};
+
+// Function to update user's status in text view (with last seen and typing)
 const updateUserStatusInTextView = (userId) => {
-  // Reference to the user's document in Firestore
   const userRef = doc(db, "users", userId);
 
-  // Listen for real-time updates to the user's status and last seen
   onSnapshot(userRef, (doc) => {
     if (doc.exists()) {
       const user = doc.data();
-
-      // Format lastSeen and determine the current status
       const lastSeen = user.lastSeen ? formatLastSeen(user.lastSeen) : '';
-      const status = user.status === 'online' ? 'Online' : lastSeen ? lastSeen : 'Offline';
+      let status = user.status === 'online' ? 'Online' : lastSeen ? lastSeen : 'Offline';
 
-      // Update the text content of the user-status element
+      if (user.typing) {
+        status = 'Typing...';
+      }
+
       document.getElementById('user-status').textContent = status;
     } else {
       console.log("User document not found!");
     }
   });
 };
-
-
+    
 
 // Update selected user's UI
 const updateSelectedUser = (name, status, profilePicture) => {
@@ -217,6 +252,7 @@ const loadUsers = () => {
 
 // Load messages and use the correct profile picture for each sender
 const loadMessages = (chatUserId) => {
+    startTypingDetection(currentUser.uid);
     updateUserStatusInTextView(currentChatUser);
     
     const chatId = getChatId(currentUser.uid, chatUserId);
