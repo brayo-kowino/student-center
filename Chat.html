@@ -78,11 +78,16 @@ const signIn = async (email, password) => {
   }
 };
 
-// Function to update the user's typing status in Firestore
+// This will create the document or update the field if the document exists
 const setTypingStatus = (userId, isTyping) => {
   const userRef = doc(db, "users", userId);
-  updateDoc(userRef, { typing: isTyping }).catch((error) => {
-    console.error("Error updating typing status:", error);
+
+  setDoc(userRef, {
+    typing: isTyping
+  }, { merge: true }).then(() => {
+    console.log("Typing status set/updated:", isTyping);
+  }).catch((error) => {
+    console.error("Error setting typing status:", error);
   });
 };
 
