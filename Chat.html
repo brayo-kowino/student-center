@@ -238,8 +238,8 @@ const loadMessages = (chatUserId) => {
       // Check if the message is deleted
       if (message.isDeleted) {
         messageText = message.deletedBy === currentUser.uid 
-          ? "<i>You deleted this message</i>"
-          : "<i>This message was deleted by the sender</i>";
+          ? "<i>🚫 You deleted this message</i>"
+          : "<i>🚫 This message was deleted by the sender</i>";
         time = formattTime(message.deletedAt); // Use deleted timestamp
       } else {
         messageText = message.text;
