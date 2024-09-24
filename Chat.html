@@ -302,7 +302,7 @@ const openBottomSheet = (messageRef, messageText, chatId) => {
 // Function to handle message deletion
 const deleteMessage = (messageId, chatId) => {
   const messageRef = doc(db, "chats", chatId, "messages", messageId);
-  updateDoc(messageRef, { text: ""🚫 <i>The message has been deleted by the sender</i>" })
+  updateDoc(messageRef, { text: "🚫 <i>The message has been deleted by the sender</i>" })
       .then(() => {
       console.log("Message deleted successfully!");
     })
