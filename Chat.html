@@ -1115,21 +1115,26 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
      /* border: 1px solid #ddd;*/
     }
 
+.
 .message-input-container {
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    right: 0;
     display: flex;
     align-items: center; /* Vertically center items */
-    padding: 7px; /* Increased padding for better appearance */
-    background-color: #f5f5f5; /* Soft grey background for a modern feel */
-   // border-top: 0.5px solid #bbb; /* Darker top border */
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
-    border-radius: 10px 10px 0 0; /* Rounded top corners for a modern look */
-    transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+    padding: 7px;
+    background-color: #f5f5f5;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 10px 10px 0 0;
 }
+
+#message-input {
+    flex: 1; /* Allow input to take up the remaining space */
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 8px; /* Ensure space between input and send button */
+    font-size: 16px;
+    box-sizing: border-box; /* Ensure padding and borders are included in width */
+}
+
 
 .message-input-container:hover {
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25); /* Darker shadow on hover for interaction feedback */
@@ -1148,7 +1153,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
     align-items: center; /* Center the icons vertically */
 }
 
-#message-input {
+#messfgage-input {
     flex: 1; /* Take up remaining space */
     padding: 14px;
     border: 1px solid #ccc; /* Border for the input */
