@@ -1099,7 +1099,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
 /* Reduce size for received messages containing images */
 .received .message:has(img) {
     max-width: 40%; 
-    max-height: 60%/* Reduce width for received messages with images */
+    max-height: 60%;/* Reduce width for received messages with images */
 }
 
 /* Optional: Hover effect for received messages */
@@ -1125,13 +1125,13 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
 /* Adjust for sent messages containing images */
 .sent .message img {
     max-width: 100%; /* Ensure the image fits within the container */
-    height: auto; /* Maintain aspect ratio */
+    max-height: auto; /* Maintain aspect ratio */
 }
 
 /* Reduce size for sent messages containing images */
 .sent .message:has(img) {
-    max-width: 40%;
-    max-height: 60%;/* Reduce width for sent messages with images */
+    max-width: 30%;
+    max-height: 50%;/* Reduce width for sent messages with images */
 }
 
 /* Optional: Hover effect for sent messages */
@@ -1367,7 +1367,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
     position: fixed; /* Stay in place */
     z-index: 1000; /* Sit on top */
     left: 0;
-    top: 5;
+    top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
