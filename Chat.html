@@ -1134,10 +1134,22 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
 .message-input-container:hover {
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25); /* Darker shadow on hover for interaction feedback */
 }
+     #send-button {
+       background: none; /* Remove default button styles */
+    border: none;
+    color: blue;
+    cursor: pointer; /* Show pointer cursor on hover */
+    font-size: 24px; /* Adjust size of the icons */
+    margin-left: 5px; /* Space between buttons */
+       margin-right: 10px
+    display: flex; /* Flex display for better alignment */
+    align-items: center; /* Center the icons vertically */
+     }
+       
 
 #attachment-button,
-#voice-button,
-#send-button {
+#voice-button
+ {
     background: none; /* Remove default button styles */
     border: none;
     color: blue;
@@ -1150,7 +1162,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
 
 #message-input {
     flex: 1; /* Take up remaining space */
-    padding: 11px;
+    padding: 12px;
     border: 1px solid #ccc; /* Border for the input */
     border-radius: 20px; /* Rounded corners */
     margin: 0 5px; /* Space between input and buttons */
