@@ -7,20 +7,147 @@
     <meta name="keywords" content="Ceramics, material science, recycling, uses, economic impact, Brian Odhiambo, presentation, research in progress">
     <meta name="author" content="Brian Odhiambo">
     <title>Ceramics in Material Science - Research in Progress</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: url('https://images.pexels.com/photos/269635/pexels-photo-269635.jpeg') no-repeat center center;
+            background-size: cover;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* Reduced gap */
+            flex-wrap: wrap; /* Allow items to wrap */
+            width: 100%; /* Ensure full width */
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 5px 10px; /* Adjusted padding */
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            transition: background 0.3s;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        nav ul li a:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 8px auto;
+            padding: 5px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin: 10px 0;
+        }
+
+        section h2 {
+            font-size: 1.8em;
+            color: #555;
+            border-left: 5px solid #007BFF;
+            padding-left: 15px;
+        }
+
+        section p {
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        footer {
+            font-size: 0.7em;
+            color: #333;
+            text-align: center;
+            padding: 1px 0;
+            margin-top: 10px;
+            
+        }
+
+        footer a {
+            color: blue;
+            text-decoration: underline;
+        }
+
+        footer a:hover {
+            color: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            nav ul {
+                flex-direction: column; /* Stack items vertically */
+                align-items: center; /* Center items */
+            }
+
+            nav ul li {
+                margin-bottom: 10px; /* Add spacing between items */
+            }
+
+            nav ul li a {
+                padding: 8px 15px; /* Increase padding for better touch targets */
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <div class="container">
+        <div>
             <h1>Ceramics in Material Science</h1>
             <nav>
                 <ul>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="#introduction">Introduction</a></li>
                     <li><a href="#recycling">Recycling</a></li>
                     <li><a href="#uses">Uses</a></li>
-                    <li><a href="#substantial">Substantial</a></li>
+                    <li><a href="#economic">Economy</a></li>
                 </ul>
             </nav>
         </div>
@@ -45,8 +172,8 @@
             <p><strong>Note:</strong> Full details are being compiled and will be posted soon.</p>
         </section>
 
-        <section id="substantial">
-            <h2>Substantials</h2>
+        <section id="economic">
+            <h2>Economic Impact</h2>
             <p>The production and use of ceramics contribute significantly to the global economy, particularly in manufacturing, healthcare, and technology sectors. However, sustainability and resource management are key concerns.</p>
             <p><strong>Note:</strong> This section is under development. Complete insights will be shared in due time.</p>
         </section>
