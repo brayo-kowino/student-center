@@ -19,22 +19,14 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
+    margin-top: 1rem;
+    padding-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow to the container */
+    background: #fff; /* Background for better contrast */
+    border-radius: 10px; /* Add border radius for rounded corners */
 }
 
 /* Header Adjustments with Background Image */
-header {
-    background-image: url('image14.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white;
-    padding: 2rem 0;
-    
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-   /* position: sticky;*/
-    top: 0;
-    z-index: 1000;
-}
 
 header .container {
     display: flex;
@@ -44,56 +36,30 @@ header .container {
     justify-content: center;
 }
 
-h1 {
+header h1 {
+    color: blue;
     font-size: 2.5rem;
     margin: 0.5rem 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Add shadow to the text */
+    text-align: center; /* Center align the text */
 }
 
-nav {
-    margin-top: 1rem;
+header p {
+    margin-left: 20px; /* Add left margin to the paragraph */
 }
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-}
-
-nav ul li {
-    margin: 0 1rem;
-}
-
-nav ul li a {
-    color:  whitesmoke;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 10px;
-    
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s ease;
-}
-
-nav ul li a:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-}
-
 /* Section Heading Adjustments */
-h1{
-    color: white;
+h1 {
+    color: blue;
+    border-bottom: 2px solid #fff;
 }
 h2, h3 {
     color: #0073e6;
 }
 
-h1 {
-    font-size: 2.5rem;
-}
-
 h2 {
     font-size: 1.75rem;
+    box-shadow: 0.4px 1px 2px rgba(0.2, 0.2, 0.2, 0.2);
+    padding: 10px;
 }
 
 h3 {
@@ -102,37 +68,16 @@ h3 {
 
 section {
     margin: 2rem 0;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to sections */
 }
 
 section h2 {
     border-bottom: 2px solid #0073e6;
     padding-bottom: 0.75rem;
     margin-bottom: 1.5rem;
-}
-
-.project {
-    margin-bottom: 1rem;
-}
-
-footer {
-    background: #0073e6;
-    color: white;
-    text-align: center;
-    padding: 1rem 0;
-    font-size: 0.75rem;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
-
-footer .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-footer p {
-    margin: 0.25rem 0;
 }
 
 /* Profile Photo Styling */
@@ -143,17 +88,18 @@ footer p {
     object-fit: cover;
     margin-right: 1rem;
     float: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to profile photo */
 }
 
 /* Form Styles */
 form {
     background: #ffffff;
     border: 1px solid #ddd;
-    border-radius: 0.3125rem;
+    border-radius: 10px;
     padding: 1rem;
     max-width: 600px;
     margin: 1.25rem auto;
-    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Stronger shadow for forms */
 }
 
 form label {
@@ -184,18 +130,19 @@ form button {
     border-radius: 0.3125rem;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 form button:hover {
     background-color: #005bb5;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Larger shadow on hover */
     transform: scale(1.05);
 }
 
 form input:focus, form textarea:focus {
     border-color: #0073e6;
     outline: none;
+    box-shadow: 0 0 4px rgba(0, 115, 230, 0.5); /* Add focus shadow effect */
 }
 
 /* Center the Download Button */
@@ -212,11 +159,13 @@ form input:focus, form textarea:focus {
     text-decoration: none;
     border-radius: 0.3125rem;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover */
 }
 
 .main-download a:hover {
     background-color: #005bb5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
 /* Screenshot Gallery Styling */
@@ -226,6 +175,9 @@ form input:focus, form textarea:focus {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     padding: 0.625rem 0;
+    background: #f0f0f0; /* Add background to gallery */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
 
 .screenshot-gallery img {
@@ -233,7 +185,7 @@ form input:focus, form textarea:focus {
     margin-right: 0.625rem;
     border: 2px solid #ddd;
     border-radius: 0.3125rem;
-    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1); /* Stronger shadow for images */
 }
 
 /* Media Queries for Responsive Adjustments */
@@ -271,7 +223,84 @@ form input:focus, form textarea:focus {
         font-size: 0.75rem; /* Adjust navigation font size */
     }
 }
+.portfolio-header {
+    position: relative; /* Positioning context for the overlay */
+    background-image: url('image14.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 20px 10px; /* Adjusted padding for better mobile fit */
+    border-bottom: 2px solid #e0e0e0; /* Subtle border to separate header */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
 
+.portfolio-header::before {
+    content: ''; /* Empty content for the overlay */
+    position: absolute; /* Position it absolutely within the header */
+    top: 0; /* Cover the top */
+    left: 0; /* Cover the left */
+    right: 0; /* Cover the right */
+    bottom: 0; /* Cover the bottom */
+    background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+    z-index: 1; /* Place it behind the text content */
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column; /* Stack items on small screens */
+    align-items: center; /* Center align for mobile */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative; /* Position relative to layer above the overlay */
+    z-index: 2; /* Place it above the overlay */
+}
+
+.portfolio-header h1 {
+    font-size: 2rem; /* Slightly smaller for mobile */
+    font-weight: 600;
+    color: #fff; /* Change text color for better visibility on dark overlay */
+    text-align: center; /* Center text for better presentation */
+}
+
+.portfolio-header nav {
+    width: 100%; /* Full width for nav */
+}
+
+.portfolio-header nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    justify-content: center; /* Center items */
+    gap: 15px;
+    padding: 0; /* Remove default padding */
+}
+
+.portfolio-header nav ul li a {
+    text-decoration: none;
+    font-size: 0.9rem; /* Slightly smaller for mobile */
+    color: #fff; /* Blue links */
+    font-weight: 500;
+    padding: 8px 12px; /* Adjusted padding for better touch targets */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.portfolio-header nav ul li a:hover {
+    background-color: #007bff;
+    color: #fff; /* Invert colors on hover */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 600px) {
+    .portfolio-header h1 {
+        font-size: 1.5rem; /* Reduce heading size on small screens */
+    }
+    
+    .portfolio-header nav ul {
+        flex-direction: column; /* Stack nav items vertically */
+        align-items: center; /* Center align for mobile */
+    }
+}
 @media (max-width: 480px) {
     .container {
         width: 100%;
@@ -291,4 +320,24 @@ form input:focus, form textarea:focus {
         height: 100px;
         margin-right: 0.5rem;
     }
+    /* Footer Styling */
+.footer {
+    background-color: #0073e6; /* Blue background */
+    color: white; /* White text */
+    text-align: center; /* Center the text */
+    padding: 0.5rem 0; /* Add some padding */
+    font-size: 0.6rem;
+    margin-top: 1rem; /* Add margin to separate from content above */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for separation */
 }
+
+footer a {
+    color: white; /* Links in footer are also white */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline; /* Underline links on hover */
+}
+    }
