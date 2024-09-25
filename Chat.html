@@ -288,6 +288,7 @@ const showUserDetails = (name, status, profilePicture, email, bio) => {
 
   // Update user details
   document.getElementById('profile-name').textContent = name;
+  document.querySelector('.dialog-title').textContent = name;
   document.getElementById('profile-email').textContent = email || "user@example.com"; // Default email
   document.getElementById('profile-bio').textContent = bio || "No Bio Available"; // Default bio
   document.getElementById('profile-picture').src = profilePicture ? profilePicture : 'pic4.png'; // Profile picture
