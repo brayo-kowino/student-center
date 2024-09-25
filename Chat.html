@@ -376,7 +376,8 @@ const loadMessages = (chatUserId) => {
                     openModal(message.image, messageText);
                 });
             }
-
+messageContainer.classList.add('no-select');
+      
             // Add long click listener
             messageContainer.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
@@ -428,8 +429,8 @@ const openBottomSheet = (messageRef, currentText, chatId, message) => {
 
     bottomSheet.innerHTML = `
         <div class="options">
-            ${!hasMedia ? `<div class="option" id="edit-message">Edit Message</div>` : ''}
-            <div class="option" id="delete-message">Delete Message</div>
+            ${!hasMedia ? `<div class="option" id="edit-message">Edit</div>` : ''}
+            <div class="option" id="delete-message">Delete</div>
             <div class="close">Close</div>
         </div>
     `;
@@ -1163,6 +1164,13 @@ const openRecordingDialog = () => {
   border-radius: 8px;
   margin-bottom: 12px;
   font-size: 16px;
+}
+     /* Disable text selection */
+.no-select {
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* Standard syntax */
 }
 
 .button-container {
