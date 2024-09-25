@@ -15,17 +15,27 @@ body {
 }
 
 .container {
-    width: 80%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem;
-    margin-top: 1rem;
-    padding-bottom: 2rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow to the container */
-    background: #fff; /* Background for better contrast */
-    border-radius: 10px; /* Add border radius for rounded corners */
+.parent-container {
+    padding: 0 10px; /* Add left/right padding to the parent */
 }
 
+.container {
+    width: 80%; /* Width of the container */
+    max-width: 600px; /* Maximum width for larger screens */
+    margin: 40px auto; /* Center the container with vertical space (40px top/bottom) */
+    padding: 1.5rem; /* Add padding inside the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow for a dialog effect */
+    background: #fff; /* White background for contrast */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Media Queries for Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        width: 90%; /* Make it slightly wider on smaller screens */
+        margin: 20px auto; /* Reduce vertical margin on smaller screens */
+    }
+}
 /* Header Adjustments with Background Image */
 
 header .container {
