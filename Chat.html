@@ -37,23 +37,37 @@ let currentChatUser = null;
 let selectedImage = null;
  let userPictures = {};
  
-// Register function
-    const register = async (email, password) => {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-         await setDoc(doc(db, "users", user.uid), {
-          email: user.email,
-          uid: user.uid,
-        });
+// Function to display messages to users
+const displayMessage = (message, isError = false) => {
+  const messageElement = document.createElement('div');
+  messageElement.textContent = message;
+  messageElement.className = isError ? 'error-message' : 'success-message';
+  document.body.appendChild(messageElement);
 
-        alert("Registration successful! Signing in...");
-        await signIn(email, password); // Automatically sign in after registration
-      } catch (error) {
-        console.error("Error during registration: ", error);
-      }
-    };
-    
+  // Remove message after a short delay
+  setTimeout(() => {
+    messageElement.remove();
+  }, 3000);
+};
+
+// Register function
+const register = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email,
+      uid: user.uid,
+    });
+
+    displayMessage("Registration successful! Signing in...");
+    await signIn(email, password); // Automatically sign in after registration
+  } catch (error) {
+    console.error("Error during registration: ", error);
+    displayMessage("Registration failed: " + error.message, true);
+  }
+};
+
 // Sign-in function
 const signIn = async (email, password) => {
   try {
@@ -70,11 +84,24 @@ const signIn = async (email, password) => {
     // Update user online status
     updateOnlineStatus(currentUser.uid);
 
-    // Now that the user is authenticated, start typing detection
+    // Start typing detection now that the user is authenticated
     startTypingDetection(currentUser.uid);
 
+    displayMessage("Login successful! Welcome back.");
   } catch (error) {
     console.error("Error during sign-in: ", error);
+    let errorMessage = "Login failed: ";
+
+    // Customize error messages based on specific error codes
+    if (error.code === 'auth/wrong-password') {
+      errorMessage += "Wrong password. Please try again.";
+    } else if (error.code === 'auth/user-not-found') {
+      errorMessage += "No account found with this email.";
+    } else {
+      errorMessage += error.message; // Fallback to default error message
+    }
+
+    displayMessage(errorMessage, true);
   }
 };
 
@@ -271,6 +298,7 @@ const loadUsers = () => {
     document.getElementById('overlay').style.display = 'none';
     loadUsers();
     updateOnlineStatus(currentUser.uid);
+    displayMessage("Login successful! Welcome back.");
     
   } else {
     document.getElementById('auth-section').style.display = 'block';
@@ -797,6 +825,29 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       align-items: center; /* Center vertically */
       overflow: hidden; /* Prevent scrolling */
     }
+     .success-message {
+  color: green;
+  background-color: #e0ffe0;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid green;
+  position: fixed; /* Positioning to make it noticeable */
+  top: 20px; /* Adjust as necessary */
+  right: 20px; /* Adjust as necessary */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.error-message {
+  color: red;
+  background-color: #ffe0e0;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid red;
+  position: fixed; /* Positioning to make it noticeable */
+  top: 20px; /* Adjust as necessary */
+  right: 20px; /* Adjust as necessary */
+  z-index: 1000; /* Ensure it appears above other content */
+}
 
     h1 {
       margin: 0;
