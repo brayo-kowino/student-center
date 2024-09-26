@@ -521,27 +521,15 @@ const loadMessages = (chatUserId) => {
 };
 
 const downloadImage = (src, fileName) => {
-    const link = document.createElement('a');
-    link.href = src;
-
-    // Use a method to check if the image URL is valid
-    fetch(src, { method: 'HEAD' })
-        .then(response => {
-            if (response.ok) {
-                // Image URL is valid, proceed to download
-                link.download = fileName || 'downloaded-image.jpg';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } else {
-                console.error('Image URL is not valid:', response.statusText);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching the image:', error);
-        });
+const downloadImage = (src, fileName) => {
+    const link = document.createElement('a'); // Create an anchor element
+    link.href = src; // Set the href to the image URL
+    link.download = fileName || 'downloaded-image.jpg'; // Set the download attribute to the filename
+    document.body.appendChild(link); // Append the link to the body (required for Firefox)
+    link.click(); // Programmatically click the link to trigger the download
+    document.body.removeChild(link); // Remove the link from the document
 };
-    // Function to open image in full screen with overlay and download button
+  // Function to open image in full screen with overlay and download button
 const openFullScreenImage = (src) => {
     // Create the overlay
     const overlay = document.createElement('div');
