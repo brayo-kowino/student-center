@@ -520,34 +520,28 @@ const loadMessages = (chatUserId) => {
     });
 };
 
-// Function to download image
 const downloadImage = (src, fileName) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', src, true);
-    xhr.responseType = 'blob';
+    const link = document.createElement('a');
+    link.href = src;
 
-    xhr.onload = () => {
-        if (xhr.status === 200) {
-            const blob = xhr.response;
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = fileName || 'downloaded-image.jpg';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(link.href); // Clean up memory
-        } else {
-            console.error('Download failed:', xhr.statusText);
-        }
-    };
-
-    xhr.onerror = () => {
-        console.error('Network error while downloading image.');
-    };
-
-    xhr.send();
+    // Use a method to check if the image URL is valid
+    fetch(src, { method: 'HEAD' })
+        .then(response => {
+            if (response.ok) {
+                // Image URL is valid, proceed to download
+                link.download = fileName || 'downloaded-image.jpg';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                console.error('Image URL is not valid:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching the image:', error);
+        });
 };
-// Function to open image in full screen with overlay and download button
+    // Function to open image in full screen with overlay and download button
 const openFullScreenImage = (src) => {
     // Create the overlay
     const overlay = document.createElement('div');
