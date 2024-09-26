@@ -521,29 +521,31 @@ const loadMessages = (chatUserId) => {
 };
 
 // Function to download image
-const downloadImage = async (src, fileName) => {
-    try {
-        const response = await fetch(src);
-        if (!response.ok) throw new Error('Network response was not ok');
+const downloadImage = (src, fileName) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', src, true);
+    xhr.responseType = 'blob';
 
-        const blob = await response.blob();
-        const reader = new FileReader();
-        
-        // Convert blob to base64 data URL
-        reader.onloadend = () => {
-            const base64data = reader.result;
-            // Create a temporary anchor element to download the file
+    xhr.onload = () => {
+        if (xhr.status === 200) {
+            const blob = xhr.response;
             const link = document.createElement('a');
-            link.href = base64data; // Use the base64 data URL directly
-            link.download = fileName || 'downloaded-image.jpg'; // Default filename
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName || 'downloaded-image.jpg';
             document.body.appendChild(link);
-            link.click(); // Trigger the download
-            document.body.removeChild(link); // Clean up the DOM
-        };
-        reader.readAsDataURL(blob); // Start reading the blob as data URL
-    } catch (error) {
-        console.error('Error downloading image:', error);
-    }
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href); // Clean up memory
+        } else {
+            console.error('Download failed:', xhr.statusText);
+        }
+    };
+
+    xhr.onerror = () => {
+        console.error('Network error while downloading image.');
+    };
+
+    xhr.send();
 };
 // Function to open image in full screen with overlay and download button
 const openFullScreenImage = (src) => {
