@@ -570,11 +570,11 @@ const openFullScreenImage = (src) => {
     downloadButton.style.zIndex = '1001'; // Layer it above the image
 
     // Add click event to download the image
-    downloadButton.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent closing the overlay
-        const fileName = `image-${new Date().getTime()}.jpg`; // Dynamic filename
-        downloadImage(src, fileName);
-    });
+   // downloadButton.addEventListener('click', (e) => {
+        //e.stopPropagation(); // Prevent closing the overlay
+       // const fileName = `image-${new Date().getTime()}.jpg`; // Dynamic filename
+    //downloadImage(src, fileName);
+  //  });
 
     // Add click event to exit full screen
     overlay.addEventListener('click', () => {
