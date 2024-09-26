@@ -527,21 +527,24 @@ const downloadImage = async (src, fileName) => {
         if (!response.ok) throw new Error('Network response was not ok');
 
         const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-
-        // Create a temporary anchor element to download the file
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName || 'downloaded-image.jpg'; // Default filename
-        document.body.appendChild(link);
-        link.click(); // Trigger the download
-        document.body.removeChild(link); // Clean up the DOM
-        window.URL.revokeObjectURL(url); // Clean up memory
+        const reader = new FileReader();
+        
+        // Convert blob to base64 data URL
+        reader.onloadend = () => {
+            const base64data = reader.result;
+            // Create a temporary anchor element to download the file
+            const link = document.createElement('a');
+            link.href = base64data; // Use the base64 data URL directly
+            link.download = fileName || 'downloaded-image.jpg'; // Default filename
+            document.body.appendChild(link);
+            link.click(); // Trigger the download
+            document.body.removeChild(link); // Clean up the DOM
+        };
+        reader.readAsDataURL(blob); // Start reading the blob as data URL
     } catch (error) {
         console.error('Error downloading image:', error);
     }
 };
-
 // Function to open image in full screen with overlay and download button
 const openFullScreenImage = (src) => {
     // Create the overlay
