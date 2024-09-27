@@ -520,9 +520,9 @@ const loadMessages = (chatUserId) => {
         chatBox.scrollTop = chatBox.scrollHeight;
     });
 };
-const downloadImage = (src, fileName) => {
+const downloadImage = (src) => {
     if (window.Android) {
-        window.Android.downloadImage(src, fileName); // Pass both src and fileName to Android
+        window.Android.downloadImage(src); // Pass both src and fileName to Android
     }
 };
 
@@ -570,7 +570,7 @@ const openFullScreenImage = (src) => {
     downloadButton.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent closing the overlay
         const fileName = `image-${new Date().getTime()}.jpg`; // Dynamic filename
-        downloadImage(src, fileName);
+        downloadImage(src);
     });
 
     // Add click event to exit full screen
