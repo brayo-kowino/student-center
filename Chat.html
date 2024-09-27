@@ -522,7 +522,7 @@ const loadMessages = (chatUserId) => {
 };
 const downloadImage = (src, fileName) => {
     if (window.Android) {
-        window.Android.downloadImage(src); // Pass both src and fileName to Android
+        window.Android.downloadImage(src, fileName); // Pass both src and fileName to Android
     }
 };
 
