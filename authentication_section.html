@@ -96,6 +96,11 @@
         displayMessage("Login successful! Welcome back.");
         hideOverlayAndAuth(); // Hide overlay and auth section after successful authentication
         // Redirect to chat.html after successful sign-in
+        // Store user information in localStorage or sessionStorage
+    localStorage.setItem('currentUser', JSON.stringify({
+      uid: user.uid,
+      email: user.email,
+    }));
         window.location.href = "Chat.html"; 
       } else {
         // User is signed out, show the authentication section
