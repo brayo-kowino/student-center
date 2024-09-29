@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Home - Student Center</title>
+     <script type="module">    
+// Import Firebase libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getFirestore, updateDoc, setDoc, getDoc, getDocs, doc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
+  authDomain: "my-website-d875f.firebaseapp.com",
+  projectId: "my-website-d875f",
+  storageBucket: "my-website-d875f.appspot.com",
+  messagingSenderId: "1084724880551",
+  appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
+  measurementId: "G-54E0SH3VJQ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app); // Firestore database
+const auth = getAuth(app); // Firebase Auth
+const storage = getStorage(app); 
+
+let currentUser = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Get user info from localStorage
+  const userInfo = JSON.parse(localStorage.getItem('currentUser'));
+  
+  if (userInfo) {
+    currentUser = userInfo; // Assign currentUser with the stored information
+    console.log("Current user:", currentUser);
+  } else {
+    // Redirect to authentication page if no user is logged in
+   // window.location.href = "authentication_section.html"; 
+  }
+});
+document.getElementById('postImage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('imagePreview');
+            preview.src = e.target.result;
+            preview.style.display = 'block'; // Show image preview
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+window.submitPost = async function() {
+    const postContent = document.getElementById("postContent").value;
+    const postImage = document.getElementById("postImage").files[0]; // Get the uploaded image file
+
+    if (!currentUser || !currentUser.uid) {
+        console.error('No valid user ID. Please ensure the user is logged in.');
+        return;
+    }
+
+    let imageUrl = "";
+    
+    if (postImage) {
+        try {
+            // Upload image to Firebase Storage
+            const storageRef = ref(storage, `images/${postImage.name}`);
+            const uploadTask = await uploadBytes(storageRef, postImage);
+            imageUrl = await getDownloadURL(uploadTask.ref); // Get the image URL
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            return;
+        }
+    }
+
+    if (postContent || imageUrl) {
+        try {
+            // Add the post to Firestore with the userId, content, and imageUrl
+            await addDoc(collection(db, "posts"), {
+                userId: currentUser.uid,
+                content: postContent,
+                imageUrl: imageUrl, // Include image URL if available
+                timestamp: serverTimestamp(),
+                likes: [] // Initialize likes as an empty array
+            });
+            document.getElementById("postContent").value = ""; // Clear input after posting
+            document.getElementById("imagePreview").style.display = 'none'; // Hide image preview
+            document.getElementById("postImage").value = ""; // Clear the file input
+            console.log('Post successfully added.');
+        } catch (error) {
+            console.error('Error adding post:', error);
+        }
+    } else {
+        console.error('Post content or image cannot be empty.');
+    }
+};
+
+onSnapshot(query(collection(db, "posts"), orderBy("timestamp", "desc")), async (snapshot) => {
+    let postsHtml = "";
+
+    const now = new Date();
+    const today = new Date(now.setHours(0, 0, 0, 0));
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    for (const docSnapshot of snapshot.docs) { // Use docSnapshot instead of doc
+        const post = docSnapshot.data();
+        const postId = docSnapshot.id;
+        const likedByUser = post.likes && post.likes.includes(currentUser.uid);
+
+        // Fetch user data from the users collection based on post.userId
+        const userDocRef = doc(db, "users", post.userId); // Correct way to reference the document
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.data() || {}; // Ensure userData is defined
+        const userDisplayName = userData.name || userData.email || post.userId; // Fallback to userId if no name or email
+        const userProfilePic = userData.profilePicture || 'pic4.png'; // Fallback image
+
+        const postDate = new Date(post.timestamp.toDate());
+        let formattedTimestamp = postDate.toLocaleString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+
+        // Check if post is today, tomorrow, or another day
+        if (postDate >= today && postDate < tomorrow) {
+            formattedTimestamp = `Today at ${postDate.toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            })}`;
+        } else if (postDate >= tomorrow && postDate < new Date(tomorrow.setDate(tomorrow.getDate() + 1))) {
+            formattedTimestamp = `Tomorrow at ${postDate.toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            })}`;
+        } else {
+            formattedTimestamp = postDate.toLocaleString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+        }
+
+        
+        const commentsSnapshot = await getDocs(collection(db, `posts/${postId}/comments`));
+const commentsCount = commentsSnapshot.size;
+
+postsHtml += `
+    <div class="post">
+        <div class="post-header">
+            <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
+            <div class="post-info">
+                <p class="post-user"><strong>${userDisplayName}</strong></p>
+                <p class="post-time">${formattedTimestamp}</p>
+            </div>
+        </div>
+        <p>${post.content || ''}</p>
+        ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post Image" style="width:100%; margin-top:10px;" />` : ''}
+        <div class="post-actions">
+            <button onclick="likePost('${postId}')">
+                <span class="material-icons">${likedByUser ? 'favorite' : 'favorite_border'}</span> ${post.likes ? post.likes.length : 0}
+            </button>
+            <button onclick="openCommentSection('${postId}')">
+                <span class="material-icons">comment</span> ${commentsCount}
+            </button>
+            <button class="share-button">
+                <span class="material-icons">share</span> Share
+            </button>
+        </div>
+        <div id="comments-${postId}" class="comments-section"></div>
+    </div>
+`;
+}
+    document.getElementById("postFeed").innerHTML = postsHtml;
+});
+// Function to open comment section (showing bottom sheet dialog)
+window.openCommentSection = function(postId) {
+    const commentsHtml = `
+        <div class="comment-dialog">
+            <h3>Comments</h3>
+            <div id="commentList-${postId}" class="comment-list"></div>
+            <textarea id="comment-${postId}" placeholder="Add a comment"></textarea>
+            <button onclick="submitComment('${postId}')">Submit</button>
+            <button onclick="closeCommentSection('${postId}')">Close</button>
+        </div>
+    `;
+    document.getElementById(`comments-${postId}`).innerHTML = commentsHtml;
+    loadComments(postId); // Load existing comments when opening the dialog
+}
+
+// Load existing comments
+async function loadComments(postId) {
+    const commentsSnapshot = await getDocs(collection(db, `posts/${postId}/comments`));
+    let commentsHtml = "";
+    
+    for (const commentDoc of commentsSnapshot.docs) {
+        const comment = commentDoc.data();
+
+        // Fetch user data for the commenter based on comment.userId
+        const userDocRef = doc(db, "users", comment.userId);
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.data() || {};
+         // Get the first name from the full name
+        const userDisplayName = userData.name ? userData.name.split(" ")[0] : comment.userId;
+        const userProfilePic = userData.profilePicture || 'pic4.png'; // Fallback image
+
+        commentsHtml += `
+            <div class="comment">
+                <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
+                <strong>${userDisplayName}:</strong> ${comment.content}
+            </div>
+        `;
+    }
+    document.getElementById(`commentList-${postId}`).innerHTML = commentsHtml;
+}
+// Close comment section
+window.closeCommentSection = function(postId) {
+    document.getElementById(`comments-${postId}`).innerHTML = ""; // Clear the comments section
+}
+
+
+
+// Like post function
+window.likePost = async function(postId) {
+    const postRef = doc(db, "posts", postId);
+    const postDoc = await getDoc(postRef);
+    
+    if (postDoc.exists()) {
+        const postData = postDoc.data();
+        // Ensure likes is an array
+        const likes = Array.isArray(postData.likes) ? postData.likes : [];
+
+        if (likes.includes(currentUser.uid)) {
+            // Unlike the post (remove user ID from likes)
+            await updateDoc(postRef, {
+                likes: likes.filter(userId => userId !== currentUser.uid)
+            });
+        } else {
+            // Like the post (add user ID to likes)
+            await updateDoc(postRef, {
+                likes: [...likes, currentUser.uid]
+            });
+        }
+    } else {
+        console.error('Post does not exist');
+    }
+}
+
+window.openCommentSection = function(postId) {
+    const commentsHtml = `
+        <div class="comment-dialog">
+    <textarea id="comment-${postId}" placeholder="Add a comment"></textarea>
+    <button onclick="submitComment('${postId}')">Submit</button>
+    <div id="commentList-${postId}" class="comment-list"></div> <!-- This will now be at the bottom -->
+     <button class="close-button" onclick="closeCommentSection('${postId}')">Close</button>
+        </div>
+</div>
+    `;
+    document.getElementById(`comments-${postId}`).innerHTML = commentsHtml;
+    loadComments(postId); // Load comments when opening
+}
+
+window.submitComment = async function(postId) {
+    const commentContent = document.getElementById(`comment-${postId}`).value;
+    if (commentContent) {
+        await addDoc(collection(db, `posts/${postId}/comments`), {
+            content: commentContent,
+            userId: currentUser.uid,
+            timestamp: serverTimestamp()
+        });
+        document.getElementById(`comment-${postId}`).value = ""; // Clear the comment box after posting
+        loadComments(postId); // Reload comments after submission
+    }
+}
+</script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+ <div class="header">
+    <h1>S.C Space</h1>
+    <nav>
+        <a href="#">Home</a>
+        <a href="https://briano-odhiambo-dev-studentcenter.netlify.app/chat?showProfile=true">Profile</a>
+        <a href="Chat.html">Messages</a>
+        <a href="https://briano-odhiambo-dev-studentcenter.netlify.app/">Dev. info</a>
+    </nav>
+</div>
+    
+    <!-- Divider -->
+    <hr class="divider">
+
+   <!-- Post Creation Box -->
+<div class="post-box">
+    <textarea id="postContent" placeholder="Share something with S.C Space users"></textarea>
+    
+    <!-- Image Upload Section -->
+    <input type="file" id="postImage" accept="image/*" style="display: none;" />
+    <button onclick="document.getElementById('postImage').click()">Add Image</button>
+    <img id="imagePreview" src="#" alt="Image Preview" style="display:none; width: 100%; margin-top: 10px;" />
+
+    <button onclick="submitPost()">Post</button>
+</div>
+
+ <!-- Divider -->
+    <hr class="divider">
+
+    <!-- Updates Section -->
+    <h2>S.C Space Updates</h2>
+    
+   <!-- Post Feed -->
+    <div id="postFeed" class="feed">
+        <!-- Posts will be dynamically added here -->
+    </div>
+    
+
+    <!-- Firebase scripts -->
+    <script type="module" src="app.js"></script>
+</body>
+<style>
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.comment .profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50% !important; /* Ensures it is a perfect circle */
+    margin-right: 15px;
+    object-fit: cover; /* Ensures the image fits well within the circle */
+}
+
+/* Post Info Styling */
+.post-info {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Post User Styling */
+.post-user {
+    margin-top: 7px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 1px;
+}
+
+/* Post Time Styling */
+.post-time {
+    font-size: 12px;
+    color: #777;
+}
+
+/* Post Content Styling */
+.post p {
+    margin-bottom: 10px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.post-actions button {
+    background-color: #e0f7fa; /* Light blue background */
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #007BFF; /* Blue text */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    flex-grow: 1; /* Make buttons equal width */
+    margin: 0 5px; /* Space between buttons */
+}
+
+.post-actions button:hover {
+    background-color: #b2ebf2; /* Slightly darker blue on hover */
+}
+
+.post-actions button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus state shadow */
+}
+
+/* Specific styling for the share button */
+.share-button {
+    flex-grow: 0; /* Prevent share button from growing */
+    padding: 10px 20px; /* Adjust padding for larger size */
+}
+
+/* Header Styling */
+.header {
+    background-color: #1877F2;
+    padding: 20px;
+    text-align: left;
+    color: white;
+    position: fixed;
+    width: 100%; /* Ensure it spans the full width */
+    top: 0;
+    left: 0;
+    z-index: 100; /* Keep the header above other elements */
+}
+
+/* Add margin or padding to the content below the header */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    padding-top: 80px; /* Push the content down, adjust if the header size changes */
+}
+.divider {
+    margin: 14px 0;
+    border: 3px solid #ccc;
+}
+
+h2 {
+    margin-left: 20px;
+    margin-right: 15px;
+    font-size: 24px;
+    color: #007BFF;
+    border-bottom: 2px solid #007BFF    ;
+}
+.header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.header nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+.header nav a:hover {
+    text-decoration: underline;
+}
+
+/* Post Box Styling */
+.post-box {
+    margin: 10px auto;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    width: 95%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-box textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.post-box button {
+    padding: 10px 20px;
+    background-color: #1877F2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-box button:hover {
+    background-color: #218838;
+}
+
+/* Post Feed Styling */
+.feed {
+    margin: 20px auto;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Post Styling */
+.post {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.post p {
+    margin-bottom: 10px;
+}
+
+.post-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.post button {
+    padding: 5px 10px;
+    background-color: #1877F2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post button:hover {
+    background-color: #0056b3;
+}
+
+/* Comments Section */
+.comments-section {
+    margin-top: 10px;
+}
+
+.comments-section textarea {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.comments-section button {
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    bottom: 0;
+}
+
+.comments-section button:hover {
+    background-color: #218838;
+}
+   /* Comments Section */
+    .comments-section {
+        margin-top: 10px;
+    }
+
+    .comments-section textarea {
+        width: 100%;
+        height: 50px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .comments-section button {
+        padding: 10px 10px;
+        background-color: #1877F2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .comments-section button:hover {
+        background-color: #218838;
+    }
+.comment-dialog {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 60%; /* 40% height from bottom */
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for the top edge */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    z-index: 1000; /* Ensures it's above other elements */
+}
+
+.comment-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px; /* Optional spacing adjustment */
+}
+.close-button {
+    align-self: flex-end; /* Aligns button to the bottom */
+    margin-top: auto; /* Pushes button to the bottom of the dialog */
+}
+
+/* Image preview styling in the post creation box */
+#imagePreview {
+    display: none;
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Post image styling */
+.post img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* Post Styling */
+.post {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+/* Post Header Styling */
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+</style>
+</html>
