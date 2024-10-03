@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>S.C Space</title>
+     <script type="module">    
+// Import Firebase libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getFirestore, updateDoc, setDoc, getDoc, getDocs, doc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
+  authDomain: "my-website-d875f.firebaseapp.com",
+  projectId: "my-website-d875f",
+  storageBucket: "my-website-d875f.appspot.com",
+  messagingSenderId: "1084724880551",
+  appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
+  measurementId: "G-54E0SH3VJQ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app); // Firestore database
+const auth = getAuth(app); // Firebase Auth
+const storage = getStorage(app); 
+
+let currentUser = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // Get user info from localStorage
+  const userInfo = JSON.parse(localStorage.getItem('currentUser'));
+  
+  if (userInfo) {
+    currentUser = userInfo; // Assign currentUser with the stored information
+    console.log("Current user:", currentUser);
+    
+    const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      
+      // Update dialog elements with user data
+      const profilePictureElement = document.getElementById('profilePicture');
+      profilePictureElement.src = userData.profilePicture || 'pic4.png';  
+    }
+  } else {
+    // Redirect to authentication page if no user is logged in
+    // window.location.href = "authentication_section.html"; 
+  }
+});
+document.getElementById('postImage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('imagePreview');
+            preview.src = e.target.result;
+            preview.style.display = 'block'; // Show image preview
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+window.submitPost = async function() {
+    const postContent = document.getElementById("postContent").value;
+    const postImage = document.getElementById("postImage").files[0]; // Get the uploaded image file
+
+    if (!currentUser || !currentUser.uid) {
+        console.error('No valid user ID. Please ensure the user is logged in.');
+        return;
+    }
+
+    let imageUrl = "";
+    
+    if (postImage) {
+        try {
+            // Upload image to Firebase Storage
+            const storageRef = ref(storage, `images/${postImage.name}`);
+            const uploadTask = await uploadBytes(storageRef, postImage);
+            imageUrl = await getDownloadURL(uploadTask.ref); // Get the image URL
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            return;
+        }
+    }
+
+    if (postContent || imageUrl) {
+        try {
+            // Add the post to Firestore with the userId, content, and imageUrl
+            await addDoc(collection(db, "posts"), {
+                userId: currentUser.uid,
+                content: postContent,
+                imageUrl: imageUrl, // Include image URL if available
+                timestamp: serverTimestamp(),
+                likes: [] // Initialize likes as an empty array
+            });
+            document.getElementById("postContent").value = ""; // Clear input after posting
+            document.getElementById("imagePreview").style.display = 'none'; // Hide image preview
+            document.getElementById("postImage").value = ""; // Clear the file input
+            console.log('Post successfully added.');
+        } catch (error) {
+            console.error('Error adding post:', error);
+        }
+    } else {
+        console.error('Post content or image cannot be empty.');
+    }
+};
+
+onSnapshot(query(collection(db, "posts"), orderBy("timestamp", "desc")), async (snapshot) => {
+    const now = new Date();
+    const today = new Date(now.setHours(0, 0, 0, 0));
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    // Prepare to collect user data promises and comments count promises
+    const userPromises = {};
+    const commentsPromises = {};
+
+    // Iterate over snapshot docs to prepare user and comment fetching
+    snapshot.docs.forEach(docSnapshot => {
+        const post = docSnapshot.data();
+        const postId = docSnapshot.id;
+
+        // Prepare user doc ref and comment collection ref
+        const userDocRef = doc(db, "users", post.userId);
+        userPromises[postId] = getDoc(userDocRef);
+        commentsPromises[postId] = getDocs(collection(db, `posts/${postId}/comments`));
+    });
+
+    // Resolve all user data and comments counts concurrently
+    const userDocs = await Promise.all(Object.values(userPromises));
+    const commentsSnapshots = await Promise.all(Object.values(commentsPromises));
+
+    let postsHtml = "";
+
+    // Construct the posts HTML
+    snapshot.docs.forEach((docSnapshot, index) => {
+        const post = docSnapshot.data();
+        const postId = docSnapshot.id;
+        const likedByUser = post.likes && post.likes.includes(currentUser.uid);
+        
+        // Extract user data
+        const userDoc = userDocs[index];
+        const userData = userDoc.data() || {};
+        const userDisplayName = userData.name || userData.email || post.userId; // Fallback to userId
+        const userProfilePic = userData.profilePicture || 'pic4.png'; // Fallback image
+        
+        const postDate = new Date(post.timestamp.toDate());
+        let formattedTimestamp = postDate.toLocaleString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+
+        // Check if post is today, tomorrow, or another day
+        if (postDate >= today && postDate < tomorrow) {
+            formattedTimestamp = `Today at ${postDate.toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            })}`;
+        } else if (postDate >= tomorrow && postDate < new Date(tomorrow.setDate(tomorrow.getDate() + 1))) {
+            formattedTimestamp = `Tomorrow at ${postDate.toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            })}`;
+        } else {
+            formattedTimestamp = postDate.toLocaleString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+        }
+
+        // Get comments count for the post
+        const commentsSnapshot = commentsSnapshots[index];
+        const commentsCount = commentsSnapshot.size;
+
+        // Construct HTML for the post
+        postsHtml += `
+            <div class="post">
+                <div class="post-header">
+                    <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
+                    <div class="post-info">
+                        <p class="post-user"><strong>${userDisplayName}</strong></p>
+                        <p class="post-time">${formattedTimestamp}</p>
+                    </div>
+                </div>
+                <p>${post.content || ''}</p>
+                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post Image" style="width:100%; margin-top:10px;" />` : ''}
+                <div class="post-actions">
+                    <button onclick="likePost('${postId}')">
+                        <span class="material-icons">${likedByUser ? 'favorite' : 'favorite_border'}</span> ${post.likes ? post.likes.length : 0}
+                    </button>
+                    <button onclick="openCommentSection('${postId}')">
+                        <span class="material-icons">comment</span> ${commentsCount}
+                    </button>
+                    <button class="share-button">
+                        <span class="material-icons">share</span> Share
+                    </button>
+                </div>
+                <div id="comments-${postId}" class="comments-section"></div>
+            </div>
+        `;
+    });
+
+    // Update the DOM once with all posts HTML
+    document.getElementById("postFeed").innerHTML = postsHtml;
+});
+// Function to open comment section (showing bottom sheet dialog)
+window.openCommentSection = function(postId) {
+    const commentsHtml = `
+        <div class="comment-dialog">
+            <h3>Comments</h3>
+            <div id="commentList-${postId}" class="comment-list"></div>
+            <textarea id="comment-${postId}" placeholder="Add a comment"></textarea>
+            <button onclick="submitComment('${postId}')">Submit</button>
+            <button onclick="closeCommentSection('${postId}')">Close</button>
+        </div>
+    `;
+    document.getElementById(`comments-${postId}`).innerHTML = commentsHtml;
+    loadComments(postId); // Load existing comments when opening the dialog
+}
+function getTimeAgo(timestamp) {
+    const now = new Date();
+    const timeDiff = now - timestamp; // Difference in milliseconds
+
+    const seconds = Math.floor(timeDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) return `${days}d`;
+    if (hours > 0) return `${hours}h`;
+    if (minutes > 0) return `${minutes}m`;
+    return `${seconds}s`;
+}
+ 
+ async function loadComments(postId) {
+    const commentsSnapshot = await getDocs(collection(db, `posts/${postId}/comments`));
+    
+    // Collect all promises for fetching comments, users, and replies
+    const commentPromises = commentsSnapshot.docs.map(async (commentDoc) => {
+        const comment = commentDoc.data();
+        const commentId = commentDoc.id;
+
+        // Fetch user data and replies concurrently
+        const [userDoc, repliesSnapshot] = await Promise.all([
+            getDoc(doc(db, "users", comment.userId)),
+            getDocs(collection(db, `posts/${postId}/comments/${commentId}/replies`))
+        ]);
+
+        const userData = userDoc.data() || {};
+        const userDisplayName = userData.name ? userData.name.split(" ")[0] : comment.userId;
+        const userProfilePic = userData.profilePicture || 'pic4.png';
+        const commentDate = new Date(comment.timestamp.toDate());
+        const formattedTimestamp = getTimeAgo(commentDate);
+
+        // Process replies concurrently and build the replies HTML
+        const repliesHtml = repliesSnapshot.docs.map(replyDoc => {
+            const reply = replyDoc.data();
+            return `
+                <div class="reply">
+                    <img src="${userProfilePic || 'default-pic.png'}" alt="Profile Picture" class="reply-profile-pic" />
+                    <div class="reply-content">
+                        <strong class="reply-author">${userDisplayName || 'Anonymous'}</strong>
+                        <p class="reply-text">${reply.content}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Like count
+        const likesCount = Array.isArray(comment.likes) ? comment.likes.length : 0;
+        const repliesCount = repliesSnapshot.size;
+
+        // Return the complete HTML structure for each comment
+        return `
+            <div class="comment-container">
+                <div class="comment-header">
+                    <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
+                    <div class="comment-content">
+                        <strong class="comment-author">${userDisplayName}</strong>
+                        <p class="comment-text">${comment.content}</p>
+                        <div class="comment-meta">
+                            <span class="comment-timestamp">${formattedTimestamp}</span>
+                            <button onclick="likeComment('${postId}', '${commentId}')">Like (${likesCount})</button>
+                            <button onclick="toggleReplyInput('${commentId}')">Reply</button>
+                            <button id="toggle-replies-${commentId}" onclick="toggleReplies('${commentId}', ${repliesCount})">
+                                ${repliesCount > 0 ? `View ${repliesCount} Replies` : ''}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="replies-${commentId}" class="replies-section" style="display:none;">
+                    ${repliesHtml}
+                </div>
+                <div id="reply-input-${commentId}" class="reply-input" style="display:none;">
+                    <textarea id="reply-text-${commentId}" placeholder="Write a reply..."></textarea>
+                    <button onclick="submitReply('${postId}', '${commentId}')">Submit</button>
+                </div>
+            </div>
+        `;
+    });
+
+    // Await all the comment processing promises
+    const commentsHtml = (await Promise.all(commentPromises)).join('');
+
+    // Inject the entire comments HTML into the DOM at once
+    document.getElementById(`commentList-${postId}`).innerHTML = commentsHtml;
+}
+// Close comment section
+window.closeCommentSection = function(postId) {
+    document.getElementById(`comments-${postId}`).innerHTML = ""; // Clear the comments section
+}
+
+// Toggle reply input visibility
+window.toggleReplyInput = function(commentId) {
+    const replyInput = document.getElementById(`reply-input-${commentId}`);
+    replyInput.style.display = replyInput.style.display === 'none' ? 'block' : 'none';
+}
+
+// Toggle replies visibility and update button text
+window.toggleReplies = function(commentId, repliesCount) {
+    const repliesSection = document.getElementById(`replies-${commentId}`);
+    const toggleButton = document.getElementById(`toggle-replies-${commentId}`);
+    
+    if (repliesSection.style.display === 'none') {
+        repliesSection.style.display = 'block';
+        toggleButton.textContent = 'Close';
+    } else {
+        repliesSection.style.display = 'none';
+        toggleButton.textContent = `View ${repliesCount} Replies`;
+    }
+};
+
+// Toggle reply input visibility
+window.toggleReplyInput = function(commentId) {
+    const replyInput = document.getElementById(`reply-input-${commentId}`);
+    replyInput.style.display = replyInput.style.display === 'none' ? 'block' : 'none';
+};
+// Submit a reply
+window.submitReply = async function(postId, commentId) {
+    const replyContent = document.getElementById(`reply-text-${commentId}`).value;
+    if (replyContent) {
+        await addDoc(collection(db, `posts/${postId}/comments/${commentId}/replies`), {
+            userId: currentUser.uid,
+            content: replyContent,
+            timestamp: serverTimestamp()
+        });
+        loadComments(postId); // Reload comments to update replies
+    }
+}
+
+// Like a comment
+window.likeComment = async function(postId, commentId) {
+    const commentRef = doc(db, `posts/${postId}/comments`, commentId);
+    const commentDoc = await getDoc(commentRef);
+    
+    if (commentDoc.exists()) {
+        const commentData = commentDoc.data();
+        const likes = Array.isArray(commentData.likes) ? commentData.likes : [];
+        
+        if (likes.includes(currentUser.uid)) {
+            // Unlike the comment
+            await updateDoc(commentRef, {
+                likes: likes.filter(uid => uid !== currentUser.uid)
+            });
+        } else {
+            // Like the comment
+            await updateDoc(commentRef, {
+                likes: [...likes, currentUser.uid]
+            });
+        }
+
+        loadComments(postId); // Reload comments to reflect like count
+    }
+}
+
+
+// Like post function
+window.likePost = async function(postId) {
+    const postRef = doc(db, "posts", postId);
+    const postDoc = await getDoc(postRef);
+    
+    if (postDoc.exists()) {
+        const postData = postDoc.data();
+        // Ensure likes is an array
+        const likes = Array.isArray(postData.likes) ? postData.likes : [];
+
+        if (likes.includes(currentUser.uid)) {
+            // Unlike the post (remove user ID from likes)
+            await updateDoc(postRef, {
+                likes: likes.filter(userId => userId !== currentUser.uid)
+            });
+        } else {
+            // Like the post (add user ID to likes)
+            await updateDoc(postRef, {
+                likes: [...likes, currentUser.uid]
+            });
+        }
+    } else {
+        console.error('Post does not exist');
+    }
+}
+
+window.openCommentSection = function(postId) {
+    const commentsHtml = `
+<div class="comments-section">
+  <div class="comment-dialog">
+    <div class="comments-header">
+      <h3>Comments</h3>
+    </div>
+
+    <!-- Comment List -->
+    <div id="commentList-${postId}" class="comment-list"></div>
+
+    <!-- Comment Input Box -->
+    <div class="comment-input-box">
+      <textarea id="comment-${postId}" placeholder="Write a comment..."></textarea>
+      <button onclick="submitComment('${postId}')">
+        <span class="material-icons">send</span>
+      </button>
+    </div>
+    
+    <button class="close-button" onclick="closeCommentSection('${postId}')">
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+</div>
+    `;
+    document.getElementById(`comments-${postId}`).innerHTML = commentsHtml;
+    loadComments(postId); // Load comments when opening
+}
+
+window.submitComment = async function(postId) {
+    const commentContent = document.getElementById(`comment-${postId}`).value;
+    if (commentContent) {
+        await addDoc(collection(db, `posts/${postId}/comments`), {
+            content: commentContent,
+            userId: currentUser.uid,
+            timestamp: serverTimestamp()
+        });
+        document.getElementById(`comment-${postId}`).value = ""; // Clear the comment box after posting
+        loadComments(postId); // Reload comments after submission
+    }
+}
+</script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+ <div class="header">
+    
+    <nav>
+        <a href="#">Home</a>
+        <a href="https://briano-odhiambo-dev-studentcenter.netlify.app/chat?showProfile=true">Profile</a>
+        <a href="Chat.html">Messages</a>
+        <a href="https://briano-odhiambo-dev-studentcenter.netlify.app/">Dev. info</a>
+    </nav>
+</div>
+    
+    <!-- Divider -->
+    <hr class="divider">
+
+<!-- Post Creation Box -->
+<div class="post-box">
+    <div class="post-header">
+        <img id="profilePicture" src="pic4.png" alt="Profile Picture" class="profile-picture" />
+        <textarea id="postContent" placeholder="Share something with S.C Space users."></textarea>
+        <button class="add-image-button" onclick="document.getElementById('postImage').click()">
+            <span class="material-icons">add_photo_alternate</span>
+            
+        </button>
+    </div>
+    
+    <input type="file" id="postImage" accept="image/*" style="display: none;" />
+    
+    <img id="imagePreview" src="#" alt="Image Preview" style="display:none; width: 100%; margin-top: 10px;" />
+    
+   <div class="post-button-container">
+    <button class="post-button" onclick="submitPost()">
+        <span class="material-icons">publish</span> <!-- Use publish icon -->
+        Publish Post
+    </button>
+</div>
+</div>
+ <!-- Divider -->
+    <hr class="divider">
+
+    <!-- Updates Section -->
+    <h2>S.C Space Updates</h2>
+    
+   <!-- Post Feed -->
+    <div id="postFeed" class="feed">
+        <!-- Posts will be dynamically added here -->
+    </div>
+    
+
+    <!-- Firebase scripts -->
+    <script type="module" src="app.js"></script>
+</body>
+<style>
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.post-button {
+    display: flex; /* Center the icon and text */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    padding: 10px 20px; /* Add padding for a better appearance */
+    font-size: 16px; /* Adjust font size */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Optional: rounded corners */
+    background-color: #4CAF50; /* Green background (adjust as needed) */
+    color: white; /* Text color */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    margin-top: 10px; /* Space above the button */
+}
+
+.post-button .material-icons {
+    font-size: 24px; /* Increase icon size */
+    margin-right: 8px; /* Space between icon and text */
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.comment-container {
+    background-color: #f5f5f5; /* Light background color */
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+
+.profile-pic {
+    width: 50px;!important;
+    height: 50px;!important;
+    border-radius: 50% !important; /* Ensures it is a perfect circle */
+    margin-right: 15px;
+    object-fit: cover; /* Ensures the image fits well within the circle */
+}
+
+/* Post Info Styling */
+.post-info {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Post User Styling */
+.post-user {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 1px;
+}
+
+/* Post Time Styling */
+.post-time {
+    font-size: 12px;
+    color: #777;
+}
+
+/* Post Content Styling */
+.post p {
+    margin-bottom: 10px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+
+.post-actions button {
+    background-color: #e0f7fa; /* Light blue background */
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #007BFF; /* Blue text */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    flex-grow: 1; /* Make buttons equal width */
+    margin: 0 5px; /* Space between buttons */
+}
+
+
+.post-actions button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus state shadow */
+}
+
+/* Specific styling for the share button */
+.share-button {
+    flex-grow: 0; /* Prevent share button from growing */
+    padding: 10px 20px; /* Adjust padding for larger size */
+}
+
+/* Header Styling */
+.header {
+    background-color: #1877F2;
+    padding: 20px;
+    text-align: left;
+    color: white;
+    position: fixed;
+    width: 100%; /* Ensure it spans the full width */
+    top: 0;
+    left: 0;
+    z-index: 100; /* Keep the header above other elements */
+}
+
+/* Add margin or padding to the content below the header */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    padding-top: 55px; /* Push the content down, adjust if the header size changes */
+}
+.divider {
+    margin: 14px 0;
+    border: 3px solid #ccc;
+}
+
+h2 {
+    margin-left: 20px;
+    margin-right: 15px;
+    font-size: 24px;
+    color: #007BFF;
+    border-bottom: 2px solid #007BFF    ;
+}
+.header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.header nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+.header nav a:hover {
+    text-decoration: underline;
+}
+
+/* Post Box Styling */
+.post-box {
+    margin: 10px auto;
+    padding: 10px;
+    background-color: #f0f2f5; /* Light gray background */
+    border-radius: 8px;
+    width: 95%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Picture */
+.profile-picture {
+    width: 50px; !important;/* Adjust the size as needed */
+    height: 50px;!important;
+    border-radius: 50%; /* Circular profile picture */
+    margin-right: 10px; /* Spacing between the profile picture and textarea */
+    vertical-align: middle; /* Aligns the picture vertically with other elements */
+}
+
+/* Post Header Flexbox Layout */
+.post-header {
+    display: flex;
+    align-items: center; /* Vertically centers the items */
+    height: 50px; /* Set the same height for the header */
+}
+
+/* Textarea styling */
+.post-header textarea {
+    flex: 1; /* Takes up the remaining space */
+    height: 100%; /* Makes the textarea fill the height of the header */
+    padding: 10px;
+   
+    margin-bottom: 0px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    resize: none; /* Prevents resizing */
+    font-size: 14px;
+    background-color: white; /* White background for textarea */
+}
+.add-image-button {
+    width: 50px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+    display: flex; /* Center the icon */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    border: none; /* Optional: remove border */
+    background-color: transparent; /* Optional: keep the background transparent */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.add-image-button .material-icons {
+color: #1877F2;
+margin-left: 15px;
+    font-size: 42px; /* Increase icon size */
+    line-height: 1; /* Prevent extra spacing */
+}
+
+.add-image-button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Optional: add hover effect */
+    border-radius: 5px; /* Optional: rounded corners */
+}
+.add-image-button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Optional: add hover effect */
+    border-radius: 5px; /* Optional: rounded corners */
+}
+
+/* Material Icon style */
+.material-icons {
+font-size: 22px;
+    margin-right: 6px;
+}
+
+/* Post button container */
+.post-button-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns the post button to the right */
+    margin-top: 10px; /* Space between the image preview and button */
+}
+
+/* Post button styling */
+.post-button-container button {
+    padding: 8px 16px;
+    background-color: #1877F2; /* Post button color */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    height: 40px; /* Same height as other elements */
+}
+
+.post-button-container button:hover {
+    //background-color: #365899; /* Darker blue for hover effect */
+}
+/* Post Feed Styling */
+.feed {
+    margin: 10px auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Post Styling */
+.post {
+    background-color: white;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.post p {
+    margin-bottom: 5px;
+}
+
+.post-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.post button {
+    padding: 5px 10px;
+    background-color: #1877F2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.post button:hover {
+    background-color: #0056b3;
+}
+
+
+.comment-dialog {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80%; /* Or adjust to your desired height */
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for the top edge */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    z-index: 1000; /* Ensures it's above other elements */
+}
+
+.comments-header {
+    font-size: 18px;
+    
+    margin-bottom: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.comment-list {
+    max-height: 600px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.comment-container {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+.comment-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: 10px !important;
+}
+
+.comment-content {
+    flex-grow: 1;
+}
+
+.comment-author {
+    font-weight: bold;
+    margin-top: 10px !important;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.comment-text {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.comment-meta {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: gray;
+    margin-top: 5px;
+}
+
+.comment-meta button {
+    background-color: transparent;
+    border: none;
+    color: #007BFF;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 12px;
+    padding: 2px 5px;
+}
+
+/* Light background when clicked or focused */
+.comment-meta button:focus,
+.comment-meta button:active {
+    background-color: #e6f3ff;  /* Very light blue */
+    outline: none;
+    box-shadow: none;
+}
+
+.comment-meta button:hover {
+    text-decoration: underline;
+}
+
+.replies-section {
+    margin-top: 10px;
+    padding-left: 10px;
+    border-left: 2px solid #ddd;
+    display: none;
+}
+
+.reply {
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.reply p {
+    margin: 0;
+}
+
+.reply-input {
+    margin-top: 10px;
+    display: none;
+}
+
+.reply-input textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.reply-input button {
+    padding: 6px 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.reply-input button:hover {
+  
+}
+.reply {
+    display: flex;
+    align-items: flex-start;  /* Align profile pic and content vertically at the top */
+    margin-bottom: 1px;
+    padding-left: 10px;
+    border-left: 2px solid #ddd;
+}
+.reply-profile-pic {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;  /* Enforce the profile picture to be round */
+    object-fit: cover !important;   /* Ensure the image fits inside the circular frame */
+    margin-right: 10px !important;  /* Add spacing and prevent it from being overridden */
+}
+
+.reply-content {
+    flex-grow: 1;  /* Ensure the content takes up the remaining space */
+}
+
+.reply-author {
+    font-weight: bold;
+    font-size: 13px !important;
+    margin-top: 10px !important;
+    display: block; /* Ensure the name is on its own line */
+}
+
+.reply-text {
+    margin: 5px 0 0 0; /* Add some spacing between the name and content */
+    font-size: 13px;
+    line-height: 1.5;
+}
+/* Input Section at the Bottom */
+.comment-input-box {
+    margin-top: auto; /* Push input box to the bottom */
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    padding-bottom: 0px; /* Ensure padding at the bottom */
+}
+
+/* Styling for the Textarea */
+.comment-input-box textarea {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #f0f0f0;
+    resize: none;
+}
+
+/* Styling for the Send Button */
+.comment-input-box button {
+    background-color: #fff;
+    color: blue;
+    border: none;
+    border-radius: 50%;
+    padding: 6px; /* Use correct padding syntax */
+    margin-left: auto; /* Push button to the right */
+    margin-right: -15px; !important;
+    cursor: pointer;
+    display: flex; /* Align contents inside button */
+    align-items: center;
+}
+
+.comment-input-box button .material-icons {
+    font-size: 30px;
+}
+/* Close Button Styling */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: black; /* Black text */!important;
+  background: none; /* No background */ !important;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  outline: none; /* Remove focus outline */
+}
+
+/* Image preview styling in the post creation box */
+#imagePreview {
+    display: none;
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Post image styling */
+.post img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* Post Styling */
+.post {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3px;
+}
+
+/* Post Header Styling */
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+</style>
+</html>
