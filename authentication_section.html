@@ -71,7 +71,7 @@
         hideOverlayAndAuth(); // Hide overlay and auth section after sign-in
 
         // Redirect to chat.html after successful sign-in
-        window.location.href = "chat.html"; 
+        window.location.href = "sc_hompage.html"; 
       } catch (error) {
         console.error("Error during sign-in: ", error);
         let errorMessage = "Login failed: ";
@@ -101,7 +101,7 @@
       uid: user.uid,
       email: user.email,
     }));
-        window.location.href = "sc_homepage.html"; 
+        window.location.href = "sc_hompage.html"; 
       } else {
         // User is signed out, show the authentication section
         document.getElementById('auth-section').style.display = 'block';
