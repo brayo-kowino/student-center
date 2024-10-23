@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Student Center - Empowering students for a brighter future.">
+    <meta name="keywords" content="Student Center, academic tools, assignment management, student services, Kenya">
     <title>Student Center</title>
     <link rel="stylesheet" href="styles.css">
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -15,90 +16,108 @@
                 <img src="sc_space_image.jpg" alt="Student Center Logo"> 
                 <h1>Student Center</h1>
             </div>
-              <div class="menu-icon" onclick="openMenu()">
-              
+            <div class="menu-icon" onclick="openMenu()">
                 <img src="menuweb1.png" alt="Menu Icon"> 
             </div>
         </div>
     </header>
+
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
-
-        <!-- Main Navigation -->
         <h3>Navigation</h3>
         <a href="#home">Home</a>
         <a href="#about">About Us</a>
         <a href="#services">Services</a>
         <a href="#team">Company Profile</a>
         <a href="#contact">Contact Us</a>
-
-        <!-- Platforms Section -->
         <h3>Platforms</h3>
-        <a href="https://studentcenterhq.netlify.app/sc_hompage">SC Space</a>       
+        <a href="https://studentcenterhq.netlify.app/sc_hompage">SC Space</a>
         <a href="https://studentcenterhq.netlify.app/download">Android Application</a>
         <a href="https://studentcenterhq.netlify.app/ceramics">Student Blogs</a>
         <a href="#">Cyber Services</a>
-
-        <!-- Tools Section -->
         <h3>Tools</h3>
         <a href="#">Research & Analysis Tools</a>
         <a href="#">Assignment Management</a>
         <a href="#">Custom Student Reports</a>
-
     </div>
-
 
     <section id="home" class="hero">
         <p><br><br><i><b>"Education is a powerful equalizer. While it’s true that some have found success without formal schooling, education provides the essential skills and knowledge needed to thrive in a dynamic world. It empowers you to create your own opportunities, not just wait for employment. Whatever course you are pursuing, do it with passion and purpose. Your future is shaped by the actions you take today, and success comes from working smart, starting now."</i></b></p>
-        <h3><br>Brian Odhiambo, Founder & CEO<br> Student Center.</h3> 
-      </section>  
+        <h3><br>Brian Odhiambo, Founder & CEO<br>Student Center.</h3> 
+        <div class="button-container">
+        <a href="#about" class="cta-button">Learn More</a>
+        </div>
+    </section>  
 
     <section id="about" class="section">
         <h2>About Us</h2>
-        <p><strong>Our Mission:</strong>To empower students by providing innovative digital tools and support, helping them manage their academic and extracurricular life efficiently.</p>
+        <p><strong>Our Mission:</strong> To empower students by providing innovative digital tools and support, helping them manage their academic and extracurricular life efficiently.</p>
         <p><strong>Vision:</strong> To become the leading digital solution for students, offering a platform that simplifies their academic tasks and enriches their learning experiences.</p>
+
+        <h3>Company History</h3>
+        <p>Founded in 2023 by Brian Odhiambo, a tech enthusiast and Mining Engineering student, Student Center was born out of the desire to solve the unique challenges students face in managing their academic tasks. What started as a simple idea to create assignment management tools quickly expanded into a fully-fledged digital platform. Today, Student Center offers a range of services including assignment management, research tools, and a custom Android application designed to make students' lives easier. Our vision is to continue developing innovative solutions that empower students around the world.</p>
     </section>
 
     <section id="services" class="section">
         <h2>Our Services</h2>
         <ul>
-            <li>Communication & Socialization</li>
-            <li>Research & Analysis Tools</li>
-            <li>Android application & web development</li>
-            <li>Assignment Management</li>          
-            <li>Media, Cyber Services & basic computer training </li>           
-            <li>Custom Student Reports</li>
+            <li><strong>Communication & Socialization</strong> - We provide a platform where students can connect, share knowledge, and collaborate on projects.</li>
+            <li><strong>Research & Analysis Tools</strong> - Tools designed to help students conduct in-depth research and analysis for academic and personal projects.</li>
+            <li><strong>Android Application & Web Development</strong> - We offer custom Android and web development services, tailored for students and academic institutions.</li>
+            <li><strong>Assignment Management</strong> - A comprehensive tool to help students manage their assignments, set reminders, and track deadlines.</li>
+            <li><strong>Media & Cyber Services</strong> - We provide media production services as well as basic cyber services like website creation and computer training.</li>
+            <li><strong>Custom Student Reports</strong> - Tailored reports that analyze student performance, helping them to track their academic progress and plan for improvement.</li>
         </ul>
+        <div class="button-container">
+        <a href="#contact" class="cta-button">Get Started with Our Services</a>
+        </div>
     </section>
 
     <section id="team" class="section">
         <h2>Our Team Members</h2>
-                        <h3>Brian Odhiambo - Founder & CEO</h3>
+        <h3>Brian Odhiambo - Founder & CEO</h3>
         <div class="team-pic">
             <img src="brayo.jpg" alt="Brian, Founder & CEO" id="profile-pic">
             <div class="team-member">
-
                 <p>A tech enthusiast, Brian is currently pursuing Mining and Mineral Processing Engineering. He also serves as Secretary General of the Mining Engineering Society of Kenya. Brian leads the development of innovative solutions that help students succeed academically and professionally.</p>
+                <a href="https://studentcenterhq.netlify.app/about_dev" class="read-more-link">Read more about Brian's profile and works</a>
             </div>
         </div>
+        <!-- Add more team members if applicable -->
     </section>
 
-    <section id="contact" class="section">
-        <h2>Contact Us</h2>
-        <p><strong>Address:</strong> We're located in Nairobi Kenya, Railways opposite The Guardian coach ltd.</p>
-        <p><strong>Email:</strong> studentcenterservices@gmail.com</p>
-        <p><strong>Phone:</strong> +254702495776</p>
-        <div class="social-links">
-            <a href="#">LinkedIn</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a> | <a href="#">Facebook</a>
+<section id="contact" class="section">
+    <h2>Get In Touch with Us</h2>
+    <p>Have any questions, suggestions, or need further information about our services? Fill out the form below and we'll get back to you as soon as possible. We're here to help you succeed!</p>
+
+    <form name="contact" method="POST" data-netlify="true">
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
         </div>
-    </section>
+        <div class="form-group">
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" rows="4" placeholder="Tell us how we can assist you..." required></textarea>
+        </div>
+        <button type="submit" class="cta-button">Send Message</button>
+    </form>
 
+    <div class="social-links">
+        <a href="https://www.linkedin.com/in/brian-odhiambo-4646b4327">LinkedIn</a> | <a href="https://x.com/BrianOdhia67569">Twitter</a> | <a href="https://www.instagram.com/eng_brayo">Instagram</a> | <a href="https://www.facebook.com/profile.php?id=61558945445032">Facebook</a>
+    </div>
+</section>
     <footer>
         <p>© 2024 Student Center. All rights reserved.</p>
+        <p><a href="https://studentcenterhq.netlify.app/download#privacy-policy">Privacy Policy</a> | <a href="https://studentcenterhq.netlify.app/download#privacy-policy">Terms of Service</a></p>
     </footer>
+
     <script>
-    function openMenu() {
+        function openMenu() {
             document.getElementById("sidebar").style.width = "250px";
         }
 
@@ -106,6 +125,86 @@
             document.getElementById("sidebar").style.width = "0";
         }
     </script>
+
+    <style>
+/* CTA button styling */
+.cta-button {
+    display: inline-block;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
+}
+
+/* Center the button */
+.button-container {
+    text-align: center;
+}
+
+        /* Other styling adjustments */
+        .read-more-link {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+
+        .team-member {
+            margin-top: 10px;
+        }
+    /* Form styling */
+form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+    footer {
+    text-align: center;
+    background-color: #f8f8f8;
+    color: blue;
+    padding: 10px 0;
+}
+</style>
 </body>
-</body>
-</html>
+            </html>
