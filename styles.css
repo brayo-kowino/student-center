@@ -91,20 +91,7 @@ nav ul li a {
     z-index: 2;
 }
 
-.section {
-    padding: 20px;
-    margin: 20px 0;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    margin: 0 auto;
-}
 
-h2 {
-    color: #003366;
-    text-align: start;
-    margin-bottom: 10px;
-}
 .hero h3 {
     color: beige;
     text-align: end;
@@ -139,18 +126,6 @@ ul li {
     margin-bottom: 10px;
 }
 
-footer {
-    text-align: center;
-    background-color: #003366;
-    color: white;
-    padding: 10px 0;
-}
-
-.social-links a {
-    color: #003366;
-    text-decoration: none;
-    margin: 0 10px;
-}
 /* The sidebar menu */
 .sidebar {
     height: 100%; /* Full-height */
@@ -207,3 +182,4 @@ h4 {
     cursor: pointer;
 }
 
+    
