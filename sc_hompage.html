@@ -36,36 +36,37 @@ let userData = null; // Declare userData globally
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Get user info from localStorage
-  const userInfo = JSON.parse(localStorage.getItem('currentUser'));
+    // Get user info from localStorage
+    const userInfo = JSON.parse(localStorage.getItem('currentUser'));
   
-  if (userInfo) {
-    currentUser = userInfo; // Assign currentUser with the stored information
-    console.log("Current user:", currentUser);
-    
-    const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-    if (userDoc.exists()) {
-      userData = userDoc.data(); // Assign userData here
-      console.log("User data retrieved:", userData); // Log the retrieved user data
-      
-      // Update dialog elements with user data
-      const profilePictureElement = document.getElementById('profilePicture');
-      profilePictureElement.src = userData.profilePicture || 'pic4.png';  
+    if (userInfo) {
+        currentUser = userInfo; // Assign currentUser with the stored information
+        console.log("Current user:", currentUser);
+        
+        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+        if (userDoc.exists()) {
+            userData = userDoc.data(); // Assign userData here
+            console.log("User data retrieved:", userData); // Log the retrieved user data
+            
+            // Update dialog elements with user data
+            const profilePictureElement = document.getElementById('profilePicture');
+            profilePictureElement.src = userData.profilePicture || 'pic4.png';  
 
-      // Set the placeholder for postContent after user data is loaded
-      const postContent = document.getElementById("postContent");
-      
-      // Get the first name from userData.name
-      const firstName = userData.name ? userData.name.split(" ")[0] : 'User';
-      postContent.placeholder = `Update your status, ${firstName}.`;
+            // Set the placeholder for postContent after user data is loaded
+            const postContent = document.getElementById("postContent");
+            
+            // Get the first name from userData.name
+            const firstName = userData.name ? userData.name.split(" ")[0] : 'User';
+            postContent.placeholder = `Update your status, ${firstName}.`;
+        } else {
+            console.error("User document does not exist.");
+            // Redirect to authentication page if the user document doesn't exist
+            window.location.href = "authentication_section.html"; 
+        }
     } else {
-      console.error("User document does not exist.");
+        // Redirect to authentication page if no user is logged in
+        window.location.href = "authentication_section.html"; 
     }
-  } else {
-    // Redirect to authentication page if no user is logged in
-    // window.location.href = "authentication_section.html"; 
-    
-  }
 });
 
 // Handle image upload
