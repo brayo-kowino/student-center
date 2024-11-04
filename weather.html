@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Weather App</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #4facfe, #ffffff);
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    /* Main container */
+    .container {
+      background-color: #ffffffdd;
+      padding: 20px;
+      max-width: 400px;
+      width: 90%;
+      border-radius: 15px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      color: #4a90e2;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    /* Weather search */
+    .input-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .input-section input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+
+    .input-section button {
+      padding: 10px;
+      background-color: #4a90e2;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      margin: 2px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .input-section button:hover {
+      background-color: #cccccc;
+    }
+ .weather-section {
+      text-align: start;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      background-color: #f5f5f5; /* Light background color */
+      border: 1px solid #ddd; /* Subtle border */
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Two columns for grid layout */
+      gap: 10px;
+    }
+
+    .weather-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1em;
+      color: #4a4a4a;
+    }
+
+    .column {
+      flex: 1;
+      padding: 0px;
+    }
+
+    #city-name {
+      color: #4a90e2;
+      font-weight: bold;
+      font-size: 1.5em !important;
+    }
+
+    #current-temp {
+      font-weight: bold;
+      font-size: 1.5em;
+    }
+
+    /* Forecast styling */
+    .forecast {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top:
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+      background-color: #4a90e2;
+      color: #fff;
+    }
+
+    th {
+      font-size: 1.1em;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      th, td {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>SC WEATHER FORECAST</h2>
+    
+    <!-- Input for location search -->
+    <div class="input-section">
+      <input type="text" id="city-input" placeholder="Enter city name" />
+      <button onclick="getWeather(document.getElementById('city-input').value)">Get Weather</button>
+   
+<button onclick="getUserLocation()" title="Use My Location" style="font-size: 24px; background: none; padding: 5px; margin-left: 15px; border: 2px solid #4a90e2; border-radius: 50%; cursor: pointer;">
+    📍
+</button>
+    </div>
+    
+    
+<div id="current-weather" class="weather-section">
+  <div class="weather-info">
+    <div class="column" id="city-name">Loading city...</div>
+    <div class="column" id="current-icon-container">
+      <img id="current-icon" alt="Current weather icon" style="width: 40px; height: 40px;">
+    </div>
+  </div>
+
+  <div class="weather-info">
+    <div class="column" id="current-temp">Loading temperature...</div>
+    <div class="column" id="current-condition">Loading condition...</div>
+  </div>
+
+  <div class="weather-info">
+    <div class="column" id="wind-speed">Wind Speed: Loading...</div>
+    <div class="column" id="humidity">Humidity: Loading...</div>
+  </div>
+
+  <div class="weather-info">
+    <div class="column" id="sunrise">Sunrise: Loading...</div>
+    <div class="column" id="sunset">Sunset: Loading...</div>
+  </div>
+
+  <div class="weather-info">
+    <div class="column" id="feels-like">Feels Like: Loading...</div>
+  </div>
+</div>
+
+
+    <!-- 5-day forecast display -->
+    <div class="forecast">
+      <div class="forecast-item" id="forecast-heading">
+        <strong id="forecast-city">5-Day Forecast</strong>
+      </div>
+      <table id="forecast-table">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Weather</th> 
+            <th>Condition</th>
+            <th>High (°C)</th>
+            <th>Low (°C)</th>
+          </tr>
+        </thead>
+        <tbody id="forecast-container">
+          <tr>
+            <td colspan="5">Loading forecast...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function loadCachedWeatherOnStart() {
+  const lastSearchedCity = localStorage.getItem('lastSearchedCity'); // Get last searched city from localStorage
+  if (lastSearchedCity) {
+    const cachedData = loadWeatherData(lastSearchedCity); // Load cached data for the last searched city
+    if (cachedData) {
+      displayWeather(cachedData); // Display cached weather data
+    } else {
+      // If there's no cached data, fallback to the default city
+      getWeather('Nairobi'); // You can replace 'Nairobi' with any other default city if needed
+    }
+  } else {
+    getWeather('Nairobi'); // Load default city if no last searched city is found
+  }
+}
+
+async function getWeather(cityOrCoords) {
+  const apiKey = '1b526d15468643b4873194636243110'; // Replace with your API key
+  let url;
+  let cityName; // Variable to hold the city name for saving
+
+  if (typeof cityOrCoords === 'string') {
+    cityName = cityOrCoords; // Set cityName to the input city
+    url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=5&aqi=no&alerts=no`;
+  } else {
+    const { latitude, longitude } = cityOrCoords;
+    url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=5&aqi=no&alerts=no`;
+  }
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    displayWeather(data);
+    saveWeatherData(cityName, data); // Save data with the city name
+    localStorage.setItem('lastSearchedCity', cityName); // Save the last searched city
+  } catch (error) {
+    console.error('Error:', error);
+    const cachedData = loadWeatherData(cityName); // Use cityName for loading
+    if (cachedData) {
+      displayWeather(cachedData);
+    } else {
+      document.getElementById('city-name').textContent = 'Failed to load weather data';
+    }
+  }
+}
+
+function saveWeatherData(key, data) {
+  localStorage.setItem(`weatherData_${key}`, JSON.stringify(data));
+  localStorage.setItem(`lastUpdated_${key}`, new Date().toISOString());
+}
+
+function loadWeatherData(key) {
+  const savedData = localStorage.getItem(`weatherData_${key}`);
+  return savedData ? JSON.parse(savedData) : null;
+}
+    function displayWeather(data) {
+      const cityName = data.location.name;
+      const currentTemp = data.current.temp_c;
+      const condition = data.current.condition.text;
+      const currentIcon = data.current.condition.icon;
+
+      document.getElementById('city-name').textContent = cityName;
+      document.getElementById('current-temp').textContent = `${currentTemp} °C`;
+      document.getElementById('current-icon').src = `https:${currentIcon}`;
+      document.getElementById('current-condition').textContent = condition;
+
+      const windSpeed = data.current.wind_kph;
+      const humidity = data.current.humidity;
+      const feelsLike = data.current.feelslike_c;
+      const sunrise = data.forecast.forecastday[0].astro.sunrise;
+      const sunset = data.forecast.forecastday[0].astro.sunset;
+
+      document.getElementById('wind-speed').textContent = `Wind Speed: ${windSpeed} kph`;
+      document.getElementById('humidity').textContent = `Humidity: ${humidity}%`;
+      document.getElementById('feels-like').textContent = `Feels Like: ${feelsLike} °C`;
+      document.getElementById('sunrise').textContent = `Sunrise: ${sunrise}`;
+      document.getElementById('sunset').textContent = `Sunset: ${sunset}`;
+
+      document.getElementById('forecast-city').textContent = `5-Day Forecast for ${cityName}`;
+      const forecastContainer = document.getElementById('forecast-container');
+      forecastContainer.innerHTML = '';
+
+      data.forecast.forecastday.forEach(day => {
+         const dayName = new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' });
+         const maxTemp = day.day.maxtemp_c;
+         const minTemp = day.day.mintemp_c;
+         const forecastCondition = day.day.condition.text;
+         const forecastIcon = day.day.condition.icon;
+
+         const forecastRow = document.createElement('tr');
+         forecastRow.innerHTML = `
+            <td>${dayName}</td>
+            <td><img src="https:${forecastIcon}" alt="${forecastCondition}" style="width: 30px; height: 30px;"></td>
+            <td>${forecastCondition}</td>
+            <td>${maxTemp}°C</td>
+            <td>${minTemp}°C</td>`;
+         forecastContainer.appendChild(forecastRow);
+      });
+   }
+
+    function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        getWeather({ latitude, longitude });
+      },
+      (error) => {
+        console.error('Geolocation error:', error);
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            document.getElementById('city-name').textContent = 'User denied the request for Geolocation.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            document.getElementById('city-name').textContent = 'Location information is unavailable.';
+            break;
+          case error.TIMEOUT:
+            document.getElementById('city-name').textContent = 'The request to get user location timed out.';
+            break;
+          case error.UNKNOWN_ERROR:
+            document.getElementById('city-name').textContent = 'An unknown error occurred.';
+            break;
+        }
+      }
+    );
+  } else {
+    alert('Geolocation is not supported by this browser.');
+  }
+}
+
+    loadCachedWeatherOnStart();
+  </script>
+</body>
+</html>
