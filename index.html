@@ -13,6 +13,7 @@
     <title>Student Center - Empowering Students | Established in June 2024.</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link rel="canonical" href="https://studentcenterhq.netlify.app/" />
         </script>
 <script type="application/ld+json">
@@ -445,45 +446,103 @@ max-width: 800px;
     </div>
 </section>
 
-<section id="contact" class="section">
-    <h2>Get In Touch with Us</h2>
-    <p>Have any questions, suggestions, or need further information about our services? Fill out the form below and we'll get back to you as soon as possible. We're here to help you succeed!</p>
+section id="contact" class="section" style="
+    font-family: Arial, sans-serif; 
+    padding: 20px; 
+    max-width: 600px; 
+    margin: auto; 
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2); 
+    border-radius: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h2 style="text-align: center; color: #333;">Get In Touch with Us</h2>
+    <p style="text-align: center; color: #555; margin-bottom: 20px;">Have any questions, suggestions, or need further information about our services? Fill out the form below and we'll get back to you as soon as possible. We're here to help you succeed!</p>
 
-    <form name="contact" method="POST" data-netlify="true">
-        <div class="form-group">
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" required>
+    <form name="contact" method="POST" data-netlify="true" style="display: flex; flex-direction: column;">
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label for="name" style="color: #555; font-weight: bold;">Your Name:</label>
+            <input type="text" id="name" name="name" style="
+                width: 100%; 
+                padding: 10px; 
+                border: 1px solid #ccc; 
+                border-radius: 5px; 
+                margin-top: 5px;" required>
         </div>
-        <div class="form-group">
-            <label for="email">Your Email:</label>
-            <input type="email" id="email" name="email" required>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label for="email" style="color: #555; font-weight: bold;">Your Email:</label>
+            <input type="email" id="email" name="email" style="
+                width: 100%; 
+                padding: 10px; 
+                border: 1px solid #ccc; 
+                border-radius: 5px; 
+                margin-top: 5px;" required>
         </div>
-        <div class="form-group">
-            <label for="message">Your Message:</label>
-            <textarea id="message" name="message" rows="4" placeholder="Tell us how we can assist you..." required></textarea>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="message" style="color: #555; font-weight: bold;">Your Message:</label>
+            <textarea id="message" name="message" rows="4" placeholder="Tell us how we can assist you..." style="
+                width: 100%; 
+                padding: 10px; 
+                border: 1px solid #ccc; 
+                border-radius: 5px; 
+                margin-top: 5px;" required></textarea>
         </div>
-        <button type="submit" class="cta-button">Send Message</button>
+        <button type="submit" id="sendButton" class="send-button" style="
+            padding: 12px 20px; 
+            background-color: #4CAF50; 
+            color: white; 
+            font-size: 16px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            display: none; 
+            margin: auto;">Send Message</button>
     </form>
-    <div class="company-info">
-        <h3><br>Our Location</h3>
-        <p>Our headquarters is based in <strong>Westlands, opposite Sarrit Center, Nairobi</strong> with most of our services currently running online.</p>
-        <p>For updates on our services, follow us on our social media platforms or reach us through the contact details below.</p>
-        
-        <h3>Contact Information</h3>
-        <p><strong>Phone:</strong> +254 702495776</p>
-        <p><strong>Email:</strong> studentcenterservices@gmail.com</p>
-    </div>
 
-    <div class="social-links">
-        <a href="https://www.linkedin.com/in/brian-odhiambo-4646b4327">LinkedIn</a> | 
-        <a href="https://x.com/BrianOdhia67569">Twitter</a> | 
-        <a href="https://www.instagram.com/eng_brayo">Instagram</a> | 
-        <a href="https://www.facebook.com/profile.php?id=61558945445032">Facebook</a>
-    </div>
-</section>
+<div class="company-info" style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; max-width: 600px; margin: 10px;">
+    <h3 style="color: #333; margin-bottom: 10px;">Our Location</h3>
+    <p style="color: #555; line-height: 1.6;">Our headquarters is based in <strong>Westlands, opposite Sarit Center, Nairobi</strong>, with most of our services currently running online.</p>
+    <p style="color: #555; line-height: 1.6;">For updates on our services, follow us on our social media platforms or reach us through the contact details below.</p>
+    
+    <h3 style="color: #333; margin-top: 20px; margin-bottom: 10px;">Contact Information</h3>
+    <p style="color: #555; line-height: 1.6;">
+        <i class="fas fa-phone-alt" style="color: green; margin-right: 8px;"></i>
+        <strong></strong> <a href="tel:+254702495776" style="color: blue; text-decoration: none;">+254 702 495 776</a>
+    </p>
+    <p style="color: #555; line-height: 1.6;">
+        <i class="fas fa-envelope" style="color: red; margin-right: 8px;"></i>
+        <strong></strong> <a href="mailto:studentcenterservices@gmail.com" style="color: blue; text-decoration: none;">studentcenterservices@gmail.com</a>
+    </p>
+</div>
+
+<div class="social-links" style="text-align: center; margin-top: 20px;">
+    <a href="https://www.linkedin.com/in/brian-odhiambo-4646b4327" style="color: #0A66C2; margin-right: 15px; text-decoration: none;" target="_blank">
+        <i class="fab fa-linkedin fa-2x"></i>
+    </a>
+    <a href="https://x.com/BrianOdhia67569" style="color: #1DA1F2; margin-right: 15px; text-decoration: none;" target="_blank">
+        <i class="fab fa-twitter fa-2x"></i>
+    </a>
+    <a href="https://www.instagram.com/eng_brayo" style="color: #E1306C; margin-right: 15px; text-decoration: none;" target="_blank">
+        <i class="fab fa-instagram fa-2x"></i>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61558945445032" style="color: #1877F2; text-decoration: none;" target="_blank">
+        <i class="fab fa-facebook fa-2x"></i>
+    </a>
+</div>
+</section>     
+<script>
+    // Script to hide the button when inputs are empty
+    const inputs = document.querySelectorAll('#name, #email, #message');
+    const button = document.getElementById('sendButton');
+
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+            button.style.display = allFilled ? 'block' : 'none';
+        });
+    });
+</script>   
         <footer>
     <p>© 2024 Student Center. All rights reserved.</p>
-    <p>Powered by Student Center || developed by:<a href="https://m.facebook.com/brianodhiambo.wuodben"> Brian Odhiambo</p>
+    <p>Powered by Student Center || developed by:<a href="https://m.facebook.com/brianodhiambo.wuodben" style="text-decoration: none"> Brian Odhiambo</p>
 </footer>
     <script>
         function openMenu() {
