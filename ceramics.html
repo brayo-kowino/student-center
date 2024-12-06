@@ -3,192 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ceramics presentation by Brian Odhiambo, covering material science aspects including recycling, uses, and economic impact. Research in progress.">
-    <meta name="keywords" content="Ceramics, material science, recycling, uses, economic impact, Brian Odhiambo, presentation, research in progress">
-    <meta name="author" content="Brian Odhiambo">
-    <title>Ceramics in Material Science - Research in Progress</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <link rel="icon" href="favicon.ico">
+    <title>Ceramics: Shaping the Future</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Global Styles */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
-            background: url('https://images.pexels.com/photos/269635/pexels-photo-269635.jpeg') no-repeat center center;
-            background-size: cover;
-            height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
+            background-color: #007BFF;
+            color: white;
             text-align: center;
+            padding: 20px 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
-            font-size: 2.5em;
             margin: 0;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 5px;
+            font-size: 2.5em;
         }
 
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0 0 0;
+        main {
+            flex: 1;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        .intro {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .intro h2 {
+            margin-top: 0;
+        }
+
+        .intro p {
+            line-height: 1.6;
+        }
+
+        .author {
+            background: #f4f4f4;
+            padding: 20px;
+            border-left: 5px solid #007BFF;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .author h2 {
+            margin-top: 0;
+        }
+
+        .author p {
+            line-height: 1.6;
+        }
+    
+    .author-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.author-photo {
+    width: 120px; /* Adjust as needed */
+    height: 120px; /* Ensure it maintains a square shape */
+    border-radius: 50%; /* Makes the image circular */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover; /* Ensures the image fills the frame without distortion */
+    border: 2px solid #007BFF; /* Adds a border for style */
+}
+
+.author-info {
+    flex: 1;
+}
+
+        #pdf-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px; /* Reduced gap */
-            flex-wrap: wrap; /* Allow items to wrap */
-            width: 100%; /* Ensure full width */
-        }
-
-        nav ul li {
-            display: inline;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 700;
-            padding: 5px 10px; /* Adjusted padding */
-            border-radius: 5px;
-            background: rgba(0, 0, 0, 0.3);
-            transition: background 0.3s;
-            white-space: nowrap; /* Prevent text wrapping */
-        }
-
-        nav ul li a:hover {
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            margin: 8px auto;
-            padding: 5px;
-            background: #fff;
-            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 100%;
+            background: white;
+            border: 1px solid #ddd;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        section {
-            margin: 10px 0;
+        canvas {
+            margin: 10px;
+            border: 1px solid #ccc;
         }
 
-        section h2 {
-            font-size: 1.8em;
-            color: #555;
-            border-left: 5px solid #007BFF;
-            padding-left: 15px;
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            gap: 10px;
         }
 
-        section p {
-            line-height: 1.6;
-            margin: 10px 0;
+        .controls button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .controls button:hover {
+            background-color: #0056b3;
         }
 
         footer {
-            font-size: 0.7em;
-            color: #333;
+            background-color: #f1f1f1;
             text-align: center;
-            padding: 1px 0;
-            margin-top: 10px;
-            
+            padding: 15px;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #555;
         }
 
         footer a {
-            color: blue;
-            text-decoration: underline;
+            color: #007BFF;
+            text-decoration: none;
         }
 
         footer a:hover {
-            color: #ddd;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-            }
-
-            header h1 {
-                font-size: 1.8em;
-            }
-
-            nav ul {
-                flex-direction: column; /* Stack items vertically */
-                align-items: center; /* Center items */
-            }
-
-            nav ul li {
-                margin-bottom: 10px; /* Add spacing between items */
-            }
-
-            nav ul li a {
-                padding: 8px 15px; /* Increase padding for better touch targets */
-            }
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <header>
-        <div>
-            <h1>Ceramics in Material Science</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#introduction">Introduction</a></li>
-                    <li><a href="#recycling">Recycling</a></li>
-                    <li><a href="#uses">Uses</a></li>
-                    <li><a href="#economic">Economy</a></li>
-                </ul>
-            </nav>
-        </div>
+        <h1>Ceramics: Shaping the Future</h1>
     </header>
 
-    <main class="container">
-        <section id="introduction">
-            <h2>Introduction</h2>
-            <p>Ceramics are non-metallic, inorganic materials that are widely used due to their unique properties. They play an important role in various industries, from construction to technology.</p>
-            <p><strong>Note:</strong> This research is currently in progress. Complete details will be provided soon.</p>
-        </section>
+    <main>
+        <!-- Introduction Section -->
+        <div class="intro">
+            <h2>Why Ceramics Matter</h2>
+            <p>
+                Imagine a world without ceramics—no durable tiles, no medical implants, no advanced electronics.
+                Yet, ceramics go beyond what meets the eye, quietly transforming industries and everyday life. 
+                In this presentation, we’ll uncover the hidden potential of these incredible materials.
+            </p>
+            <p>
+                But here's the twist: are ceramics truly the answer to sustainable progress? Stay tuned to find out.
+            </p>
+        </div>
 
-        <section id="recycling">
-            <h2>Recycling of Ceramics</h2>
-            <p>The recycling of ceramics presents both challenges and opportunities. While not widely practiced, ongoing innovations are aiming to improve the recyclability of ceramic materials.</p>
-            <p><strong>Note:</strong> Research in progress. More information will be posted soon.</p>
-        </section>
+      <!-- About the Author -->
+<div class="author">
+    <h2>About the Author</h2>
+    <div class="author-content">
+        <img src="engineer2.jpg" alt="Author's Photo" class="author-photo">
+        <div class="author-info">
+            <p>
+                <strong>Brian Odhiambo</strong>, an engineering enthusiast and researcher, is passionate about
+                exploring the potential of materials to drive sustainable innovation. Currently pursuing Mining and
+                Mineral Processing Engineering, Brian delves into ceramics not just as a material but as a cornerstone
+                of future technologies.
+            </p>
+            <p>
+                This research aims to highlight ceramics' role in advancing healthcare, energy, and construction while
+                addressing the challenges of recycling and environmental impact.
+            </p>
+        </div>
+    </div>
+</div>
 
-        <section id="uses">
-            <h2>Uses of Ceramics</h2>
-            <p>Ceramics are used in a wide range of industries, including construction, healthcare, and technology. Their durability and heat resistance make them ideal for both everyday and advanced applications.</p>
-            <p><strong>Note:</strong> Full details are being compiled and will be posted soon.</p>
-        </section>
+        <!-- PDF Viewer -->
+        <div id="pdf-container">
+            <canvas id="pdf-render"></canvas>
+        </div>
 
-        <section id="economic">
-            <h2>Economic Impact</h2>
-            <p>The production and use of ceramics contribute significantly to the global economy, particularly in manufacturing, healthcare, and technology sectors. However, sustainability and resource management are key concerns.</p>
-            <p><strong>Note:</strong> This section is under development. Complete insights will be shared in due time.</p>
-        </section>
-
-        <section id="research-progress">
-            <h2>Research in Progress</h2>
-            <p>This presentation is part of ongoing research into the material science of ceramics. More comprehensive details and analysis will be posted once the research is completed. Stay tuned for updates!</p>
-        </section>
+        <!-- Navigation Buttons -->
+        <div class="controls">
+            <button id="prev">Previous</button>
+            <span id="page-info">Page <span id="page-num"></span> of <span id="page-count"></span></span>
+            <button id="next">Next</button>
+        </div>
     </main>
 
+    <!-- Footer Section -->
     <footer>
-        <div class="container">
-            <p>&copy; 2024 Brian Odhiambo. All rights reserved.</p>
-            <p>For updates on this research, feel free to <a href="about_dev.html#contact">contact me</a>.</p>
-        </div>
+        <p>&copy; 2024 Engineer Brian. All rights reserved.</p>
+        <p>
+            Have questions or feedback? <a href="mailto:odhisbrayo80@gmail.com">Contact me</a>.
+        </p>
     </footer>
+
+    <script>
+        const pdfPath = 'ceramics.pdf'; // Path to your PDF file
+
+        const pdfContainer = document.getElementById('pdf-container');
+        const canvas = document.getElementById('pdf-render');
+        const context = canvas.getContext('2d');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const pageNumElement = document.getElementById('page-num');
+        const pageCountElement = document.getElementById('page-count');
+
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        const scale = 1.5;
+
+        pdfjsLib.getDocument(pdfPath).promise.then(pdf => {
+            pdfDoc = pdf;
+            pageCountElement.textContent = pdf.numPages;
+            renderPage(pageNum);
+        });
+
+        function renderPage(num) {
+    pageRendering = true;
+
+    pdfDoc.getPage(num).then(page => {
+        // Calculate dynamic scale based on container width
+        const containerWidth = pdfContainer.offsetWidth;
+        const viewport = page.getViewport({ scale: 1 }); // Default scale
+        const scale = containerWidth / viewport.width;
+
+        // Scale the viewport
+        const scaledViewport = page.getViewport({ scale });
+
+        // Set high-resolution canvas
+        const pixelRatio = window.devicePixelRatio || 1;
+        canvas.width = scaledViewport.width * pixelRatio; // Full resolution
+        canvas.height = scaledViewport.height * pixelRatio;
+        canvas.style.width = `${scaledViewport.width}px`; // CSS size (visible)
+        canvas.style.height = `${scaledViewport.height}px`;
+
+        const renderContext = {
+            canvasContext: context,
+            viewport: scaledViewport,
+            transform: pixelRatio !== 1 ? [pixelRatio, 0, 0, pixelRatio, 0, 0] : null // Handle scaling
+        };
+
+        const renderTask = page.render(renderContext);
+
+        renderTask.promise.then(() => {
+            pageRendering = false;
+            if (pageNumPending !== null) {
+                renderPage(pageNumPending);
+                pageNumPending = null;
+            }
+        });
+    });
+
+    // Update page number display
+    pageNumElement.textContent = num;
+}
+
+        prevButton.addEventListener('click', () => {
+            if (pageNum <= 1) return;
+            pageNum--;
+            renderPage(pageNum);
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            renderPage(pageNum);
+        });
+    </script>
 </body>
-</html>
+                                                                         </html>
