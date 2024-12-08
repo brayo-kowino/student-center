@@ -25,13 +25,12 @@ header {
 }
 
 .logo img {
-    height: 35px; /* Set the height */
-    width: auto; /* Maintain aspect ratio */
-    max-width: 100%; /* Ensure the image doesn't exceed its container */
-    border-radius: 5px; /* Optional: Add rounded corners instead of a circle */
-    margin-right: 10px; /* Space between the logo and title */
+    height: 35px;
+    width: auto;
+    max-width: 100%;
+    margin-right: 10px;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(500%) hue-rotate(180deg);
 }
-
 .logo h1 {
     color: #fff;
     font-size: 30px;
