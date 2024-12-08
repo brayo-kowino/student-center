@@ -25,8 +25,10 @@ header {
 }
 
 .logo img {
-    height: 35px; /* Adjust the height of the logo */
-    border-radius: 50%;
+    height: 35px; /* Set the height */
+    width: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Ensure the image doesn't exceed its container */
+    border-radius: 5px; /* Optional: Add rounded corners instead of a circle */
     margin-right: 10px; /* Space between the logo and title */
 }
 
