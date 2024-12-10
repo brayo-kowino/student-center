@@ -19,9 +19,12 @@ header {
 
 
 .logo {
+.logo {
     display: flex;
     margin: 0 10px;
     align-items: center;
+    background-color: white; /* Adding white background */
+    padding: 10px; /* Optional: Adds padding for spacing around the logo */
 }
 
 .logo img {
@@ -29,7 +32,6 @@ header {
     width: auto;
     max-width: 100%;
     margin-right: 10px;
-    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(500%) hue-rotate(180deg);
 }
 .logo h1 {
     color: #fff;
