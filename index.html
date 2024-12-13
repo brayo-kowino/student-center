@@ -316,6 +316,167 @@ h4 {
     }
 </style>
 
+    
+<!-- Notification Pop-Up -->
+<div id="announcementPopup" class="popup-container" style="display: none;">
+    <div class="popup-content">
+        <div class="announcement-indicator"></div>
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <h2>Big Update!</h2>
+       <p>
+    We’ve taken a bold step forward! <strong>Student Center</strong> is now <strong>Iskify360</strong>.  
+    While our name has changed, our commitment to empowering you with innovative tools and  
+    seamless experiences remains stronger than ever. Let’s redefine possibilities together with  
+    <strong>Iskify360</strong>—where your ideas take center stage.
+</p>
+        <button class="popup-button" onclick="closePopup()">Got It</button>
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+/* General Container */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Pop-Up Content Box */
+.popup-content {
+    background: #ffffff;
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: bounceIn 0.5s ease-in-out;
+    overflow: hidden;
+}
+
+/* Announcement Indicator */
+.announcement-indicator {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 8px;
+    background: linear-gradient(90deg, #ff4d4d, #ff9900);
+    border-radius: 5px;
+    animation: glow 1.5s infinite alternate;
+}
+
+/* Header Title */
+.popup-content h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0056b3;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Body Text */
+.popup-content p {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Button Style */
+.popup-button {
+    background-color: #0056b3;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.popup-button:hover {
+    background-color: #003366;
+    transform: scale(1.05);
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #333;
+    transform: rotate(90deg);
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes glow {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+    }
+}
+</style>
+
+<!-- Script -->
+<script>
+    // Show the pop-up on page load
+    window.onload = function () {
+        document.getElementById("announcementPopup").style.display = "flex";
+    };
+
+    // Close the pop-up
+    function closePopup() {
+        const popup = document.getElementById("announcementPopup");
+        popup.style.animation = "fadeOut 0.5s ease-in-out";
+        setTimeout(() => (popup.style.display = "none"), 500);
+    }
+</script>
+
 <section id="services" class="section">
     <h2>Our Services</h2>
     <div class="services-grid">
