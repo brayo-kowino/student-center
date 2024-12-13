@@ -57,30 +57,18 @@ header {
     justify-content: center;
     align-items: start;
     overflow: hidden; /* Hide any overflow from the zoom effect */
-    animation: zoomAndMove 20s ease-in-out infinite;
-    background-attachment: fixed; /* Creates a parallax effect */
+    animation: zoomEffect 10s infinite; /* Animation applied to the hero section */
 }
 
-@keyframes zoomAndMove {
+@keyframes zoomEffect {
     0% {
         background-size: 100%;
-        background-position: center center;
-    }
-    25% {
-        background-size: 110%; /* Zoom In */
-        background-position: center center;
     }
     50% {
-        background-size: 120%; /* Further zoom In */
-        background-position: center top;
-    }
-    75% {
-        background-size: 110%; /* Zoom Out */
-        background-position: center bottom;
+        background-size: 110%; /* Zoom in effect */
     }
     100% {
-        background-size: 100%; /* Back to original size */
-        background-position: center center;
+        background-size: 100%; /* Zoom out back to original size */
     }
 }
 
@@ -91,17 +79,14 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('sc_photo2.jpg') no-repeat center center/cover;
-    filter: blur(5px); /* Apply blur only to the background */
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust transparency as needed */
     z-index: 1;
-    background-attachment: fixed; /* Parallax effect */
 }
 
 .hero * {
     position: relative;
-    z-index: 2; /* Ensure text appears above the blurred background */
+    z-index: 2;
 }
-
 .hero h3 {
     color: beige;
     text-align: end;
