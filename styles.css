@@ -57,7 +57,7 @@ header {
     justify-content: center;
     align-items: start;
     overflow: hidden; /* Hide any overflow from the zoom effect */
-    animation: zoomAndMove 20s ease-in-out infinite, blurEffect 20s ease-in-out infinite;
+    animation: zoomAndMove 20s ease-in-out infinite;
     background-attachment: fixed; /* Creates a parallax effect */
 }
 
@@ -84,15 +84,6 @@ header {
     }
 }
 
-@keyframes blurEffect {
-    0%, 100% {
-        filter: blur(0px); /* No blur */
-    }
-    50% {
-        filter: blur(5px); /* Subtle blur in the middle of the animation */
-    }
-}
-
 .hero::before {
     content: "";
     position: absolute;
@@ -100,14 +91,15 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* Darken the background a bit for contrast */
+    background: url('sc_photo2.jpg') no-repeat center center/cover;
+    filter: blur(5px); /* Apply blur only to the background */
     z-index: 1;
-    pointer-events: none; /* Make sure the overlay does not block interactions */
+    background-attachment: fixed; /* Parallax effect */
 }
 
 .hero * {
     position: relative;
-    z-index: 2;
+    z-index: 2; /* Ensure text appears above the blurred background */
 }
 
 .hero h3 {
