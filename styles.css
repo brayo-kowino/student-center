@@ -69,7 +69,7 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3); /* Adjust transparency as needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust transparency as needed */
     z-index: 1;
 }
 
