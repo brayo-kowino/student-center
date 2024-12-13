@@ -51,31 +51,13 @@ header {
 .hero {
     position: relative;
     background: url('sc_photo2.jpg') no-repeat center center/cover;
-    height: 45vh; /* Keep the original height of the hero section */
+    height: 45vh;
     color: white;
     padding: 10px;
     text-align: start;
+    
     justify-content: center;
     align-items: start;
-    overflow: hidden; /* Hide any overflow from the zoom effect */
-    background-size: cover; /* Ensure the image covers the whole section */
-    background-position: center center; /* Ensure the image is always centered */
-    animation: zoomEffect 10s infinite; /* Animation applied to the hero section */
-}
-
-@keyframes zoomEffect {
-    0% {
-        background-size: 100%;
-        background-position: center center; /* Ensures the image remains centered */
-    }
-    50% {
-        background-size: 130%; /* Increased zoom effect */
-        background-position: center center; /* Keeps the image centered even when zoomed in */
-    }
-    100% {
-        background-size: 100%; /* Zoom out back to the original size */
-        background-position: center center; /* Ensures it stays centered */
-    }
 }
 
 .hero::before {
