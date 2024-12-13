@@ -58,6 +58,8 @@ header {
     justify-content: center;
     align-items: start;
     overflow: hidden; /* Hide any overflow from the zoom effect */
+    background-size: cover; /* Ensure the image covers the whole section */
+    background-position: center center; /* Ensure the image is always centered */
     animation: zoomEffect 10s infinite; /* Animation applied to the hero section */
 }
 
