@@ -702,10 +702,148 @@ max-width: 800px;
         });
     });
 </script>   
-        <footer>
-    <p>© 2024 iskify360 Technologies. All rights reserved.</p>
-    <p>developed by:<a href="https://m.facebook.com/brianodhiambo.wuodben" style="text-decoration: none"> Brian Odhiambo</p>
-</footer>
+        <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #000;
+            color: #fff;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        footer h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        footer p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        footer ul li {
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #000;
+            text-decoration: none;
+            transition: color 0.3s, text-decoration 0.3s;
+        }
+
+        footer a:hover {
+            color: #ff9800;
+            text-decoration: underline;
+        }
+
+        footer button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #ff9800;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        footer button:hover {
+            background-color: #e68900;
+            transform: scale(1.05);
+        }
+
+        footer input {
+            padding: 10px;
+            width: 250px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+        }
+
+        footer form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        footer .footer-note {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Footer Section -->
+    <footer>
+        <!-- Quick Links Section -->
+        <div>
+            <h2>Quick Links</h2>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                 <li><a href="https://iskify360.netlify.app/download">Android application</a></li>
+                  <li><a href="https://iskify360.netlify.app/sc_hompage">i360 Online</a></li>
+                <li><a href="https://iskify360.netlify.app/download#privacy-policy">Policies</a></li>
+            </ul>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div style="margin-top: 40px;">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to our newsletter for the latest updates and insights.</p>
+            <form action="#" method="post">
+                <input 
+                    type="email" 
+                    placeholder="Enter your email" 
+                    required
+                >
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+
+        <!-- Footer Note -->
+        <div class="footer-note">
+            &copy; 2024 Iskify360. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript for Smooth Scrolling -->
+    <script>
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+    </script> 
+      
     <script>
         function openMenu() {
             document.getElementById("sidebar").style.width = "250px";
