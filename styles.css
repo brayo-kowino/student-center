@@ -57,7 +57,7 @@ header {
     justify-content: center;
     align-items: start;
     overflow: hidden; /* Hide any overflow from the zoom effect */
-    animation: zoomEffect 10s infinite; /* Animation applied to the hero section */
+    animation: zoomEffect 20s infinite; /* Animation applied to the hero section */
 }
 
 @keyframes zoomEffect {
@@ -65,7 +65,7 @@ header {
         background-size: 100%;
     }
     50% {
-        background-size: 110%; /* Zoom in effect */
+        background-size: 120%; /* Zoom in effect */
     }
     100% {
         background-size: 100%; /* Zoom out back to original size */
