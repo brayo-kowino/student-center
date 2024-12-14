@@ -476,40 +476,313 @@ h4 {
         setTimeout(() => (popup.style.display = "none"), 500);
     }
 </script>
-
 <section id="services" class="section">
     <h2>Our Services</h2>
-    <div class="services-grid">
-        <div class="service-item">
-            <h3 class="service-title">Communication & Socialization</h3>
-            <p class="service-description">Iskify360 connects users through seamless communication and collaboration tools. Share knowledge, connect with peers, and work on projects together effortlessly on <a href="https://iskify360.netlify.app/sc_hompage">i360 Online</a>.</p>
-        </div>
-        <div class="service-item">
-            <h3 class="service-title">Research & Analytical Tools</h3>
-            <p class="service-description">Our platform provides access to powerful tools for research, analysis, and academic growth, designed to assist you in solving complex problems and advancing your learning journey.</p>
-        </div>
-        <div class="service-item">
-            <h3 class="service-title">App & Web Development</h3>
-            <p class="service-description">We specialize in creating customized Android and web applications that cater to the unique needs of students, educational institutions, and digital learning environments.</p>
-        </div>
-        <div class="service-item">
-            <h3 class="service-title">Assignment Management</h3>
-            <p class="service-description">Stay organized and on top of your academic workload with our intuitive assignment management tool, which helps track deadlines, set reminders, and ensure timely completion of tasks.</p>
-        </div>
-        <div class="service-item">
-            <h3 class="service-title">Media & Digital Solutions</h3>
-            <p class="service-description">We offer comprehensive media production services, along with essential cyber solutions such as website creation, printing, publishing, and IT training to equip you with essential digital skills.</p>
-        </div>
-        <div class="service-item">
-            <h3 class="service-title">Custom Student Reports</h3>
-            <p class="service-description">Generate detailed, customized reports that analyze academic performance, providing actionable insights to track progress, identify strengths, and improve over time.</p>
+    <div class="services-slider">
+        <div class="services-wrapper">
+            <div class="service-card">
+                <i class="icon fas fa-comments"></i>
+                <h3 class="service-title">Communication & Socialization</h3>
+                <p class="service-description">Iskify360 connects users through seamless communication and collaboration tools. Share knowledge, connect with peers, and work on projects together effortlessly on <a href="https://iskify360.netlify.app/sc_hompage">i360Online</a>.</p>
+            </div>
+            <div class="service-card">
+                <i class="icon fas fa-search"></i>
+                <h3 class="service-title">Research & Analytical Tools</h3>
+                <p class="service-description">Our platform provides access to powerful tools for research, analysis, and academic growth, designed to assist you in solving complex problems and advancing your learning journey.</p>
+            </div>
+            <div class="service-card">
+                <i class="icon fas fa-code"></i>
+                <h3 class="service-title">App & Web Development</h3>
+                <p class="service-description">We specialize in creating customized Android and web applications that cater to the unique needs of students, educational institutions, and digital learning environments.</p>
+            </div>
+            <div class="service-card">
+                <i class="icon fas fa-tasks"></i>
+                <h3 class="service-title">Assignment Management</h3>
+                <p class="service-description">Stay organized and on top of your academic workload with our intuitive assignment management tool, which helps track deadlines, set reminders, and ensure timely completion of tasks.</p>
+            </div>
+            <div class="service-card">
+                <i class="icon fas fa-photo-video"></i>
+                <h3 class="service-title">Media & Digital Solutions</h3>
+                <p class="service-description">We offer comprehensive media production services, along with essential cyber solutions such as website creation, printing, publishing, and IT training to equip you with essential digital skills.</p>
+            </div>
+            <div class="service-card">
+                <i class="icon fas fa-chart-line"></i>
+                <h3 class="service-title">Custom Student Reports</h3>
+                <p class="service-description">Generate detailed, customized reports that analyze academic performance, providing actionable insights to track progress, identify strengths, and improve over time.</p>
+            </div>
         </div>
     </div>
+    <div class="indicator-container"></div> <!-- Scroll indicators -->
     <div class="button-container">
         <a href="#contact" class="cta-button">Get Started with Our Services</a>
     </div>
 </section>
+<script>
+const servicesWrapper = document.querySelector('.services-wrapper');
+const serviceCards = document.querySelectorAll('.service-card');
+const indicatorContainer = document.querySelector('.indicator-container');
 
+// Dynamically create indicators
+serviceCards.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.classList.add('indicator');
+    if (index === 0) dot.classList.add('active'); // First dot active by default
+    dot.dataset.index = index;
+
+    dot.addEventListener('click', () => {
+        const cardWidth = serviceCards[0].getBoundingClientRect().width;
+        servicesWrapper.scrollTo({
+            left: index * cardWidth,
+            behavior: 'smooth',
+        });
+    });
+
+    indicatorContainer.appendChild(dot);
+});
+
+// Update active indicator on scroll
+servicesWrapper.addEventListener('scroll', () => {
+    const cardWidth = serviceCards[0].getBoundingClientRect().width;
+    const activeIndex = Math.round(servicesWrapper.scrollLeft / cardWidth);
+
+    const indicators = document.querySelectorAll('.indicator');
+    indicators.forEach((dot, index) => {
+        dot.classList.toggle('active', index === activeIndex);
+    });
+});
+
+// Auto-scroll functionality
+let autoScrollInterval;
+let isUserInteracting = false;
+
+function startAutoScroll() {
+    autoScrollInterval = setInterval(() => {
+        if (!isUserInteracting) {
+            const cardWidth = serviceCards[0].getBoundingClientRect().width;
+            const currentIndex = Math.round(servicesWrapper.scrollLeft / cardWidth);
+            const nextIndex = (currentIndex + 1) % serviceCards.length;
+
+            servicesWrapper.scrollTo({
+                left: nextIndex * cardWidth,
+                behavior: 'smooth',
+            });
+        }
+    }, 5000);
+}
+
+function stopAutoScroll() {
+    clearInterval(autoScrollInterval);
+    isUserInteracting = true;
+}
+
+function resumeAutoScroll() {
+    setTimeout(() => {
+        isUserInteracting = false;
+        startAutoScroll();
+    }, 5000);
+}
+
+// Add event listeners for user interaction
+servicesWrapper.addEventListener('scroll', () => {
+    isUserInteracting = true;
+});
+// servicesWrapper.addEventListener('touchend', resumeAutoScroll);
+servicesWrapper.addEventListener('wheel', stopAutoScroll);
+
+// Initialize auto-scroll
+// startAutoScroll();
+</script>
+<style>
+/* General Styles */
+.section {
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    text-align: start;
+}
+
+h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Service Card Styles */
+.services-slider {
+    overflow-x: hidden; /* Prevent overflow */
+    position: relative;
+}
+
+.services-wrapper {
+    display: flex;
+    gap: 20px;
+    scroll-behavior: smooth;
+    overflow-x: auto; /* Enable horizontal scrolling */
+}
+.service-card {
+    flex: 0 0 300px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: left;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    will-change: transform;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    perspective: 500px; /* Adds perspective to the card for the 3D effect */
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 15px;
+    padding: 2px;
+    background: linear-gradient(90deg, 
+        rgba(0, 115, 230, 0.5), 
+        rgba(0, 162, 255, 1), 
+        rgba(0, 115, 230, 0.5), 
+        rgba(0, 0, 139, 0.5)
+    ); /* Blue gradient for the glowing strip */
+    background-size: 300% 300%;
+    animation: moveLight 4s linear infinite;
+    z-index: -1;
+    will-change: background-position;
+}
+
+.service-card::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.1) 80%);
+    clip-path: polygon(
+        50% 0%, 
+        61% 35%, 
+        98% 35%, 
+        68% 57%, 
+        79% 91%, 
+        50% 70%, 
+        21% 91%, 
+        32% 57%, 
+        2% 35%, 
+        39% 35%
+    ); /* Star shape */
+    animation: moveStar 4s linear infinite;
+    z-index: 1;
+    will-change: transform;
+}
+
+/* 3D Hover Effect */
+.service-card:hover {
+    transform: rotateY(35deg) rotateX(5deg); /* Creates the 3D tilt effect on hover */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4); /* Increase the shadow on hover for depth */
+}
+
+@keyframes moveLight {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes moveStar {
+    0% {
+        transform: translateX(-30px) translateY(-20px); /* Start point */
+    }
+    25% {
+        transform: translateX(50%) translateY(0); /* Halfway through the card */
+    }
+    50% {
+        transform: translateX(80%) translateY(30px); /* Move near the right side */
+    }
+    75% {
+        transform: translateX(20%) translateY(50px); /* Move up toward the top */
+    }
+    100% {
+        transform: translateX(-30px) translateY(100px); /* End point (back to left but lower) */
+    }
+}
+
+
+.service-card:hover::before {
+    filter: brightness(1.5); /* Intensifies the glowing effect */
+    animation-duration: 2s;
+}
+
+.service-card:hover::after {
+    filter: brightness(2);
+    animation-duration: 2s;
+}
+
+/* Optional: Increase the 3D effect with additional hover states */
+.service-card:active {
+    transform: rotateY(45deg) rotateX(20deg); /* Slightly stronger 3D effect when clicked */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); /* Stronger shadow when clicked */
+}
+.icon {
+    font-size: 40px;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.service-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.service-description {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.service-description a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.service-description a:hover {
+    text-decoration: underline;
+}
+
+/* Indicator Dots */
+.indicator-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.indicator-container .indicator {
+    width: 10px;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 50%;
+    margin: 0 5px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.indicator-container .indicator.active {
+    background-color: #007bff;
+}
+</style>
+    
 <section id="team" class="section">
     <h2>Our Team Members</h2>
     <p>Iskify360 currently consists of a small but passionate team, with more talent set to join as we grow. Each team member brings a unique skill set to help us deliver innovative solutions for our users.</p>
