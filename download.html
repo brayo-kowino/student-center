@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Download Student Center, a comprehensive app designed for students with features like Notepad, Exam Analysis, Assignment Tracker, Internet Explorer, and Media Player.">
-    <title>Download Student Center</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Download Iskify360, a comprehensive app designed for professionals with features like Notepad, Exam Analysis, Assignment Tracker, Internet Explorer, and Media Player.">
+    <title>Iskify360 for Android and Policies</title>
+    <link rel="stylesheet" href="style6.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
     <style>
         .form-container {
             padding: 1rem;
@@ -33,207 +35,327 @@ footer p {
 
     </style>
 </head>
-<body>
-    <header>
-        <h1>Student Center</h1>
-        <p>In case of any download or installation issues, <a href="#" id="toggle-form">click here to submit your issues</a>.</p>
-        <p><a href="#form-container" id="direct-link"></a></p>
+<body class="bg-gray-100 font-sans leading-relaxed text-gray-800">
+    </head>
+<body class="bg-gray-50 font-sans text-gray-800 leading-relaxed">
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6 flex items-center">
+            <img src="i_360.jpg" alt="Iskify360 Logo" class="w-12 h-12 mr-4 rounded-full">
+            <div>
+                <h1 class="text-3xl font-bold">Iskify360 for Android and Policies</h1>
+                <p class="mt-2">
+                    Experiencing download or installation issues or would like us to help in any way? 
+                    <a href="#" id="toggle-form" class="underline hover:text-blue-200">Click here to submit your issues</a>.
+                </p>
+            </div>
+        </div>
     </header>
 
-    <main class="container">
-        <div id="form-container" class="form-container">
+    <main class="container mx-auto px-4 py-10">
+        <!-- Query/Feedback Form -->
+        <div id="form-container" class="bg-white shadow-md rounded-lg p-6 hidden">
             <form id="issue-form" name="issue-form" method="POST" netlify>
                 <input type="hidden" name="form-name" value="issue-form">
-                <h3>Submit Your Queries/Feedbacks</h3>
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">Submit Your Queries/Feedbacks</h3>
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Name:</label>
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
                 </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700">Email:</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
                 </div>
-                <div class="form-group">
-                    <label for="issue">Issue/Message Description:</label>
-                    <textarea id="issue" name="issue" rows="4" required></textarea>
+                <div class="mb-4">
+                    <label for="issue" class="block text-gray-700">Issue/Message Description:</label>
+                    <textarea id="issue" name="issue" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"></textarea>
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Submit</button>
             </form>
-            <div id="success-message">
+            <div id="success-message" class="hidden mt-4 text-green-600">
                 <p>Thank you! Your message has been submitted successfully.</p>
             </div>
         </div>
 
-        <!-- Download Section -->
-        <section class="main-download">
-            <h2>Student Center v6.02.00</h2>
-            <p><strong>App Description:</strong></p>
-            <p>
-                Student Center is a comprehensive and user-friendly application designed specifically for students. The app offers five main features: Notepad, Exam Analysis, Assignment Tracker, Internet Explorer, and Media Player, supporting both local and online media. While Exam Analysis is currently in its alpha phase, the other features are fully functional.
-            </p>
-            <p>
-                The Assignment Tracker helps manage assignments by their due dates, providing reminders to ensure timely submission. Notifications are sent on the due date at 8:00 AM, 12:00 PM, and 5:00 PM, ensuring that users are reminded to submit their assignments.
-            </p>
-            <p>
-                Aware that students frequently use their smartphones, the Internet Explorer feature allows them to seamlessly browse the web when connected to the internet. The app aims to be a valuable tool for students, and future updates will introduce additional features.
-            </p>
-            <p>
-                While I strive for stability, some features may experience issues. Please report any problems you encounter, including details about the actions leading to the issue. I appreciate your feedback and will work to resolve these issues in future updates. Enjoy the various features of the app and help me improve Student Center for everyone!
-            </p>
-            
-            <div class="download-button-container">
-                <a href="StudentCentre.apk" download class="download-button">Download Student Center APK</a>
-            </div>
-        </section>
+       <!-- Features Section as a Card -->
+<section class="mt-10">
+    <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
+        <!-- Version and Update Info -->
+        <h2 class="text-3xl font-bold text-blue-600">I360 v8.01.00</h2>
+        <p class="mt-2 text-gray-600">Update Date: <span class="font-semibold text-gray-900">15th January 2025</span></p>
+        
+        <!-- Update Highlights -->
+        <div class="mt-6 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-600">
+            <h3 class="text-xl font-bold text-gray-900">What's New in This Version:</h3>
+            <ul class="mt-4 space-y-2 text-gray-700 list-disc pl-6">
+                <li><span class="font-bold text-gray-900">Improved Media Player Notifications:</span> Stay informed with smarter and more responsive notifications.</li>
+                <li><span class="font-bold text-gray-900">Global Media Player Improvements:</span> Enhanced playback experience across all supported devices.</li>
+                <li><span class="font-bold text-gray-900">Bug Fixes:</span> Addressed issues for smoother performance and stability.</li>
+                <li><span class="font-bold text-gray-900">Enhanced UI Design:</span> Polished user interface for better navigation and usability.</li>
+                <li><span class="font-bold text-gray-900">Faster Cloud Sync:</span> Improved speed and reliability for cloud-based data synchronization.</li>
+            </ul>
+        </div>
 
-        <section class="installation">
-            <h3>Installation Instructions</h3>
-            <p>To install the Student Center APK, follow these steps:</p>
-            <ol>
-                <li>Download the APK file by clicking the button above.</li>
-                <li>Open your device's Settings and navigate to Security or Privacy.</li>
-                <li>Enable "Install from unknown sources" to allow the installation of apps from sources other than the Google Play Store.</li>
-                <li>Locate the downloaded APK file in your device's file manager and tap on it to start the installation process.</li>
-                <li>Follow the on-screen instructions to complete the installation.</li>
-            </ol>
-        </section>
+        <!-- Key Features -->
+        <div class="mt-8">
+            <h3 class="text-2xl font-bold text-gray-900">Key Features:</h3>
+            <p class="mt-2 text-gray-700">
+                Iskify360 delivers an all-in-one solution to elevate your student life:
+            </p>
+            <ul class="mt-4 space-y-4 text-gray-700 list-disc pl-6">
+                <li>
+                    <span class="font-bold text-gray-900">Advanced Report Analysis and Generation:</span> Create detailed reports with actionable insights.
+                </li>
+                <li>
+                    <span class="font-bold text-gray-900">Digital Notebook:</span> Take notes with offline and cloud sync for secure, accessible storage.
+                </li>
+                <li>
+                    <span class="font-bold text-gray-900">Pending Deliverables:</span> Track all your assignments and due dates with smart reminders.
+                </li>
+                <li>
+                    <span class="font-bold text-gray-900">Advanced Media Player:</span> Enjoy local and online media with enhanced functionality and a seamless user experience.
+                </li>
+                <li>
+                    <span class="font-bold text-gray-900">Access to Iskify360 Online Communication Platform:</span> Connect with peers for real-time collaboration and communication.
+                </li>
+                <li>
+                    <span class="font-bold text-gray-900">...and Many More Features:</span> Explore additional tools tailored for students’ needs.
+                </li>
+            </ul>
+        </div>
 
-        <section class="safety">
-            <h3>Is the App Safe?</h3>
-            <p>Your safety is our top priority. The Student Center app has been thoroughly tested for security and performance. We do not collect any personal data and ensure that all data stored on your device remains private. However, we recommend keeping your device's security settings up-to-date and using antivirus software to safeguard against potential threats.</p>
-        </section>
+        <!-- Updates Notice -->
+        <div class="mt-6 bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
+            <p class="text-gray-800">
+                <strong>Note:</strong> Future updates will be announced directly within the app. Users will be guided to this page to download the latest version when available.
+            </p>
+        </div>
 
-<section class="screenshots">
-    <h3>App Screenshots</h3>
-    <p>Here are some screenshots of the Student Center app to give you a preview:</p>
-    <div class="screenshot-gallery">
-        <img src="image21.jpg" alt="Screenshot 21" width="300">
-        <img src="image22.jpg" alt="Screenshot 22" width="300">
-        <img src="image23.jpg" alt="Screenshot 23" width="300">
-        <img src="image24.jpg" alt="Screenshot 24" width="300">
-        <img src="image25.jpg" alt="Screenshot 25" width="300">
-        <img src="image26.jpg" alt="Screenshot 26" width="300">
-        <img src="image27.jpg" alt="Screenshot 27" width="300">
-        <img src="image28.jpg" alt="Screenshot 28" width="300">
-        <img src="image29.jpg" alt="Screenshot 29" width="300">
-        <img src="image30.jpg" alt="Screenshot 30" width="300">
-        <img src="image31.jpg" alt="Screenshot 31" width="300">
-        <img src="image32.jpg" alt="Screenshot 32" width="300">
-        <img src="image33.jpg" alt="Screenshot 33" width="300">
-        <img src="image34.jpg" alt="Screenshot 34" width="300">
-        <img src="image35.jpg" alt="Screenshot 35" width="300">
-        <img src="image36.jpg" alt="Screenshot 36" width="300">
-        <img src="image37.jpg" alt="Screenshot 37" width="300">
-        <img src="image38.jpg" alt="Screenshot 38" width="300">
-        <img src="image39.jpg" alt="Screenshot 39" width="300">
-        <img src="image40.jpg" alt="Screenshot 40" width="300">
+        <!-- Download Button -->
+        <div class="mt-6 text-center">
+            <a href="StudentCentre.apk" download class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700">
+                Download I360 APK
+            </a>
+        </div>
     </div>
 </section>
 
-        <section id="privacy-policy" class="container">
-    <h2>Privacy Policy</h2>
+        <!-- Installation Instructions -->
+        <section class="mt-10 bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-2xl font-bold text-gray-900">Installation Instructions</h3>
+            <ol class="mt-4 space-y-2 text-gray-700 list-decimal list-inside">
+                <li>Download the APK file by clicking the button above.</li>
+                <li>Open your device's settings and navigate to Security or Privacy.</li>
+                <li>Enable "Install from unknown sources" to allow installation of apps outside Google Play Store.</li>
+                <li>Locate the downloaded APK file in your file manager and tap to install.</li>
+                <li>Follow on-screen prompts to complete installation.</li>
+            </ol>
+        </section>
 
-    <p>Welcome to the privacy policy for both the <b>Student Center Application for Android</b> and <b>Student Center Space</b>. This policy outlines how we collect, use, and protect your personal data. While certain aspects of the policy apply broadly to both services, we have also included specific sections that address each platform’s unique features.</p>
-
-    <h3>1. Student Center Application (Android)</h3>
-    <p>
-        When you use the Student Center Application, we may collect data to improve your experience, including:
-        <br/>
-        <b>**Personal Information**:</b> Basic account details, such as your name, email address, and preferences, which you provide during registration.
-        <br/>
-        <b>**Usage Data**:</b> Information on how you interact with the app, such as time spent using features like the media player, note manager, calculator, etc.
-        <br/><br/>
-        The data collected from the Student Center Application is used primarily for improving app performance, ensuring a smooth experience, and supporting essential services like the assignment tracker and note manager.
-    </p>
-
-    <h3>2. Student Center Space (S.C Space)</h3>
-    <p>
-        For Student Center Space, our chat platform, the types of information we collect include:
-        <br/><br/>
-        <b>**Personal Information**:</b> Your name, phone number, email, and profile picture, as provided during account creation.
-        <br/>
-        <b>**Chat Data**:</b> Your chat history, messages, files, and content shared with others in the app. All chats are encrypted to protect privacy.
-        <br/>
-        <b>**Usage Data**:</b> Information on your interactions, such as chat frequency, last-seen status, and file-sharing activities.
-        <br/>
-        <b>**Device Information**:</b> Details such as your IP address, device type, operating system, and unique device identifiers.
-    </p>
-
-    <h3>3. Use of Your Information</h3>
-    <p>
-        The data we collect across both the Student Center Application and Student Center Space is used to:
-        <br/>
-        - Provide, operate, and maintain our services.
-        <br/>
-        - Improve your experience by developing new features and enhancing existing ones.
-        <br/>
-        - Communicate updates, respond to inquiries, and offer technical support.
-        <br/>
-        - Ensure security and safeguard user privacy through encryption and other measures.
-    </p>
-
-    <h3>4. User Responsibilities</h3>
-    <p>
-        As a user of our services, you are expected to:
-        <br/>
-        - Follow applicable laws and regulations.
-        <br/>
-        - Refrain from sending spam, bulk messages, or inappropriate content, including explicit material or hate speech.
-        <br/>
-        - Respect the privacy of others by not sharing personal information without consent.
-        <br/>
-        - Avoid engaging in any behavior that could compromise the security or functionality of the app.
-        <br/><br/>
-        We reserve the right to restrict or terminate your account if these responsibilities are violated. This includes misuse, spamming, and sharing inappropriate content.
-    </p>
-
-    <h3>5. Account Activity and Deletion</h3>
-    <p>
-        Accounts that remain inactive for more than six months may be automatically deleted from our servers. If you wish to retain your account, ensure regular use to avoid deactivation.
-    </p>
-
-    <h3>6. Data Security</h3>
-    <p>
-        We implement strict security measures, including encryption of all chat messages and sensitive data, to prevent unauthorized access. However, no method of internet transmission is completely secure.
-    </p>
-
-    <h3>7. Data Sharing and Disclosure</h3>
-    <p>
-        We do not sell your personal information. We may share your data only under the following circumstances:
-        <br/>
-        - With your consent.
-        <br/>
-        - To comply with legal obligations, such as a court order.
-        <br/>
-        - To protect the rights and safety of users or to address security threats.
-    </p>
-
-    <h3>8. Third-Party Services</h3>
-    <p>
-        Both the Student Center Application and Student Center Space may include links to or integrations with third-party services (e.g., cloud storage for file sharing). These services are governed by their own privacy policies, and we are not responsible for their content or practices.
-    </p>
-
-    <h3>9. Data Retention</h3>
-    <p>
-        We retain your personal data and chat history for as long as necessary to provide our services. Deleting your account will result in the removal of your data from our servers.
-    </p>
-
-    <h3>10. Changes to This Privacy Policy</h3>
-    <p>
-        We may update this policy periodically. Any changes will be posted on this page, and we will notify you through the app or via email when significant changes occur. We encourage you to review the policy regularly.
-    </p>
-
-    <h3>11. Contact Us</h3>
-    <p>
-        If you have any questions or concerns regarding this Privacy Policy, feel free to contact us at odhisbrayo80@gmail.com.
-    </p>
-
-    <p><b>Effective Date:</b> 25/08/2024</p>
+        <!-- Safety Notice -->
+        <section class="mt-10 bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-2xl font-bold text-gray-900">Is the App Safe?</h3>
+            <p class="mt-4 text-gray-700">
+                We prioritize your safety. I360 undergoes rigorous testing for performance and security. We do not collect personal data, and all locally stored data is kept private. For added protection, ensure your device security settings and antivirus software are up-to-date.
+            </p>
+        </section>
+    
+    
+        <section class="screenshots mt-10">
+    <h3 class="text-2xl font-bold text-gray-900 mb-4">App Screenshots</h3>
+    <p class="text-gray-700 mb-6">Here are some screenshots of the I360 app to give you a preview:</p>
+    <div class="screenshot-gallery flex space-x-4 overflow-x-auto pb-4">
+        <img src="image1.jpg" alt="Screenshot 1" class="w-72 h-auto rounded-lg shadow-md">
+        <img src="image2.jpg" alt="Screenshot 2" class="w-72 h-auto rounded-lg shadow-md">
+        <img src="image3.jpg" alt="Screenshot 3" class="w-72 h-auto rounded-lg shadow-md">
+        <img src="image4.jpg" alt="Screenshot 4" class="w-72 h-auto rounded-lg shadow-md">
+        <img src="image5.jpg" alt="Screenshot 5" class="w-72 h-auto rounded-lg shadow-md">
+        <img src="image6.jpg" alt="Screenshot 6" class="w-72 h-auto rounded-lg shadow-md">
+        <img src="image7.jpg" alt="Screenshot 7" class="w-72 h-auto rounded-lg shadow-md">
+    </div>
 </section>
+
+          <style>
+    /* Custom styles */
+    .section-heading {
+      border-bottom: 2px solid #4A90E2;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .content-text {
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+    .highlight-text {
+      font-weight: bold;
+      color: #e74c3c;
+    }
+  </style>
+
+
+  <div class="container mx-auto px-1 py-16">
+    <div class="max-w-3xl mx-auto bg-white p-2 rounded-lg shadow-lg">
+
+      <!-- Title Section -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-blue-600">Iskify360 - Terms of Service & Privacy Policy</h1>
+        <p class="text-lg text-gray-500 mt-2">Effective Date: [10/01/2025]</p>
+      </div>
+
+      <!-- Terms of Service Section -->
+      <section class="terms-of-service mb-12">
+        <h2 class="section-heading">Terms of Service</h2>
+
+        <p class="content-text mb-6">By accessing or using our services, including Iskify360 apps and i360 Online, you agree to these terms and any applicable laws. If you disagree, discontinue use immediately.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">1. Acceptance of Terms</h3>
+        <p class="content-text mb-4">By accessing or using our services, you agree to these terms and applicable laws. If you disagree, discontinue use immediately.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">2. Description of Services</h3>
+        <p class="content-text mb-4">Iskify360 provides productivity tools such as media players, note managers, assignment trackers, and more. i360 Online is a communication platform offering messaging, file sharing, and collaboration features. The services are accessible through mobile apps, web platforms, and APIs.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">3. User Accounts</h3>
+        <ul class="list-disc pl-6 mb-4">
+          <li>Eligibility: Users must be at least 18 years old or provide verifiable parental consent.</li>
+          <li>Account Responsibility: Users are solely responsible for securing their login credentials and activity on their accounts.</li>
+          <li>Account Inactivity: Accounts inactive for more than 2 years may be deactivated or removed without prior notice.</li>
+        </ul>
+
+
+        <h3 class="text-2xl font-semibold mt-6">4. Content Ownership and Use</h3>
+        <p class="content-text mb-4">Users retain ownership of their content but grant Iskify360 and i360 Online a license to store, display, and distribute it as required for service delivery.</p>
+        
+        <h3 class="text-2xl font-semibold mt-6">5. Payment and Subscription Terms</h3>
+        <p class="content-text mb-4">Subscription fees are charged in advance and are non-refundable unless required by law. Pricing may change with a 30-day notice.</p>
+
+         
+        <h3 class="text-2xl font-semibold mt-6">6. Defamation of Government and Individuals</h3>
+        <p class="content-text mb-4">We hold all users to the highest standard of accountability, especially regarding how they conduct themselves in relation to government entities or other individuals. We acknowledge the importance of <span class="font-bold text-blue-600">**FREEDOM OF SPEECH**</span>; however, it is crucial that this freedom is exercised in a <span class="font-bold text-red-600">**RESPECTFUL AND RESPONSIBLE MANNER**</span>. ANY ATTEMPT TO USE ISKIFY360 OR I360 ONLINE TO SLANDER, DEFAME, OR MALIGN GOVERNMENT BODIES, POLITICAL LEADERS, OR ANY INDIVIDUALS WILL BE CONSIDERED A SERIOUS VIOLATION OF OUR TERMS. CONTENT THAT ADVOCATES OR PROMOTES VIOLENCE, HARM, OR DISCONTENT AGAINST GOVERNMENTAL BODIES, POLITICAL LEADERS, OR ANY INDIVIDUAL WILL BE MET WITH <span class="font-bold text-red-600">**IMMEDIATE ACCOUNT SUSPENSION**</span> AND POTENTIAL <span class="font-bold text-red-600">**LEGAL ACTION**</span>.</p>
+        
+        <p class="content-text mb-4">While you are entitled to express your opinions, <span class="font-bold text-blue-600">**WE EXPECT ALL CONTENT TO BE RESPECTFUL, NON-VIOLENT, AND FOCUSED ON CONSTRUCTIVE DISCUSSION**</span>. UNDER NO CIRCUMSTANCES SHOULD YOU USE OUR PLATFORM TO SPREAD <span class="font-bold text-red-600">**UNFOUNDED ACCUSATIONS**</span>, <span class="font-bold text-red-600">**MALICIOUS ATTACKS**</span>, OR PROMOTE UNNECESSARY CONFLICT. VIOLENT, OFFENSIVE, OR DESTRUCTIVE BEHAVIOUR WILL <span class="font-bold text-red-600">**NOT BE TOLERATED**</span>.</p>
+        <p class="content-text mb-4"><span class="font-bold text-red-600">**ALL FORMS OF POLITICAL OR PERSONAL ATTACKS ARE STRONGLY DISCOURAGED**</span> AND WILL BE MONITORED. THIS MEANS NO USE OF ISKIFY360 OR I360 ONLINE TO PROMOTE <span class="font-bold text-red-600">**NEGATIVE CAMPAIGNS**</span>, <span class="font-bold text-red-600">**UNFOUNDED ACCUSATIONS**</span>, OR ANY FORM OF ONLINE <span class="font-bold text-red-600">**HARMFUL CAMPAIGNS**</span> TARGETED AT INDIVIDUALS OR GOVERNMENT ENTITIES. IF YOU ARE FOUND ENGAGED IN SUCH ACTIVITIES, YOU WILL BE SUBJECT TO <span class="font-bold text-red-600">**IMMEDIATE SUSPENSION AND ACCOUNT TERMINATION**</span>. WE WILL <span class="font-bold text-red-600">**NOT ALLOW ANYONE TO ABUSE THE PLATFORM TO SPREAD HATE OR DIVISION**</span>.</p>
+
+
+        <h3 class="text-2xl font-semibold mt-6">7. Reporting Violations</h3>
+        <p class="content-text mb-4">Users can report inappropriate content or activities through our support channels which will be made public soon. We investigate all reports thoroughly and act accordingly.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">8. Strict Monitoring and Automated App Disablement</h3>
+        <p class="content-text mb-4">The Iskify360 platform employs advanced monitoring tools to detect and prevent policy violations, malicious activities, or unauthorized access attempts. Severe violations will trigger the android application to automatically disable itself, and suspension of Iskify360 Online services. Users must provide an explanation and evidence for review, and reactivation is at Iskify360’s discretion.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">9. User Responsibilities</h3>
+        <p class="content-text mb-4">Users are expected to exercise extreme discipline in their activities on the platform. Violations or attempted breaches of these terms will result in automatic actions being taken by the platform, such as account suspension, content removal, or further investigation, which may result in the complete removal of the user's account.</p>
+             
+        <h3 class="text-2xl font-semibold mt-6">10 Enforcement and Appeals</h3>
+        <p class="content-text mb-4">We reserve the right to terminate or suspend accounts found violating our policies. Users who have had their accounts suspended or terminated have the right to appeal the decision. Appeals should be submitted with full evidence of the alleged violation and the actions that led to it. We will carefully review all appeals, but the decision to restore account functionality lies at our discretion.</p>
+
+                <h3 class="text-2xl font-semibold mt-6">11. Governing Law</h3>
+        <p class="content-text mb-4">These terms are governed by the laws of Kenya. Disputes will be resolved in Kenyan courts.</p>
+
+        <!-- i360 Online Policies Section -->
+        <h3 class="text-2xl font-semibold mt-6">12. i360 Online Specific Policies</h3>
+        <p class="content-text mb-4">i360 Online, being a communication platform within Iskify360, follows strict content moderation policies. This includes surveillance on all uploaded content such as images, text, and multimedia. Our goal is to maintain a healthy and respectful environment for all users, focusing on preventing misuse, hate speech, and harmful activities.</p>
+        
+        <h3 class="text-2xl font-semibold mt-6">12.1 Prohibited Content on i360 Online</h3>
+        <ul class="list-disc pl-6 mb-4">
+          <li class="highlight-text">Graphic Content, including but not limited to, explicit images, pornography, or harmful visual material.</li>
+          <li class="highlight-text">Political or Individual Defamation: Any content directed towards government entities, individuals, or organizations in a manner that harms their reputation or spreads misinformation.</li>
+          <li class="highlight-text">Promotion of Violence or Hate Speech, including any content promoting terrorism, racial, or religious intolerance.</li>
+          <li class="highlight-text">Spreading Misinformation or Content that causes social unrest.</li>
+        </ul>
+        
+        <h3 class="text-2xl font-semibold mt-6">12.2 Misuse of i360 Online</h3>
+        <p class="content-text mb-4">Misuse includes spamming other users, attempting to hack the system, or using the platform for illegal activities. Users are expected to engage in meaningful communication and respect others' privacy.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">12.3 Government and Individual Criticism on i360 Online</h3>
+        <p class="content-text mb-4">While freedom of speech is encouraged, we have a strict policy against content that crosses into defamatory or harmful territory. Content that insults, targets, or spreads false claims about government bodies, officials, or individuals will not be tolerated. Any such posts will result in immediate account suspension and investigation.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">13.Iskify360 Android App Policies</h3>
+        <p class="content-text mb-4">The Android application is also subject to strict policies for usage. As a user of the Iskify360 Android app, you agree to comply with the rules and regulations set out in this document. Failure to follow these policies will result in <span class="font-bold text-red-600">**automatic suspension**</span> or <span class="font-bold text-red-600">**permanent banishment**</span> of your account and app functionality. Here are some of the strict policies in place for the Android application:</p>
+
+                <ul class="list-disc pl-6 mb-4">
+          <li><span class="font-bold text-blue-600">**APP MONITORING**</span>: ISKIFY360 AND I360 ONLINE APPS ARE CONSTANTLY MONITORED FOR COMPLIANCE WITH THESE POLICIES. AUTOMATED AND MANUAL SYSTEMS ARE IN PLACE TO CHECK FOR VIOLATIONS. ANY ATTEMPTED BREACH OF OUR POLICIES WILL SIGNAL THE APP TO <span class="font-bold text-red-600">**AUTOMATICALLY DISABLE ITSELF**</span>.</li>
+          <li><span class="font-bold text-blue-600">**SEVERE VIOLATIONS**</span>: IF YOU ATTEMPT TO BREAK OR VIOLATE THESE POLICIES, YOUR ACCOUNT WILL BE <span class="font-bold text-red-600">**IMMEDIATELY DISABLED**</span>. YOU WILL BE REQUIRED TO REPORT FOR REVIEW AND PROVIDE EVIDENCE OF WHAT YOU WERE DOING AT THE TIME OF THE VIOLATION. HOWEVER, THE DECISION TO RESTORE YOUR ACCOUNT AND FUNCTIONALITY WILL BE AT THE <span class="font-bold text-red-600">**DISCRETION OF ISKIFY360**</span>. WE MAY OR MAY NOT REACTIVATE THE APP BASED ON THE SEVERITY OF THE VIOLATION.</li>
+          <li><span class="font-bold text-blue-600">**HARSH ENFORCEMENT**</span>: WE EXPECT USERS TO EXERCISE EXTREME DISCIPLINE. ANY ATTEMPT TO HACK, ABUSE, OR MISUSE THE APP WILL BE MET WITH SEVERE CONSEQUENCES, INCLUDING <span class="font-bold text-red-600">**TERMINATION OF ACCESS TO THE APP**</span>, LEGAL ACTION, OR BOTH. USERS ARE RESPONSIBLE FOR THE ACTIONS TAKEN THROUGH THEIR ACCOUNTS, AND FAILURE TO COMPLY WITH THESE POLICIES WILL RESULT IN <span class="font-bold text-red-600">**PERMANENT REMOVAL OF APP FUNCTIONALITY**</span> AND POSSIBLE <span class="font-bold text-red-600">**LEGAL RECOURSE**</span>.</li>
+        </ul>
+
+        <h3 class="text-2xl font-semibold mt-6">13.1 Misuse of the Android App</h3>
+        <p class="content-text mb-4">Misuse on the Android app includes tampering with system files, accessing unauthorized areas, distributing malicious content, and using the app for fraudulent activities. Any misuse will lead to an immediate permanent ban from the app, and legal action may be pursued.</p>
+        
+        <h3 class="text-2xl font-semibold mt-6">13.2 Reporting Violations</h3>
+        <p class="content-text mb-4">Any user who encounters or suspects a violation of these terms, including prohibited content or misuse of the platform, is encouraged to report it immediately through the official reporting channels. Reports will be investigated thoroughly, and appropriate actions will be taken based on the severity of the violation.</p>
+
+
+      </section>
+
+      <!-- Privacy Policy Section -->
+      <section class="privacy-policy">
+        <h2 class="section-heading">Privacy Policy</h2>
+
+        <p class="content-text mb-6">We prioritize your privacy and data protection. This privacy policy outlines the collection, usage, and protection of your personal data.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">1. Information We Collect</h3>
+        <ul class="list-disc pl-6 mb-4">
+          <li>Personal Data: Name, email, phone number, and payment details.</li>
+          <li>Content Data: Messages, files, and media shared through i360 Online and other features within the platform.</li>
+          <li>Device Data: Information about the device you use to access our services, including IP address, operating system, and app version.</li>
+          <li>Usage Data: Logs of your interaction with our services, including access times, activities, and any technical errors encountered.</li>
+        </ul>
+
+        <h3 class="text-2xl font-semibold mt-6">2. How We Use Your Data</h3>
+        <ul class="list-disc pl-6 mb-4">
+          <li>To Provide Services: Your data is used to create and manage your account, facilitate communication, and provide the features within Iskify360 and i360 Online.</li>
+          <li>To Improve Services: We analyze usage data to improve user experience, enhance performance, and address technical issues.</li>
+          <li>For Communications: We use your contact information to send updates, notifications, and other communications regarding your account or the platform.</li>
+          <li>For Legal Compliance: We may use your data to comply with legal obligations or respond to lawful requests from government authorities.</li>
+        </ul>
+
+        <h3 class="text-2xl font-semibold mt-6">3. Data Security</h3>
+        <p class="content-text mb-4">We employ robust security measures to protect your personal data from unauthorized access, alteration, or destruction. These include encryption, firewalls, and access controls to safeguard your information. However, no system is completely secure, and we cannot guarantee absolute protection of your data.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">4. Data Retention</h3>
+        <p class="content-text mb-4">We retain your data only for as long as necessary to fulfill the purposes outlined in this privacy policy or as required by law. If you request the deletion of your account, we will delete your personal data from our systems, subject to any applicable retention laws.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">5. Sharing of Your Data</h3>
+        <p class="content-text mb-4">We do not sell your personal data. However, we may share your data with third-party service providers that assist in operating the platform (e.g., hosting services, payment processors) or as required by law. We ensure that these third parties adhere to privacy and security standards.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">6. Third-Party Links</h3>
+        <p class="content-text mb-4">Our platform may contain links to third-party websites. These external sites are not under our control, and we are not responsible for their privacy practices. We encourage you to read the privacy policies of any third-party sites you visit.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">7. User Rights</h3>
+        <ul class="list-disc pl-6 mb-4">
+          <li>Access: You have the right to request a copy of your personal data held by Iskify360.</li>
+          <li>Rectification: You may request correction of inaccurate or incomplete data.</li>
+          <li>Deletion: You can request the deletion of your personal data, subject to certain conditions.</li>
+          <li>Objection: You have the right to object to the processing of your data in certain circumstances.</li>
+        </ul>
+
+        <h3 class="text-2xl font-semibold mt-6">8. Cookies and Tracking Technologies</h3>
+        <p class="content-text mb-4">We use cookies and similar tracking technologies to enhance your experience, personalize content, and analyze traffic. You can adjust your browser settings to refuse cookies, but this may impact the functionality of some features of our platform.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">9. International Data Transfers</h3>
+        <p class="content-text mb-4">Your personal data may be transferred to and stored in servers located outside your country. We ensure that any such transfers comply with applicable data protection laws, including ensuring the security and privacy of your data during transit and storage.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">10. Policy Updates</h3>
+        <p class="content-text mb-4">We reserve the right to update and modify this privacy policy as necessary. Any changes will be posted on this page with an updated effective date. We encourage you to review this policy regularly to stay informed about how we protect your privacy.</p>
+
+        <h3 class="text-2xl font-semibold mt-6">11. Contact Information</h3>
+        <p class="content-text mb-4">If you have any questions or concerns about our privacy policy or terms of service, please contact us at <span class="font-semibold">iskify360.tech@gmail.com</span>.</p>
+
+      </section>
+
+      <div class="text-center mt-12">
+        <p class="content-text">By using Iskify360's services, you acknowledge that you have read, understood, and agreed to both the Terms of Service and Privacy Policy.</p>
+        
+      </div>
+
+    </div>
+  </div>
     </main>
 
     <footer>
-        <p>&copy; 2024 Student Center. All rights reserved.</p>
+       <p class="content-text mt-6 text-sm">© 2025 Iskify360 | All rights reserved</p>
     </footer>
 
     <script>
@@ -280,5 +402,4 @@ footer p {
 });
     </script>
 </body>
-    </html>
-        
+</html>
