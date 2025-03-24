@@ -1137,12 +1137,16 @@ max-width: 800px;
       
     <script>
         function openMenu() {
-            document.getElementById("sidebar").style.width = "40%";
+            if (window.innerWidth <= 768) {
+                document.getElementById("sidebar").style.width = "60%";
+            } else {
+                document.getElementById("sidebar").style.width = "40%";
+            }
         }
 
         function closeMenu() {
             document.getElementById("sidebar").style.width = "0";
         }
- </script>
+    </script>
 </body>
 </html>
