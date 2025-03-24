@@ -11,9 +11,10 @@ body {
 }
 
 header {
-    background: #003366;
+    background: #f0f0f0;
     color: #fff;
     padding: 5px 0;
+    
     
 }
 
@@ -21,12 +22,12 @@ header {
     display: flex;
     margin: 0 10px;
     align-items: center;
-    background-color: white; /* Adding white background */
+    background-color: transparent; /* Adding white background */
     padding: 10px; /* Optional: Adds padding for spacing around the logo */
 }
 
 .logo img {
-    height: 35px;
+    height: 48px;
     width: auto;
     max-width: 100%;
     margin-right: 10px;
@@ -42,22 +43,35 @@ header {
     margin-right: 10px;
     
 }
+
 .menu-icon img {
-    
-    height: 22px !important; /* Adjust size of the menu icon */
-    cursor: pointer; /* Add poialign-items: center;nter on hover for the icon */
+    height: 28px !important;
+    cursor: pointer;
+    padding: 4px;
+    -webkit-mask-image: url('menuweb1.png');
+    mask-image: url('menuweb1.png');
+    background-color: black; /* This forces the icon to be black */
 }
+
 
 .hero {
     position: relative;
     background: url('sc_photo2.jpg') no-repeat center center/cover;
-    height: 45vh;
+    height: 50vh;
     color: white;
     padding: 10px;
     text-align: start;
     
     justify-content: center;
     align-items: start;
+}
+
+.hero p {
+    font-size: 1.0em;
+    max-width: 500px;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero::before {
