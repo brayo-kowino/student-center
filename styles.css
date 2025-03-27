@@ -438,12 +438,27 @@ form {
 }
 
 .bottom-container {
-    max-width: 90%;
+    max-width: 100%;
     display: flex;
+    flex-direction: column;
     gap: 20px;
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* Responsive Styling */
+@media (min-width: 768px) {
+    .bottom-container {
+        max-width: 90%;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
 }
 
 
