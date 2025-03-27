@@ -315,11 +315,14 @@ form {
         margin-top: 30px;
         gap: 20px;
     }
+    .company-history {
+        max-width: 52%;
+    }
 }
 
 .company-history {
     justify-self: center;
-    max-width: 52%;
+    max-width: 90%;
 }
 
 /* Services Grid Styling */
