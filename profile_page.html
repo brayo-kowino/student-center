@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const usersSnapshot = await getDocs(collection(db, "users"));
     const totalUsers = usersSnapshot.size - 1; // Subtract 1 for "You"
-    userCountText.textContent = `You and ${totalUsers} others are using SC Space.`;  // Updated variable
+    userCountText.textContent = `You and ${totalUsers} others are using Iskify360.`;  // Updated variable
   } catch (error) {
     console.error("Error fetching user count:", error);
   }
