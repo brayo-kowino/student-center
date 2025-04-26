@@ -51,6 +51,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Update dialog elements with user data
             const profilePictureElement = document.getElementById('profilePicture');
             profilePictureElement.src = userData.profilePicture || 'pic4.png';  
+            profilePictureElement.style.cursor = 'pointer'; // Change cursor to pointer
+            profilePictureElement.addEventListener('click', () => {
+                window.location.href = 'profile_page.html'; // Redirect to profile page
+            });
 
             // Set the placeholder for postContent after user data is loaded
             const postContent = document.getElementById("postContent");

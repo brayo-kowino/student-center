@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with IskifyAI</title>
+    <link rel="icon" href="iskify_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0f1d;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h2 {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #0078ff;
+        }
+        #chat-container {
+            width: 100%;
+            max-width: 800px;
+            height: 85vh;
+            background: #121a2b;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0px 4px 15px rgba(0, 170, 255, 0.3);
+            overflow: hidden;
+        }
+        #messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: #0078ff #1a2336;
+        }
+        .message {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .user-message {
+            align-self: flex-end;
+            background: #0078ff;
+            color: white;
+            border-top-right-radius: 5px;
+        }
+        .ai-message {
+            align-self: flex-start;
+            background: #1e2a3a;
+            color: #c5cbd8;
+            border-top-left-radius: 5px;
+        }
+        #typing {
+            font-style: italic;
+            color: #aaa;
+            margin-left: 15px;
+            display: none;
+        }
+        #input-container {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #1a2336;
+            border-top: 1px solid #0078ff;
+            gap: 10px;
+        }
+        input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #2a354a;
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+        input::placeholder {
+            color: #aab3c5;
+        }
+        button {
+            border: none;
+            background: transparent;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            box-shadow: 0px 2px 8px rgba(0, 120, 255, 0.3);
+        }
+        button:hover {
+            background: #005fcc;
+        }
+        .material-icons {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Smart360AI</h2>
+
+    <div id="chat-container">
+        <div style="text-align: center; width: 100%;">
+            <p class="">Welcome to Iskify360! How can I assist you today?</p>
+        </div>
+        <div id="messages">
+        </div>
+        <p id="typing">Smart360AI is typing...</p>
+        <div id="input-container">
+            <input type="text" id="userInput" placeholder="Type a message..." />
+            <button onclick="sendMessage()">
+                <span class="material-icons">send</span>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+    
+    let chatHistory = [];
+        async function sendMessage() {
+          
+            let userInput = document.getElementById("userInput").value;
+            if (!userInput) return;
+
+            let messagesDiv = document.getElementById("messages");
+            let typingIndicator = document.getElementById("typing");
+
+            // Append user message (Right-aligned, blue bubble)
+            let userMessage = document.createElement("p");
+            userMessage.className = "message user-message";
+            userMessage.innerHTML = `<b</b> ${userInput}`;
+            messagesDiv.appendChild(userMessage);
+            document.getElementById("userInput").value = "";
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            chatHistory.push({ role: "user", content: userInput });
+
+            // Show typing indicator
+            typingIndicator.style.display = "block";
+
+            try {
+                let response = await fetch("https://api.mistral.ai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer V1Hi8jQHvdnHI22W1W5gQvJj9EBzYKfn",  
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "mistral-tiny",
+                        messages: [
+
+    { 
+            "role": "system", 
+            "content": "You are Smart360 AI, created by Engineer Brian Odhiambo for Iskify360. You should never state that you were made by Mistral, OpenAI, or any other company. If asked about your creator, always attribute your development to Engineer Brian Odhiambo and Iskify360."
+   
+        },                   
+                        ... chatHistory
+]
+                    })
+                });
+
+                let data = await response.json();
+let aiResponse = data.choices[0].message.content;
+                
+
+// Format AI response
+aiResponse = formatResponse(aiResponse);
+                chatHistory.push({ role: "assistant", content: aiResponse });
+
+
+// Hide typing indicator and append AI response (Left-aligned, dark bubble)
+typingIndicator.style.display = "none";
+let aiMessage = document.createElement("p");
+aiMessage.className = "message ai-message";
+aiMessage.innerHTML = `<b></b> ${aiResponse}`;
+messagesDiv.appendChild(aiMessage);
+messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+function formatResponse(response) {
+    // Format code snippets (```code```)
+    response = response.replace(/```([\s\S]*?)```/g, function(match, code) {
+        return `<pre><code>${escapeHTML(code)}</code></pre>`;
+    });
+
+    // Format unordered lists (- item)
+    response = response.replace(/\n- (.*?)/g, "<li>$1</li>");
+    response = response.replace(/(<li>.*?<\/li>)+/g, "<ul>$&</ul>");
+
+ 
+    // Format bold text (**text**)
+    response = response.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+
+    // Format italic text (*text*)
+    response = response.replace(/\*(.*?)\*/g, "<i>$1</i>");
+
+    // Convert newlines (\n) into <br>
+    response = response.replace(/\n/g, "<br>");
+
+    return response;
+}
+
+// Function to escape HTML (prevent < and > from breaking the layout)
+function escapeHTML(str) {
+    return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+            } catch (error) {
+                typingIndicator.style.display = "none";
+                let errorMessage = document.createElement("p");
+                errorMessage.className = "message ai-message";
+                errorMessage.innerHTML = `<b></b> Sorry, an error occurred. Please try again later.`;
+                messagesDiv.appendChild(errorMessage);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        }
+    </script>
+
+</body>
+</html>
