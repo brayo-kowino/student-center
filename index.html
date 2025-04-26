@@ -61,7 +61,7 @@
     <header>
         <div class="header-container">
             <div class="logo">
-                <img src="i_360.png" alt="iskify360 Logo"> 
+                <img src="iskify360_brand_image.png" alt="iskify360 Logo"> 
                 <h1></h1>
             </div>
             <div class="menu-icon" onclick="openMenu()">
@@ -73,7 +73,7 @@
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
-        <h2>I360 MENU</h2>
+        <h2>ISKIFY360 CONTROL CENTER</h2>
         <h3>Navigation</h3>
         <a href="#home">Home</a>
         <a href="#about">About Us</a>
@@ -81,7 +81,7 @@
         <a href="#team">Company Profile</a>
         <a href="#contact">Contact Us</a>
         <h3>Platforms</h3>
-        <a href="https://iskify360.netlify.app/sc_hompage">i360 Online</a>
+        <a href="https://iskify360.netlify.app/download">Iskify360 Online</a>
         <a href="https://iskify360.netlify.app/download">Android Application</a>
         <a href="https://iskify360.netlify.app/ceramics">Student Blogs</a>
         <a href="#">Cyber Services</a>
@@ -115,11 +115,14 @@
         </div>
     </div>
 
+    <div class="story-wrapper">
+    <img src="digital-world.jpg" alt="Digital world" class="story-image">
     <div class="company-history">
     <h3 class="section-title">Our Story</h3>
     <p class="section-text">Iskify360 was founded in June 2024 by <a href="https://engineerodhiambo.netlify.app">Brian Odhiambo</a>, a student of Mining and Mineral Processing Engineering and a passionate tech enthusiast. Driven by an insatiable curiosity and a desire to solve real-world challenges, Brian envisioned a platform that could empower students and learners everywhere. What began as a simple solution to help students manage assignments evolved into a comprehensive digital ecosystem.</p>
     <p class="section-text">At its core, Iskify360 is a reflection of Brian’s belief in the power of technology to inspire learning, innovation, and collaboration. The platform combines educational tools, media consumption, research resources, and social networking features to foster growth, connectivity, and knowledge sharing. As a student himself, Brian understands the need for accessible, versatile tools that promote success, and this vision continues to shape the platform's development, ensuring it meets the diverse needs of students, professionals, and tech enthusiasts across the globe.</p>
     <p class="section-text">Now, about the name—why "Iskify360"? Well, "Iski" comes from the founder’s mom, Iska, because what better way to honor a strong maternal influence than by sneaking her name into a tech platform, right? As for "360"—that’s just to keep things interesting. It represents the full-circle approach we take to innovation—thinking of every angle, covering all bases, and ensuring we're always evolving. So, in a nutshell, Iskify360 means we’re all about offering a complete solution while keeping things grounded in family, fun, and a bit of tech magic. And if you’ve got a curious mind and a love for technology, you’re exactly who we built this for!</p>
+       </div>
     </div>
 </section>
     
@@ -129,7 +132,7 @@
     <!-- 2024 June: Launch -->
     <div class="journey-step">
         <div class="journey-image">
-            <img src="i_360.png" alt="i360 app Launch Image">
+            <img src="i_360.png" alt="i360 app Launch Image" style="object-fit: contain;">
         </div>
         <h3>June 2024 - iskify360 Launch</h3>
         <p>We launched the i360 android application, initially offering basic features to support basic media access such as music and video player.</p>
@@ -149,8 +152,8 @@
         <div class="journey-image">
             <img src="sc_space_launch.jpg" alt="i360 Online Social Platform Launch">
         </div>
-        <h3>September 2024 - i360 Online Launch</h3>
-        <p>Launched i360 Online, creating a dedicated platform for socialization and communication.</p>
+        <h3>September 2024 - iskify360 Online Launch</h3>
+        <p>Launched iskify360 Online, creating a dedicated platform for socialization and communication.</p>
     </div>
 
     <!-- 2023 October: Website Launch -->
@@ -250,9 +253,24 @@ h4 {
 }
     /* Section styling */
     #journey {
+        max-width: 40%;
+        margin-left: auto;
+        margin-right: auto;
         background-color: #f8f9fa;
         padding: 2rem 1rem;
         text-align: center;
+    }
+    @media (max-width: 768px) {
+        #journey {
+            max-width: 100%;
+            margin-left: auto;
+        margin-right: auto;
+        background-color: #f8f9fa;
+        padding: 2rem 1rem;
+        text-align: center;
+
+        }
+        
     }
 
     #journey h2 {
@@ -295,6 +313,7 @@ h4 {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        
         transition: transform 0.5s ease;
     }
 
@@ -466,7 +485,7 @@ h4 {
 <script>
     // Show the pop-up on page load
     window.onload = function () {
-        document.getElementById("announcementPopup").style.display = "flex";
+        /*document.getElementById("announcementPopup").style.display = "flex";*/
     };
 
     // Close the pop-up
@@ -483,7 +502,7 @@ h4 {
             <div class="service-card">
                 <i class="icon fas fa-comments"></i>
                 <h3 class="service-title">Communication & Socialization</h3>
-                <p class="service-description">Iskify360 connects users through seamless communication and collaboration tools. Share knowledge, connect with peers, and work on projects together effortlessly on <a href="https://iskify360.netlify.app/sc_hompage">i360Online</a>.</p>
+                <p class="service-description">Iskify360 connects users through seamless communication and collaboration tools. Share knowledge, connect with peers, and work on projects together effortlessly on <a href="https://iskify360.netlify.app/sc_hompage">Iskify360 Online</a>.</p>
             </div>
             <div class="service-card">
                 <i class="icon fas fa-search"></i>
@@ -613,6 +632,9 @@ h2 {
 }
 
 .services-wrapper {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     gap: 20px;
     scroll-behavior: smooth;
@@ -791,20 +813,9 @@ h2 {
     <div class="team-member">
         <div class="team-pic">
             <img src="engineer_ceo.jpg" alt="Brian, Founder & CEO" id="profile-pic">
+            <h3>Brian Odhiambo - Founder & CEO</h3>
         </div>
-        <h3>Brian Odhiambo - Founder & CEO</h3>
-        <p>A tech enthusiast with a deep passion for innovation, Brian is currently pursuing Mining and Mineral Processing Engineering at JKUAT. He also serves as Secretary General of the Mining Engineering Society of Kenya. As the founder of Iskify360, Brian leads the development of solutions that cater to a diverse community, not limited to students, but to anyone seeking to achieve personal and professional growth through technology.</p>
-        <a href="https://engineerodhiambo.netlify.app" class="read-more-link">View Brian's Bio ➡️</a>
-    </div>
-
-    <div class="team-users">
-        <div class="user-icon">
-            <!-- FontAwesome Icon for Team -->
-            <i class="fas fa-users" style="font-size: 50px; color: #4CAF50;"></i>
-        </div>
-        <h3>Our Users - The Heart of Iskify360</h3>
-        <p>At Iskify360, we believe that our users are just as important as our core team. Each of you contributes to our mission of delivering impactful, user-centered solutions. Your ideas, feedback, and collaboration help us evolve and grow. Together, we are shaping the future!</p>
-        <p>Thank you for being part of the Iskify360 family — you're not just users; you're members of a vibrant, ever-growing community.</p>
+         <p>A tech enthusiast with a deep passion for innovation, Brian is currently pursuing Mining and Mineral Processing Engineering at JKUAT. He also serves as Secretary General of the Mining Engineers Society of Kenya. As the founder of Iskify360, Brian leads the development of solutions that cater to a diverse community, not limited to students, but to anyone seeking to achieve personal and professional growth through technology. <a href="https://engineerodhiambo.netlify.app" class="read-more-link">View Brian's Bio ➡️</a></p>  
     </div>
 </section>
     <style>   
@@ -812,6 +823,24 @@ h2 {
      background-color: #f8f9fa;
         padding: 2rem 1rem;
         text-align: left;
+    }
+
+    #team p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #333;
+        max-width: 80%;
+        margin: 0 auto 20px;
+    }
+
+    @media (max-width: 768px) {
+        #team p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            max-width: 100%;
+            margin: 0 auto 20px;
+        }
     }
 
 #team h2 {
@@ -823,7 +852,7 @@ h2 {
 
 
 #profile-pic {
-    width: 100%;
+    width: 300px;
         height: 300px;
         overflow: hidden;
         border-radius: 5px;
@@ -831,7 +860,8 @@ h2 {
 }
 
 .team-member {
-max-width: 800px;
+    display: flex;
+max-width: 70%;
         margin: 1rem auto;
         padding: 1.5rem;
         border-left: 5px solid #004085;
@@ -839,6 +869,21 @@ max-width: 800px;
         border-radius: 8px;
         position: relative;
         transition: transform 0.3s ease;
+        gap: 20px;
+    }
+    @media (max-width: 768px) {
+        .team-member {
+            display: block;
+            max-width: 100%;
+            margin: 1rem auto;
+            padding: 1.5rem;
+            border-left: 5px solid #004085;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            position: relative;
+            transition: transform 0.3s ease;
+            gap: 20px;
+        }
     }
 
     .journey-step:hover {
@@ -873,6 +918,23 @@ max-width: 800px;
 .read-more-link:hover {
     text-decoration: underline;
 }
+#feedback {
+    max-width: 60%;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    padding: 2rem 1rem;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    #feedback {
+        max-width: 100%;
+        margin: 0 auto;
+        background-color: #f8f9fa;
+        padding: 1rem 1rem;
+        text-align: left;
+    }
+}
 </style>
 <section id="feedback" class="section">
     <h2>Client Testimonials ⭐</h2>
@@ -894,15 +956,16 @@ max-width: 800px;
             <h4>- Mary Ann, Engineering Student at JKUAT 🎓</h4>
         </div>
     </div>
-
-    <p>If you’d like to share your experience with Iskify360, we’d love to hear from you! Your feedback helps us continue improving and growing. ✨</p>
 </section>
 
+<div class="bottom-container">
+    <div>
 <section id="contact" class="section" style="
     font-family: Arial, sans-serif; 
     padding: 20px; 
     max-width: 600px; 
     margin: auto; 
+    margin-top: 40px;
     background: linear-gradient(135deg, #f5f7fa, #c3cfe2); 
     border-radius: 15px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
@@ -948,7 +1011,8 @@ max-width: 800px;
             display: none; 
             margin: auto;">Send Message</button>
     </form>
-
+    </section>
+</div>
 <div class="company-info" style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; max-width: 600px; margin: 10px;">
     <h3 style="color: #333; margin-bottom: 10px;">Our Location</h3>
     <p style="color: #555; line-height: 1.6;">Our headquarters is based in <strong>Westlands, opposite Sarit Center, Nairobi</strong>, with most of our services currently running online.</p>
@@ -963,6 +1027,18 @@ max-width: 800px;
         <i class="fas fa-envelope" style="color: red; margin-right: 8px;"></i>
         <strong></strong> <a href="mailto:iskify360.tech@gmail.com" style="color: blue; text-decoration: none;">iskify360.tech@gmail.com</a>
     </p>
+
+    <h3 style="color: #333; margin-top: 20px; margin-bottom: 10px;">Find Us on the Map</h3>
+    <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.123456789!2d36.805!3d-1.265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x123456789abcdef%3A0xabcdef123456789!2sSarit%20Center%2C%20Westlands%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1234567890123" 
+        width="100%" 
+        height="300" 
+        style="border:0; border-radius: 8px;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</div>
 </div>
 
 <div class="social-links" style="text-align: center; margin-top: 20px;">
@@ -1009,7 +1085,7 @@ max-width: 800px;
         }
 
         footer h2 {
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #fff !important;
             margin-bottom: 20px;
@@ -1096,21 +1172,20 @@ max-width: 800px;
                 <li><a href="#services">Services</a></li>
                 <li><a href="#contact">Contact</a></li>
                  <li><a href="https://iskify360.netlify.app/download">Android application</a></li>
-                  <li><a href="https://iskify360.netlify.app/sc_hompage">i360 Online</a></li>
+                  <li><a href="https://iskify360.netlify.app/download">Iskify360 Online</a></li>
                 <li><a href="https://iskify360.netlify.app/download#privacy-policy">Policies</a></li>
             </ul>
         </div>
 
         <!-- Newsletter Section -->
-        <div style="margin-top: 40px;">
+        <div style="margin-top: 40px; margin-left: auto; margin-right: auto;">
             <h2>Stay Updated</h2>
             <p>Subscribe to our newsletter for the latest updates and insights.</p>
-            <form action="#" method="post">
+            <form action="#" method="post" style="margin: 0 auto;">
                 <input 
                     type="email" 
                     placeholder="Enter your email" 
-                    required
-                >
+                    required>
                 <button type="submit">Subscribe</button>
             </form>
         </div>
@@ -1137,12 +1212,16 @@ max-width: 800px;
       
     <script>
         function openMenu() {
-            document.getElementById("sidebar").style.width = "250px";
+            if (window.innerWidth <= 768) {
+                document.getElementById("sidebar").style.width = "60%";
+            } else {
+                document.getElementById("sidebar").style.width = "40%";
+            }
         }
 
         function closeMenu() {
             document.getElementById("sidebar").style.width = "0";
         }
- </script>
+    </script>
 </body>
 </html>

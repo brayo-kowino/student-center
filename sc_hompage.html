@@ -564,7 +564,7 @@ window.submitComment = async function(postId) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="header">
+<div class="header" style="display: none;">
     <nav>
         <!-- Home Icon -->
         <a href="#" id="homeIcon">
@@ -656,7 +656,7 @@ window.submitComment = async function(postId) {
     <hr class="divider">
 
     <!-- Updates Section -->
-    <h2>S.C Space Updates</h2>
+    <h2>SmartFeed 360</h2>
     
    <!-- Post Feed -->
     <div id="postFeed" class="feed">
@@ -785,7 +785,7 @@ window.submitComment = async function(postId) {
 /* Header Styling */
 .header {
     background-color: #1877F2;
-    padding: 20px;
+    padding: 0px;
         display: flex;                   /* Enable flexbox on the header */
     justify-content: center;         /* Center the nav horizontally */
     width: 100%
@@ -801,17 +801,17 @@ window.submitComment = async function(postId) {
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f2f5;
-    padding-top: 55px; /* Push the content down, adjust if the header size changes */
+    padding-top:0px; /* Push the content down, adjust if the header size changes */
 }
 .divider {
-    margin: 14px 0;
-    border: 2px solid #ccc;
+    margin: 0px 0;
+    border: 0px solid #ccc;
 }
 
 h2 {
     margin-left: 20px;
     margin-right: 15px;
-    font-size: 24px;
+    font-size: 20px;
     color: #007BFF;
     border-bottom: 2px solid #007BFF    ;
 }
