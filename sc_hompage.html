@@ -159,83 +159,97 @@ onSnapshot(query(collection(db, "posts"), orderBy("timestamp", "desc")), async (
 
     let postsHtml = "";
 
-    // Construct the posts HTML
-    snapshot.docs.forEach((docSnapshot, index) => {
-        const post = docSnapshot.data();
-        const postId = docSnapshot.id;
-        const likedByUser = post.likes && post.likes.includes(currentUser.uid);
-        
-        // Extract user data
-        const userDoc = userDocs[index];
-        const userData = userDoc.data() || {};
-        const userDisplayName = userData.name || userData.email || post.userId; // Fallback to userId
-        const userProfilePic = userData.profilePicture || 'pic4.png'; // Fallback image
-        
-        const postDate = new Date(post.timestamp.toDate());
-        let formattedTimestamp = postDate.toLocaleString('en-GB', {
+// Show loading indicator while data is being fetched
+document.getElementById("loadingIndicator").style.display = 'block'; // Show the spinner
+
+// Construct the posts HTML progressively
+snapshot.docs.forEach((docSnapshot, index) => {
+    const post = docSnapshot.data();
+    const postId = docSnapshot.id;
+    const likedByUser = post.likes && post.likes.includes(currentUser.uid);
+
+    // Extract user data
+    const userDoc = userDocs[index];
+    const userData = userDoc.data() || {};
+    const userDisplayName = userData.name || userData.email || post.userId; // Fallback to userId
+    const userProfilePic = userData.profilePicture || 'pic4.png'; // Fallback image
+
+    const postDate = new Date(post.timestamp.toDate());
+    let formattedTimestamp = postDate.toLocaleString('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+
+    // Check if post is today, tomorrow, or another day
+    if (postDate >= today && postDate < tomorrow) {
+        formattedTimestamp = `Today at ${postDate.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        })}`;
+    } else if (postDate >= tomorrow && postDate < new Date(tomorrow.setDate(tomorrow.getDate() + 1))) {
+        formattedTimestamp = `Tomorrow at ${postDate.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        })}`;
+    } else {
+        formattedTimestamp = postDate.toLocaleString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
             hour: '2-digit',
             minute: '2-digit',
             hour12: false
         });
+    }
 
-        // Check if post is today, tomorrow, or another day
-        if (postDate >= today && postDate < tomorrow) {
-            formattedTimestamp = `Today at ${postDate.toLocaleTimeString('en-GB', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            })}`;
-        } else if (postDate >= tomorrow && postDate < new Date(tomorrow.setDate(tomorrow.getDate() + 1))) {
-            formattedTimestamp = `Tomorrow at ${postDate.toLocaleTimeString('en-GB', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            })}`;
-        } else {
-            formattedTimestamp = postDate.toLocaleString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            });
-        }
+    // Get comments count for the post
+    const commentsSnapshot = commentsSnapshots[index];
+    const commentsCount = commentsSnapshot.size;
 
-        // Get comments count for the post
-        const commentsSnapshot = commentsSnapshots[index];
-        const commentsCount = commentsSnapshot.size;
-
-        // Construct HTML for the post
-        postsHtml += `
-            <div class="post">
-                <div class="post-header">
-                    <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
-                    <div class="post-info">
-                        <p class="post-user"><strong>${userDisplayName}</strong></p>
-                        <p class="post-time">${formattedTimestamp}</p>
-                    </div>
+    // Construct HTML for the post
+    postsHtml += `
+        <div class="post" id="post-${postId}">
+            <div class="post-header">
+                <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
+                <div class="post-info">
+                    <p class="post-user"><strong>${userDisplayName}</strong></p>
+                    <p class="post-time">${formattedTimestamp}</p>
                 </div>
-                <p>${post.content || ''}</p>
-                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post Image" style="width:100%; margin-top:10px;" />` : ''}
-                <div class="post-actions">
-                    <button onclick="likePost('${postId}')">
-                        <span class="material-icons">${likedByUser ? 'favorite' : 'favorite_border'}</span> ${post.likes ? post.likes.length : 0}
-                    </button>
-                    <button onclick="openCommentSection('${postId}')">
-                        <span class="material-icons">question_answer</span> ${commentsCount}
-                    </button>
-                    <button class="share-button">
-                        <span class="material-icons">share</span> Share
-                    </button>
-                </div>
-                <div id="comments-${postId}" class="comments-section"></div>
             </div>
-        `;
-    });
+            <p>${post.content || ''}</p>
+            ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post Image" style="width:100%; margin-top:10px;" />` : ''}
+            <div class="post-actions">
+                <button onclick="likePost('${postId}')">
+                    <span class="material-icons">${likedByUser ? 'favorite' : 'favorite_border'}</span> ${post.likes ? post.likes.length : 0}
+                </button>
+                <button onclick="openCommentSection('${postId}')">
+                    <span class="material-icons">question_answer</span> ${commentsCount}
+                </button>
+                <button class="share-button">
+                    <span class="material-icons">share</span> Share
+                </button>
+            </div>
+            <div id="comments-${postId}" class="comments-section"></div>
+        </div>
+    `;
 
-    // Update the DOM once with all posts HTML
+    // Update the DOM progressively after each post
     document.getElementById("postFeed").innerHTML = postsHtml;
+});
+
+// After all posts are loaded, remove the loading spinner
+setTimeout(() => {
+    // Hide the loading spinner
+    document.getElementById("loadingIndicator").style.display = 'none'; 
+
+    // Show the posts with fade-in effect
+    document.querySelectorAll('.post').forEach(post => {
+        post.style.opacity = 1;
+    });
+}, 500); // Optional: Add a slight delay to simulate progressive loading effect
 });
 
 // Function to open comment section (showing bottom sheet dialog)
@@ -656,6 +670,7 @@ window.submitComment = async function(postId) {
     <hr class="divider">
 
    <!-- Post Feed -->
+   <div id="loadingIndicator" class="loading-spinner"></div>   
     <div id="postFeed" class="feed">
         <!-- Posts will be dynamically added here -->
     </div>
@@ -810,6 +825,38 @@ body {
     font-size: 24px;
     margin-bottom: 10px;
 }
+
+/* Loading Spinner Styling */
+.loading-spinner {
+    display: flex; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 16px solid #f3f3f3; /* Light gray background */
+    border-top: 16px solid #3498db; /* Blue color */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite; /* Spin animation */
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.post {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+/* Feed Styling */
+
+
 
 
 /* General header and navigation styling */
