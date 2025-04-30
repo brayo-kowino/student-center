@@ -66,9 +66,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error("User document does not exist.");
             // Redirect to authentication page if the user document doesn't exist
             window.location.href = "authentication_section.html"; 
+        }
+    } else {
+        // Redirect to authentication page if no user is logged in
+        window.location.href = "authentication_section.html"; 
     }
-}
-    // Close the DOMContentLoaded event listener
 });
 
 // Handle image upload
@@ -158,7 +160,7 @@ onSnapshot(query(collection(db, "posts"), orderBy("timestamp", "desc")), async (
     let postsHtml = "";
 
 // Show loading indicator while data is being fetched
-document.getElementById("loadingIndicator").style.display = 'block'; // Show the spinner
+document.getElementById("postFeed").innerHTML = `<div class="loading-spinner">Loading...</div>`;
 
 // Construct the posts HTML progressively
 snapshot.docs.forEach((docSnapshot, index) => {
@@ -209,7 +211,7 @@ snapshot.docs.forEach((docSnapshot, index) => {
 
     // Construct HTML for the post
     postsHtml += `
-        <div class="post" id="post-${postId}">
+        <div class="post">
             <div class="post-header">
                 <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
                 <div class="post-info">
@@ -240,14 +242,11 @@ snapshot.docs.forEach((docSnapshot, index) => {
 
 // After all posts are loaded, remove the loading spinner
 setTimeout(() => {
-    // Hide the loading spinner
-    document.getElementById("loadingIndicator").style.display = 'none'; 
-
-    // Show the posts with fade-in effect
-    document.querySelectorAll('.post').forEach(post => {
-        post.style.opacity = 1;
-    });
+    document.getElementById("postFeed").innerHTML = postsHtml; // Final update
+    document.getElementById("loadingIndicator").style.display = 'none';
+    document.getElementById("spinnerOverlay").style.display = 'none'; // Hide spinner overlay
 }, 500); // Optional: Add a slight delay to simulate progressive loading effect
+
 });
 
 // Function to open comment section (showing bottom sheet dialog)
@@ -668,7 +667,8 @@ window.submitComment = async function(postId) {
     <hr class="divider">
 
    <!-- Post Feed -->
-   <div id="loadingIndicator" class="loading-spinner"></div>   
+    <div id="spinnerOverlay" class="spinner-overlay"></div>
+   <div id="loadingIndicator" class="loading-spinner"></div>
     <div id="postFeed" class="feed">
         <!-- Posts will be dynamically added here -->
     </div>
@@ -684,6 +684,23 @@ window.submitComment = async function(postId) {
     padding: 0;
     box-sizing: border-box;
 }
+
+/* Overlay styling */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 900; /* Ensure it appears above other elements */
+    display: flex; /* Hidden by default */
+}
+
+
 .post-button {
     display: none; /* Center the icon and text */
     align-items: center; /* Center vertically */
@@ -723,8 +740,12 @@ window.submitComment = async function(postId) {
     align-items: center;
     margin-bottom: 5px;
 }
-
-
+.comment-header img {
+    width: 30px; /* Adjust the size as needed */
+    height: 30px; /* Adjust the size as needed */
+    border-radius: 50%; /* Circular profile picture */
+    margin-right: 10px; /* Spacing between the profile picture and comment text */
+}
 .profile-pic {
     width: 50px;!important;
     height: 50px;!important;
@@ -764,6 +785,33 @@ window.submitComment = async function(postId) {
     margin-top: 10px;
 }
 
+.loading-spinner {
+    display: flex;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 100px;
+    z-index: 9999; /* Ensure it appears above other elements */
+    font-size: 24px;
+    color: #555;
+}
+
+.loading-spinner::after {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top-color: #4285f4; /* Google Blue or your theme color */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 
 .post-actions button {
     background-color: #e0f7fa; /* Light blue background */
@@ -792,20 +840,6 @@ window.submitComment = async function(postId) {
     padding: 10px 20px; /* Adjust padding for larger size */
 }
 
-/* Header Styling */
-.header {
-    background-color: #1877F2;
-    padding: 0px;
-        display: flex;                   /* Enable flexbox on the header */
-    justify-content: center;         /* Center the nav horizontally */
-    width: 100%;
-    color: white;
-    position: fixed;
-    width: 100%; /* Ensure it spans the full width */
-    top: 0;
-    left: 0;
-    z-index: 100; /* Keep the header above other elements */
-}
 
 /* Add margin or padding to the content below the header */
 body {
@@ -823,40 +857,6 @@ body {
     font-size: 24px;
     margin-bottom: 10px;
 }
-
-/* Loading Spinner Styling */
-.loading-spinner {
-    display: flex; /* Hidden by default */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 16px solid #f3f3f3; /* Light gray background */
-    border-top: 16px solid #3498db; /* Blue color */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    margin-left: auto;
-    margin-right: auto;
-    animation: spin 2s linear infinite; /* Spin animation */
-}
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-.post {
-    opacity: 0;
-    animation: fadeIn 0.5s ease-in-out forwards;
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-/* Feed Styling */
-
-
 
 
 /* General header and navigation styling */
@@ -1022,9 +1022,6 @@ font-size: 40px !important;
     height: 40px; /* Same height as other elements */
 }
 
-.post-button-container button:hover {
-    //background-color: #365899; /* Darker blue for hover effect */
-}
 /* Post Feed Styling */
 .feed {
     margin: 10px auto;
