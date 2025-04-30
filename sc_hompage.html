@@ -66,11 +66,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error("User document does not exist.");
             // Redirect to authentication page if the user document doesn't exist
             window.location.href = "authentication_section.html"; 
-        }
-    } else {
-        // Redirect to authentication page if no user is logged in
-        window.location.href = "authentication_section.html"; 
     }
+}
+    // Close the DOMContentLoaded event listener
 });
 
 // Handle image upload
@@ -800,7 +798,7 @@ window.submitComment = async function(postId) {
     padding: 0px;
         display: flex;                   /* Enable flexbox on the header */
     justify-content: center;         /* Center the nav horizontally */
-    width: 100%
+    width: 100%;
     color: white;
     position: fixed;
     width: 100%; /* Ensure it spans the full width */
