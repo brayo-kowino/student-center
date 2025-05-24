@@ -36,42 +36,61 @@ let userData = null; // Declare userData globally
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Get user info from localStorage
-    const userInfo = JSON.parse(localStorage.getItem('currentUser'));
-  
-    if (userInfo) {
-        currentUser = userInfo; // Assign currentUser with the stored information
-        console.log("Current user:", currentUser);
-        
+    // Parse user info from URL query parameters
+    const params = new URLSearchParams(window.location.search);
+    currentUser = null;
+
+    if (params.has('uid')) {
+        currentUser = {
+            uid: params.get('uid'),
+            email: params.get('email') || ''
+        };
+        // Save user info to localStorage for future reloads
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        console.log("User info loaded from URL params:", currentUser);
+    } else {
+        // If no params, try to get from localStorage (e.g., normal browser visit)
+        const storedUser = localStorage.getItem('currentUser');
+        if (storedUser) {
+            currentUser = JSON.parse(storedUser);
+            console.log("User info loaded from localStorage:", currentUser);
+        }
+    }
+
+    if (!currentUser) {
+        // No user info anywhere — redirect to login
+        window.location.href = "authentication_section.html";
+        return;
+    }
+
+    try {
         const userDoc = await getDoc(doc(db, "users", currentUser.uid));
         if (userDoc.exists()) {
-            userData = userDoc.data(); // Assign userData here
-            console.log("User data retrieved:", userData); // Log the retrieved user data
-            
-            // Update dialog elements with user data
+            const userData = userDoc.data();
+            console.log("User data retrieved:", userData);
+
+            // Update UI
             const profilePictureElement = document.getElementById('profilePicture');
-            profilePictureElement.src = userData.profilePicture || 'pic4.png';  
-            profilePictureElement.style.cursor = 'pointer'; // Change cursor to pointer
+            profilePictureElement.src = userData.profilePicture || 'pic4.png';
+            profilePictureElement.style.cursor = 'pointer';
             profilePictureElement.addEventListener('click', () => {
-                window.location.href = 'profile_page.html'; // Redirect to profile page
+                window.location.href = 'profile_page.html';
             });
 
-            // Set the placeholder for postContent after user data is loaded
             const postContent = document.getElementById("postContent");
-            
-            // Get the first name from userData.name
             const firstName = userData.name ? userData.name.split(" ")[0] : 'User';
             postContent.placeholder = `Update your status, ${firstName}.`;
+
         } else {
             console.error("User document does not exist.");
-            // Redirect to authentication page if the user document doesn't exist
-            window.location.href = "authentication_section.html"; 
+            window.location.href = "authentication_section.html";
         }
-    } else {
-        // Redirect to authentication page if no user is logged in
-        window.location.href = "authentication_section.html"; 
+    } catch (error) {
+        console.error("Error fetching user document:", error);
+        window.location.href = "authentication_section.html";
     }
 });
+
 
 // Handle image upload
 document.getElementById('postImage').addEventListener('change', function(event) {
@@ -790,6 +809,9 @@ window.submitComment = async function(postId) {
     position: fixed;
     top: 50%;
     left: 50%;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
     height: 100px;
     z-index: 9999; /* Ensure it appears above other elements */
     font-size: 24px;
