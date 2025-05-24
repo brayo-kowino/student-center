@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Sign in with custom token (the Firebase ID token from Android)
-        await auth.signInWithCustomToken(token);
+        await auth.signInWithCustomToken(auth, token);
         console.log("User signed in with token");
 
         currentUser = auth.currentUser;
