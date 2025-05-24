@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const userCountText = document.getElementById('user-count-text');   // Corrected variable name
 
   // Get user info from localStorage
-  const userInfo = JSON.parse(localStorage.getItem('currentUser'));
+  const userInfo = auth.currentUser;
   if (userInfo) {
     currentUser = userInfo; // Ensure currentUser is set
     console.log("Current user:", currentUser);
