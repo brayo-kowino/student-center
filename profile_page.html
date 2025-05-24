@@ -463,7 +463,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     onAuthStateChanged(auth, async (user) => {
     if (user) {
       currentUser = user;
-      console.log("Current user:", currentUser);
 
     } else {
       console.error("No user is logged in.");
@@ -511,7 +510,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error("Error fetching current user's data:", error);
         }
       }
-    });   
+     
 
   // Display the user's details (whether it's the clicked user or the logged-in user)
   if (userToDisplay) {
@@ -539,6 +538,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (error) {
     console.error("Error fetching user count:", error);
   }
+  });
 });
 const formatLastSeen = (timestamp) => {
   if (timestamp && timestamp.seconds) {
