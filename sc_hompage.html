@@ -34,22 +34,20 @@ const storage = getStorage(app);
 let currentUser = null;
 let userData = null; // Declare userData globally
 
-
 document.addEventListener('DOMContentLoaded', async () => {
-   
     // Parse the token from URL query param
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
 
     if (!token) {
         // No token means not authenticated — redirect to login
-        window.location.href = "authentication_section.html";
+       // window.location.href = "authentication_section.html";
         return;
     }
 
     try {
-        // Sign in with custom token (the Firebase ID token from Android)
-        await auth.signInWithCustomToken(auth, token);
+        // Sign in with custom token using Firebase modular API
+        await signInWithCustomToken(auth, token);
         console.log("User signed in with token");
 
         currentUser = auth.currentUser;
