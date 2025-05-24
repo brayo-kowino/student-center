@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const userDoc = await getDoc(doc(db, "users", user.uid));
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
+                    onSnapshotPostsListener(); // Call the function to listen for posts
                     const profilePictureElement = document.getElementById('profilePicture');
                     profilePictureElement.src = userData.profilePicture || 'pic4.png';
                     profilePictureElement.style.cursor = 'pointer';
@@ -90,67 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-// Handle image upload
-document.getElementById('postImage').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const preview = document.getElementById('imagePreview');
-            preview.src = e.target.result;
-            preview.style.display = 'block'; // Show image preview
-        }
-        reader.readAsDataURL(file);
-    }
-});
-
-window.submitPost = async function() {
-    const postContent = document.getElementById("postContent").value;
-    const postImage = document.getElementById("postImage").files[0]; // Get the uploaded image file
-
-    if (!currentUser || !currentUser.uid) {
-        console.error('No valid user ID. Please ensure the user is logged in.');
-        return;
-    }
-
-    let imageUrl = "";
-    
-    if (postImage) {
-        try {
-            // Upload image to Firebase Storage
-            const storageRef = ref(storage, `images/${postImage.name}`);
-            const uploadTask = await uploadBytes(storageRef, postImage);
-            imageUrl = await getDownloadURL(uploadTask.ref); // Get the image URL
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            return;
-        }
-    }
-
-    if (postContent || imageUrl) {
-        try {
-            // Add the post to Firestore with the userId, content, and imageUrl
-            await addDoc(collection(db, "posts"), {
-                userId: currentUser.uid,
-                content: postContent,
-                imageUrl: imageUrl, // Include image URL if available
-                timestamp: serverTimestamp(),
-                likes: [] // Initialize likes as an empty array
-            });
-            document.getElementById("postContent").value = ""; // Clear input after posting
-            document.getElementById("imagePreview").style.display = 'none'; // Hide image preview
-            document.getElementById("postImage").value = ""; // Clear the file input
-            console.log('Post successfully added.');
-        } catch (error) {
-            console.error('Error adding post:', error);
-        }
-    } else {
-        console.error('Post content or image cannot be empty.');
-    }
-};
-
-onSnapshot(query(collection(db, "posts"), orderBy("timestamp", "desc")), async (snapshot) => {
+function onSnapshotPostsListener() {
+   onSnapshot(query(collection(db, "posts"), orderBy("timestamp", "desc")), async (snapshot) => {
     const now = new Date();
     const today = new Date(now.setHours(0, 0, 0, 0));
     const tomorrow = new Date(today);
@@ -266,6 +208,68 @@ setTimeout(() => {
 }, 500); // Optional: Add a slight delay to simulate progressive loading effect
 
 });
+
+
+// Handle image upload
+document.getElementById('postImage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('imagePreview');
+            preview.src = e.target.result;
+            preview.style.display = 'block'; // Show image preview
+        }
+        reader.readAsDataURL(file);
+    }
+ });
+}
+
+window.submitPost = async function() {
+    const postContent = document.getElementById("postContent").value;
+    const postImage = document.getElementById("postImage").files[0]; // Get the uploaded image file
+
+    if (!currentUser || !currentUser.uid) {
+        console.error('No valid user ID. Please ensure the user is logged in.');
+        return;
+    }
+
+    let imageUrl = "";
+    
+    if (postImage) {
+        try {
+            // Upload image to Firebase Storage
+            const storageRef = ref(storage, `images/${postImage.name}`);
+            const uploadTask = await uploadBytes(storageRef, postImage);
+            imageUrl = await getDownloadURL(uploadTask.ref); // Get the image URL
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            return;
+        }
+    }
+
+    if (postContent || imageUrl) {
+        try {
+            // Add the post to Firestore with the userId, content, and imageUrl
+            await addDoc(collection(db, "posts"), {
+                userId: currentUser.uid,
+                content: postContent,
+                imageUrl: imageUrl, // Include image URL if available
+                timestamp: serverTimestamp(),
+                likes: [] // Initialize likes as an empty array
+            });
+            document.getElementById("postContent").value = ""; // Clear input after posting
+            document.getElementById("imagePreview").style.display = 'none'; // Hide image preview
+            document.getElementById("postImage").value = ""; // Clear the file input
+            console.log('Post successfully added.');
+        } catch (error) {
+            console.error('Error adding post:', error);
+        }
+    } else {
+        console.error('Post content or image cannot be empty.');
+    }
+};
+
 
 // Function to open comment section (showing bottom sheet dialog)
 window.openCommentSection = function(postId) {
