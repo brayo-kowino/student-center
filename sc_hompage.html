@@ -39,20 +39,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
 
-    if (!token) {
-        // No token means not authenticated — redirect to login
-       // window.location.href = "authentication_section.html";
-        return;
-    }
-
     try {
-        // Sign in with custom token using Firebase modular API
-        await signInWithCustomToken(auth, token);
-        console.log("User signed in with token");
+        // Only sign in with custom token if currentUser is null
+        if (!auth.currentUser) {
+            await signInWithCustomToken(auth, token);
+            window.AndroidInterface.authStatus('success');
+            console.log("User signed in with token");
+        }
 
         currentUser = auth.currentUser;
         if (!currentUser) {
-            window.location.href = "authentication_section.html";
+            console.error("No authenticated user found.");
+            window.AndroidInterface.authStatus('failure');
             return;
         }
 
@@ -80,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error("Error signing in with token:", error);
-        window.location.href = "authentication_section.html";
+        window.AndroidInterface.authStatus('failure');
     }
 });
 
