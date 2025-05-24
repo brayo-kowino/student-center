@@ -38,7 +38,6 @@ let userData = null; // Declare userData globally
 document.addEventListener('DOMContentLoaded', async () => {
     // Parse user info from URL query parameters
     const params = new URLSearchParams(window.location.search);
-    currentUser = null;
 
     if (params.has('uid')) {
         currentUser = {
