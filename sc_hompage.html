@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await auth.signInWithCustomToken(token);
         console.log("User signed in with token");
 
-        const currentUser = auth.currentUser;
+        currentUser = auth.currentUser;
         if (!currentUser) {
             window.location.href = "authentication_section.html";
             return;
