@@ -329,7 +329,7 @@
 
        <!-- Profile Information -->
 <div class="profile-info">
-    <h1 id="profile-title">SC Space User</h1>
+    <h1 id="profile-title">Connect360 User</h1>
     <p id="profile-bio">No bio available</p>
     <p><strong>Email:</strong> <span id="profile-email">user@example.com</span></p>
     <p><strong>Institution:</strong> <span id="profile-institution">No institution available</span></p> <!-- Institution field -->
@@ -337,7 +337,7 @@
     <p><strong>Skills:</strong> <span id="profile-skills">No skills available</span></p> <!-- Skills field -->
     <p><strong>Profession:</strong> <span id="profile-profession">No profession available</span></p> <!-- Profession field -->
     <p><strong>Interests:</strong> <span id="profile-interests">No interests available</span></p> <!-- Interests field -->
-    <p><span id="user-count-text">You and 0 others are using SC Space.</span></p> <!-- Total users count -->
+    <p><span id="user-count-text">You and 0 others are using Connect360.</span></p> <!-- Total users count -->
 </div>
 <div id="user-status-text"></div>
     <button class="edit-profile-btn" id="editProfileBtn">Edit Profile</button>
@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const usersSnapshot = await getDocs(collection(db, "users"));
     const totalUsers = usersSnapshot.size - 1; // Subtract 1 for "You"
-    userCountText.textContent = `You and ${totalUsers} others are using Iskify360.`;  // Updated variable
+    userCountText.textContent = `You and ${totalUsers} others are using Connect360.`;  
   } catch (error) {
     console.error("Error fetching user count:", error);
   }
