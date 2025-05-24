@@ -11,7 +11,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/fireba
 import { getFirestore, updateDoc, setDoc, getDoc, getDocs, doc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, increment} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
-import { getAuth, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+import { signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
 
 // Firebase configuration
@@ -26,7 +26,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app); // Firestore database
 const auth = getAuth(app); // Firebase Auth
@@ -38,7 +37,6 @@ let userData = null; // Declare userData globally
 
 document.addEventListener('DOMContentLoaded', async () => {
    
-
     // Parse the token from URL query param
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
