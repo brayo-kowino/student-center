@@ -43,8 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         currentUser = user; // Update currentUser globally
         if (user) {
             // User is signed in
-            window.AndroidInterface.authStatus('success');
-            console.log("User signed in:", user.uid);
+            if (window.AndroidInterface && typeof window.AndroidInterface.authStatus === 'function') {
+             window.AndroidInterface.authStatus('success');
+             } else {
+             console.warn('AndroidInterface or authStatus not available');
+       }
 
             // Fetch user data and update UI here
             try {
