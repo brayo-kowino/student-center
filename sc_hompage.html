@@ -34,53 +34,59 @@ const storage = getStorage(app);
 let currentUser = null;
 let userData = null; // Declare userData globally
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // Parse the token from URL query param
+document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
 
-    try {
-        // Only sign in with custom token if currentUser is null
-        if (!auth.currentUser) {
-            await signInWithCustomToken(auth, token);
+    // Listen for auth state changes
+    auth.onAuthStateChanged(async (user) => {
+        currentUser = user; // Update currentUser globally
+        if (user) {
+            // User is signed in
             window.AndroidInterface.authStatus('success');
-            console.log("User signed in with token");
-        }
+            console.log("User signed in:", user.uid);
 
-        currentUser = auth.currentUser;
-        if (!currentUser) {
-            console.error("No authenticated user found.");
-            window.AndroidInterface.authStatus('failure');
-            return;
-        }
+            // Fetch user data and update UI here
+            try {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    const profilePictureElement = document.getElementById('profilePicture');
+                    profilePictureElement.src = userData.profilePicture || 'pic4.png';
+                    profilePictureElement.style.cursor = 'pointer';
+                    profilePictureElement.addEventListener('click', () => {
+                        window.location.href = 'profile_page.html';
+                    });
 
-        // Now fetch user data from Firestore using the authenticated user
-        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-        if (userDoc.exists()) {
-            const userData = userDoc.data();
-
-            // Update UI accordingly...
-            const profilePictureElement = document.getElementById('profilePicture');
-            profilePictureElement.src = userData.profilePicture || 'pic4.png';
-            profilePictureElement.style.cursor = 'pointer';
-            profilePictureElement.addEventListener('click', () => {
-                window.location.href = 'profile_page.html';
-            });
-
-            const postContent = document.getElementById("postContent");
-            const firstName = userData.name ? userData.name.split(" ")[0] : 'User';
-            postContent.placeholder = `Update your status, ${firstName}.`;
+                    const postContent = document.getElementById("postContent");
+                    const firstName = userData.name ? userData.name.split(" ")[0] : 'User';
+                    postContent.placeholder = `Update your status, ${firstName}.`;
+                } else {
+                    console.error("User document does not exist.");
+                    window.location.href = "authentication_section.html";
+                }
+            } catch (error) {
+                console.error("Error fetching user document:", error);
+            }
 
         } else {
-            console.error("User document does not exist.");
-            window.location.href = "authentication_section.html";
+            // No user signed in yet
+            if (token) {
+                try {
+                    await signInWithCustomToken(auth, token);
+                    // After this, onAuthStateChanged will fire again with user
+                } catch (error) {
+                    console.error("Error signing in with token:", error);
+                    window.AndroidInterface.authStatus('failure');
+                }
+            } else {
+                // No token provided and no user signed in
+                window.AndroidInterface.authStatus('failure');
+            }
         }
-
-    } catch (error) {
-        console.error("Error signing in with token:", error);
-        window.AndroidInterface.authStatus('failure');
-    }
+    });
 });
+
 
 // Handle image upload
 document.getElementById('postImage').addEventListener('change', function(event) {
