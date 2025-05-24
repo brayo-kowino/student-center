@@ -131,7 +131,7 @@ snapshot.docs.forEach((docSnapshot, index) => {
     // Extract user data
     const userDoc = userDocs[index];
     const userData = userDoc.data() || {};
-    const userDisplayName = userData.name || userData.email || post.userId; // Fallback to userId
+    const userDisplayName = userData.name || userData.email || post.userId; 
     const userProfilePic = userData.profilePicture || 'pic4.png'; // Fallback image
 
     const postDate = new Date(post.timestamp.toDate());
@@ -174,10 +174,16 @@ snapshot.docs.forEach((docSnapshot, index) => {
         <div class="post">
             <div class="post-header">
                 <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
-                <div class="post-info">
-                    <p class="post-user"><strong>${userDisplayName}</strong></p>
-                    <p class="post-time">${formattedTimestamp}</p>
-                </div>
+               <div class="post-info">
+  <p class="post-user">
+    <strong>
+      ${userDisplayName}
+      <img src="verified_badge.png" alt="Verified Badge" style="width:16px; height:16px; margin-left:5px; vertical-align:middle;">
+    </strong>
+  </p>
+  <p class="post-time">${formattedTimestamp}</p>
+</div>
+
             </div>
             <p>${post.content || ''}</p>
             ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post Image" style="width:100%; margin-top:10px;" />` : ''}
