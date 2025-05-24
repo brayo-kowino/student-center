@@ -131,7 +131,7 @@ snapshot.docs.forEach((docSnapshot, index) => {
     // Extract user data
     const userDoc = userDocs[index];
     const userData = userDoc.data() || {};
-    const userDisplayName = userData.name || userData.email || post.userId; 
+    const userDisplayName = userData.name || "Connect360 User"; // Fallback to a default name
     const userProfilePic = userData.profilePicture || 'pic4.png'; // Fallback image
 
     const postDate = new Date(post.timestamp.toDate());
@@ -181,7 +181,7 @@ snapshot.docs.forEach((docSnapshot, index) => {
       <img src="verified_badge.png" alt="Verified Badge" style="width:16px; height:16px; margin-left:5px; vertical-align:middle;">
     </strong>
   </p>
-  <p class="post-time">${formattedTimestamp}</p>
+  <p class="post-time" style ="margin-top: -10px;">${formattedTimestamp}</p>
 </div>
 
             </div>
