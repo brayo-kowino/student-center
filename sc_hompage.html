@@ -11,6 +11,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/fireba
 import { getFirestore, updateDoc, setDoc, getDoc, getDocs, doc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, increment} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+import { getAuth, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
 
 // Firebase configuration
@@ -36,39 +37,36 @@ let userData = null; // Declare userData globally
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Parse user info from URL query parameters
+    const auth = getAuth();
+    const db = getFirestore();
+
+    // Parse the token from URL query param
     const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
 
-    if (params.has('uid')) {
-        currentUser = {
-            uid: params.get('uid'),
-            email: params.get('email') || ''
-        };
-        // Save user info to localStorage for future reloads
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        console.log("User info loaded from URL params:", currentUser);
-    } else {
-        // If no params, try to get from localStorage (e.g., normal browser visit)
-        const storedUser = localStorage.getItem('currentUser');
-        if (storedUser) {
-            currentUser = JSON.parse(storedUser);
-            console.log("User info loaded from localStorage:", currentUser);
-        }
-    }
-
-    if (!currentUser) {
-        // No user info anywhere — redirect to login
-       // window.location.href = "authentication_section.html";
+    if (!token) {
+        // No token means not authenticated — redirect to login
+        window.location.href = "authentication_section.html";
         return;
     }
 
     try {
+        // Sign in with custom token (the Firebase ID token from Android)
+        await auth.signInWithCustomToken(token);
+        console.log("User signed in with token");
+
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+            window.location.href = "authentication_section.html";
+            return;
+        }
+
+        // Now fetch user data from Firestore using the authenticated user
         const userDoc = await getDoc(doc(db, "users", currentUser.uid));
         if (userDoc.exists()) {
             const userData = userDoc.data();
-            console.log("User data retrieved:", userData);
 
-            // Update UI
+            // Update UI accordingly...
             const profilePictureElement = document.getElementById('profilePicture');
             profilePictureElement.src = userData.profilePicture || 'pic4.png';
             profilePictureElement.style.cursor = 'pointer';
@@ -82,14 +80,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } else {
             console.error("User document does not exist.");
-           // window.location.href = "authentication_section.html";
+            window.location.href = "authentication_section.html";
         }
+
     } catch (error) {
-        console.error("Error fetching user document:", error);
-        //window.location.href = "authentication_section.html";
+        console.error("Error signing in with token:", error);
+        window.location.href = "authentication_section.html";
     }
 });
-
 
 // Handle image upload
 document.getElementById('postImage').addEventListener('change', function(event) {

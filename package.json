@@ -1,0 +1,23 @@
+{
+  "name": "student-center",
+  "version": "1.0.0",
+  "description": "- 👋 Hi, I’m @brayo-kowino\r - 👀 I’m interested in programming \r - 🌱 I’m currently learning java\r - 📫 How to reach me ...\r - 😄 Pronouns: ...\r - ⚡ Fun fact: I don't take meat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brayo-kowino/student-center.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brayo-kowino/student-center/issues"
+  },
+  "homepage": "https://github.com/brayo-kowino/student-center#readme",
+  "dependencies": {
+    "firebase-admin": "^13.4.0"
+  }
+}
