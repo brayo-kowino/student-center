@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <title>Authentication</title>
+  <title>I360 Online - Authentication</title>
+
   <script type="module">
-    // Firebase imports and configuration
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
     import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
       authDomain: "my-website-d875f.firebaseapp.com",
@@ -24,26 +24,18 @@
 
     let currentUser = null;
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Function to display messages to users
     const displayMessage = (message, isError = false) => {
-      const messageElement = document.createElement('div');
-      messageElement.textContent = message;
-      messageElement.className = isError ? 'error-message' : 'success-message';
-      
-      document.body.appendChild(messageElement);
-
-      // Remove message after a short delay
-      setTimeout(() => {
-        messageElement.remove();
-      }, 3000);
+      const div = document.createElement('div');
+      div.textContent = message;
+      div.className = `fixed top-5 left-1/2 -translate-x-1/2 px-4 py-2 text-white rounded-xl shadow-xl text-sm ${isError ? 'bg-red-600' : 'bg-green-600'}`;
+      document.body.appendChild(div);
+      setTimeout(() => div.remove(), 3000);
     };
 
-    // Register function
     const register = async (email, password) => {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -54,266 +46,85 @@
         });
 
         displayMessage("Registration successful! Signing in...");
-        await signIn(email, password); // Automatically sign in after registration
+        await signIn(email, password);
       } catch (error) {
-        console.error("Error during registration: ", error);
         displayMessage("Registration failed: " + error.message, true);
       }
     };
 
-    // Sign-in function
     const signIn = async (email, password) => {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         currentUser = userCredential.user;
-
         displayMessage("Login successful! Welcome back.");
-        hideOverlayAndAuth(); // Hide overlay and auth section after sign-in
-
-        // Redirect to chat.html after successful sign-in
-        window.location.href = "sc_hompage.html"; 
+        window.location.href = "sc_hompage.html";
       } catch (error) {
-        console.error("Error during sign-in: ", error);
-        let errorMessage = "Login failed: ";
-
-        // Customize error messages based on specific error codes
-        if (error.code === 'auth/wrong-password') {
-          errorMessage += "Wrong password. Please try again.";
-        } else if (error.code === 'auth/user-not-found') {
-          errorMessage += "No account found with this email.";
-        } else {
-          errorMessage += error.message;
-        }
-
-        displayMessage(errorMessage, true);
+        let msg = "Login failed: ";
+        if (error.code === 'auth/wrong-password') msg += "Wrong password.";
+        else if (error.code === 'auth/user-not-found') msg += "User not found.";
+        else msg += error.message;
+        displayMessage(msg, true);
       }
     };
 
-    // Handle auth state change (onAuthStateChanged)
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        currentUser = user;
-        displayMessage("Login successful! Welcome back.");
-        hideOverlayAndAuth(); // Hide overlay and auth section after successful authentication
-        // Redirect to chat.html after successful sign-in
-        // Store user information in localStorage or sessionStorage
-    localStorage.setItem('currentUser', JSON.stringify({
-      uid: user.uid,
-      email: user.email,
-    }));
-        window.location.href = "sc_hompage.html"; 
-      } else {
-        // User is signed out, show the authentication section
-        document.getElementById('auth-section').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block'; // Show overlay
+        localStorage.setItem('currentUser', JSON.stringify({ uid: user.uid, email: user.email }));
+        window.location.href = "sc_hompage.html";
       }
     });
 
-    // Hide overlay and authentication section
-    const hideOverlayAndAuth = () => {
-      document.getElementById('overlay').style.display = 'none';
-      document.getElementById('auth-section').style.display = 'none';
-    };
-
-    // Registration and Sign-In events
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('register-button').addEventListener('click', () => {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        register(email, password);
+        register(email.value, password.value);
       });
-
       document.getElementById('sign-in-button').addEventListener('click', () => {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        signIn(email, password);
+        signIn(email.value, password.value);
       });
     });
   </script>
 </head>
-<body>
-  <!-- Overlay -->
-  <div id="overlay"></div>
 
-  <!-- Authentication Section -->
-  <div id="auth-section" class="auth-container">
-    <!-- Branding Image -->
-    <img src="i_360.jpg" alt="I360 Online Logo" style="width: 100px; height: 100px; margin: 0 auto; display: block; border-radius: 50%">
+<body class="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600 flex items-center justify-center p-4">
 
-    <h1>Welcome to I360 Online</h1>
-    <h3>Create an account or login to continue.</h3>
-    <input type="email" id="email" placeholder="Enter your email" required>
-    
-    <!-- Password input with eye icon -->
-    <div style="position: relative; width: 100%;">
-      <input type="password" id="password" placeholder="Enter your password" required style="width: 100%; padding-right: 40px; box-sizing: border-box;">
-      <span id="toggle-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">👁️</span>
+  <div id="auth-section" class="w-full max-w-md bg-white/10 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-white/20 text-white animate-fadeIn">
+
+    <img src="i_360.jpg" class="w-28 h-28 mx-auto rounded-full shadow-lg" />
+
+    <h1 class="text-3xl font-bold text-center mt-4">Welcome to I360 Online</h1>
+    <p class="text-center text-white/80 mb-6">Create an account or login to continue.</p>
+
+    <input type="email" id="email" placeholder="Enter your email" class="w-full p-3 mb-4 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 focus:ring-2 focus:ring-blue-300" />
+
+    <div class="relative mb-4">
+      <input type="password" id="password" placeholder="Enter your password" class="w-full p-3 pr-12 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 focus:ring-2 focus:ring-blue-300" />
+      <span id="toggle-password" class="material-icons absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">visibility</span>
     </div>
 
-    <!-- Checkbox for agreement -->
-    <div style="display: flex; align-items: center; padding-top: 10px;">
-      <input type="checkbox" id="agree-checkbox" checked style="margin-right: 10px;">
-      <label for="agree-checkbox">I agree to the <a href="https://iskify360.netlify.app/download#privacy-policy">Terms of service & Privacy Policy</a></label>
+    <div class="flex items-center mb-4 text-sm">
+      <input type="checkbox" id="agree-checkbox" class="mr-2 w-4 h-4" checked />
+      <label>I agree to the <a href="https://iskify360.netlify.app/download#privacy-policy" class="underline text-blue-200">Terms & Privacy Policy</a></label>
     </div>
 
-    <button id="register-button">Create New Account</button>
-    <p>Already have an account? <button id="sign-in-button">Sign In</button></p>
+    <button id="register-button" class="w-full bg-blue-500 hover:bg-blue-600 transition p-3 rounded-xl font-semibold shadow-lg mb-3">Create New Account</button>
 
-    <!-- Help text with link -->
-    <div id="help-section" style="text-align: center; padding-top: 20px;">
-      <p>Need Assistance? <a id="help-link" href="https://iskify360.netlify.app/download#form-container">We're here to help</a>.</p>
-    </div>
+    <p class="text-center mb-4">Already have an account? <button id="sign-in-button" class="underline text-blue-200">Sign In</button></p>
 
-    <!-- Copyright text -->
-    <p id="copyright-text" style="text-align: center;">&copy; 2025 I360 Online. All rights reserved.</p>
+    <p class="text-center text-white/80">Need help? <a href="https://iskify360.netlify.app/download#form-container" class="underline text-blue-200">Contact Support</a></p>
+
+    <p class="text-center text-white/60 text-sm mt-6">© 2025 I360 Online. All rights reserved.</p>
   </div>
 
-  <style>
-    /* Ensure consistent appearance for password and text inputs */
-    #password {
-      padding: 10px;
-      box-sizing: border-box;
-      font-size: 13px;
-      outline: none;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
+<script>
+  const togglePassword = document.getElementById('toggle-password');
+  const passwordInput = document.getElementById('password');
 
-    /* Style for the image */
-    #auth-section img {
-      margin-bottom: 20px;
-    }
+  togglePassword.addEventListener('click', () => {
+    const type = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = type;
+    togglePassword.textContent = type === 'password' ? 'visibility' : 'visibility_off';
+  });
+</script>
 
-    .auth-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 320px;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      text-align: center;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1000;
-    }
-
-    .auth-container h1 {
-      font-size: 24px;
-      color: #1877F2;
-      border-bottom: 2px solid #007BFF;
-      margin-bottom: 20px;
-    }
-
-    .auth-container h3 {
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    .auth-container input[type="email"],
-    .auth-container input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-sizing: border-box;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .auth-container button {
-      width: 100%;
-      padding: 10px;
-      background-color: #1877F2;
-      border: none;
-      color: white;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 10px 0;
-      transition: background-color 0.3s ease;
-    }
-
-    .auth-container button:hover {
-      background-color: #0056b3;
-    }
-
-    .auth-container p {
-      font-size: 14px;
-      color: #333;
-    }
-
-    #overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 999;
-      display: block; /* Initially displayed until user is authenticated */
-    }
-
-    .success-message {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px;
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1001;
-      border-radius: 5px;
-    }
-
-    .error-message {
-      background-color: #f44336;
-      color: white;
-      padding: 10px;
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1001;
-      border-radius: 5px;
-    }
-
-    #toggle-password {
-      font-size: 18px;
-      color: #333;
-      cursor: pointer;
-    }
-
-    a {
-      color: #1877F2;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    /* Copyright section styling */
-    #copyright-text {
-      font-size: 12px;
-      color: #888;
-      margin-top: 20px;
-    }
-  </style>
-
-  <script>
-    // Toggle password visibility
-    const togglePassword = document.getElementById('toggle-password');
-    const passwordInput = document.getElementById('password');
-
-    togglePassword.addEventListener('click', () => {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      togglePassword.textContent = type === 'password' ? '👁️' : '🙈'; // Change icon based on type
-    });
-  </script>
 </body>
 </html>

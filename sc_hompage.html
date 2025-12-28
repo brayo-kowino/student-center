@@ -74,19 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } else {
-            // No user signed in yet
-            if (token) {
-                try {
-                    await signInWithCustomToken(auth, token);
-                    // After this, onAuthStateChanged will fire again with user
-                } catch (error) {
-                    console.error("Error signing in with token:", error);
-                    window.AndroidInterface.authStatus('failure');
-                }
-            } else {
-                // No token provided and no user signed in
-                window.AndroidInterface.authStatus('failure');
-            }
+            window.location.href = "authentication_section.html";
         }
     });
 });
@@ -186,7 +174,7 @@ snapshot.docs.forEach((docSnapshot, index) => {
 
             </div>
             <p>${post.content || ''}</p>
-            ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post Image" style="width:100%; margin-top:10px;" />` : ''}
+            ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post Image" style="width: 100%; max-height: 400px; object-fit: cover; margin-top:10px;" />` : ''}
             <div class="post-actions">
                 <button onclick="likePost('${postId}')">
                     <span class="material-icons">${likedByUser ? 'favorite' : 'favorite_border'}</span> ${post.likes ? post.likes.length : 0}
@@ -280,17 +268,33 @@ window.submitPost = async function() {
 // Function to open comment section (showing bottom sheet dialog)
 window.openCommentSection = function(postId) {
     const commentsHtml = `
-        <div class="comment-dialog">
-            <h3>Comments</h3>
-            <div id="commentList-${postId}" class="comment-list"></div>
-            <textarea id="comment-${postId}" placeholder="Add a comment"></textarea>
-            <button onclick="submitComment('${postId}')">Submit</button>
-            <button onclick="closeCommentSection('${postId}')">Close</button>
-        </div>
+<div class="comments-section">
+  <div class="comment-dialog">
+    <div class="comments-header">
+      <h3>Comments</h3>
+    </div>
+
+    <!-- Comment List -->
+    <div id="commentList-${postId}" class="comment-list"></div>
+
+    <!-- Comment Input Box -->
+    <div class="comment-input-box">
+      <textarea id="comment-${postId}" placeholder="Write a comment..."></textarea>
+      <button onclick="submitComment('${postId}')">
+        <span class="material-icons">send</span>
+      </button>
+    </div>
+    
+    <button class="close-button" onclick="closeCommentSection('${postId}')">
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+</div>
     `;
     document.getElementById(`comments-${postId}`).innerHTML = commentsHtml;
-    loadComments(postId); // Load existing comments when opening the dialog
+    loadComments(postId); // Load comments when opening
 }
+
 function getTimeAgo(timestamp) {
     const now = new Date();
     const timeDiff = now - timestamp; // Difference in milliseconds
@@ -586,7 +590,6 @@ window.openCommentSection = function(postId) {
     document.getElementById(`comments-${postId}`).innerHTML = commentsHtml;
     loadComments(postId); // Load comments when opening
 }
-
 window.submitComment = async function(postId) {
     const commentContent = document.getElementById(`comment-${postId}`).value;
     if (commentContent) {
@@ -603,40 +606,218 @@ window.submitComment = async function(postId) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="header" style="display: none;">
-    <nav>
-        <!-- Home Icon -->
-        <a href="#" id="homeIcon">
-            <span class="material-icons">home</span>
-        </a>
+<style>
+</style>
 
-        <!-- Profile Icon -->
-        <a href="profile_page.html"id="profileIcon">
-            <span class="material-icons">person</span>
-        </a>
-
-        <!-- Messages Icon with Badge -->
-        <a href="Chat.html" id="messagesIcon" style="position: relative;">
-            <span class="material-icons">chat</span>
-            <span id="messageCount" class="badge">3</span>
-        </a>
-
-        <!-- Notification Bell with Badge -->
-        <a href="#" id="notificationsIcon" style="position: relative;">
-            <span class="material-icons">notifications</span>
-            <span id="notificationCount" class="badge">5</span>
-        </a>
-
-        <!-- Dropdown for Notifications (hidden initially) -->
-        <div id="notificationsDropdown" class="dropdown-content" style="display:none;">
-            <h4>Notifications</h4>
-            <div id="notificationList">
-                <p>No new notifications</p>
-            </div>
-        </div>
-    </nav>
+<div class="platform_name" onclick="window.location.href='sc_hompage.html'" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 18px; color: rgb(88, 181, 243); text-align: left; cursor: pointer; position: fixed; top: 0; left: 0; z-index: 1002; padding: 8px 10px; width: 100%;">
+    <h1 style="margin: 0;">Connexa | Home</h1>
 </div>
-    
+
+<!-- Chat iframe (Left side) -->
+<div class="chat-container" style="position: fixed; top: 64px; left: 0; width: 30%; height: 78%; z-index: 500; overflow: hidden;">
+    <iframe 
+      src="Chat.html" 
+      style="width: 100%; height: 100%; border: none; border-radius: 0;"
+      allow="autoplay; microphone; camera; clipboard-write"
+      sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
+    ></iframe>
+</div>
+
+<!-- Help icon (Top right) -->
+<div id="why_our_platform" style="position: fixed; top: 20px; right: 20px; cursor: pointer; z-index: 1001;" onclick="window.location.href='why_our_platform.html'">
+    <span class="material-icons" style="font-size: 48px; color: rgb(88, 181, 243);">help_outline</span>
+</div>
+
+<div class="top-nav" style="background-color: rgb(88, 181, 243); height: 70px; position: fixed; bottom: 0; left: 0; left: 0; border-top: 1px solid #e0e0e0;">
+    <!-- Home -->
+    <button class="nav-button" onclick="window.location.href='sc_hompage.html'">
+        <span class="material-icons">home</span>
+        <p class="nav-label">Home</p>
+    </button>
+
+    <!-- Explore -->
+    <button class="nav-button" onclick="window.location.href='explore.html'">
+        <span class="material-icons">explore</span>
+        <p class="nav-label">Explore</p>
+    </button>
+
+    <!-- Messages -->
+    <button class="nav-button" onclick="window.location.href='Chat.html'">
+        <span class="material-icons">chat_bubble</span>
+        <p class="nav-label">Chats</p>
+    </button>
+
+    <!-- Profile -->
+    <button class="nav-button" onclick="window.location.href='profile_page.html'">
+        <span class="material-icons">person</span>
+        <p class="nav-label">Profile</p>
+    </button>
+
+    <!-- Notifications -->
+    <button class="nav-button" id="notificationsIcon">
+        <span class="material-icons">notifications</span>
+        <p class="nav-label">Alerts</p>
+    </button>
+</div>
+<div class="hidden lg:block lg:w-1/4 lg:pl-4" style="position: fixed; overflow: auto; top: 72px; right: 20px; width: 28%; max-height: calc(100vh - 120px); z-index: 100;">
+  <div class="space-y-6">
+
+    <!-- Quick Tips Card -->
+    <div id="quickTips" class="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl shadow-lg transition-transform transform hover:scale-105">
+      <h3 class="text-lg font-semibold text-blue-700 mb-2 flex items-center gap-2">Did you know you can</h3>
+      <p class="text-sm text-gray-700">Connect with classmates, share projects, and explore tools efficiently.</p>
+    </div>
+
+    <!-- Trending Topics Card -->
+    <div class="p-4 bg-gradient-to-r from-pink-50 to-pink-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+      <h3 class="text-lg font-semibold text-pink-700 mb-2 flex items-center gap-2">🔥 Trending</h3>
+      <ul class="space-y-1 text-sm text-gray-700">
+        <li>#AutodeskTips</li>
+        <li>#EngineeringChallenges</li>
+        <li>#CampusHacks</li>
+      </ul>
+    </div>
+
+    <!-- Latest News Card -->
+    <div class="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+      <h3 class="text-lg font-semibold text-purple-700 mb-2 flex items-center gap-2">📰 Latest News</h3>
+      <ul class="space-y-1 text-sm text-gray-700">
+        <li><a href="#" class="hover:underline text-blue-500">New AutoCAD update released!</a></li>
+        <li><a href="#" class="hover:underline text-blue-500">Engineering Society announces workshop</a></li>
+        <li><a href="#" class="hover:underline text-blue-500">Campus hackathon registration open</a></li>
+      </ul>
+    </div>
+
+    <!-- Quick Poll Card -->
+    <div class="p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+      <h3 class="text-lg font-semibold text-orange-700 mb-2 flex items-center gap-2">📊 Quick Poll</h3>
+      <p class="text-sm text-gray-700 mb-2">Which tutorials do you want next?</p>
+      <ul class="space-y-1 text-sm text-gray-700">
+        <li><input type="radio" name="poll" /> AutoCAD Advanced</li>
+        <li><input type="radio" name="poll" /> 3D Modeling</li>
+        <li><input type="radio" name="poll" /> Python for Engineers</li>
+      </ul>
+    </div>
+
+    <!-- Resources Card -->
+    <div class="p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">📚 Resources</h3>
+      <ul class="space-y-2">
+        <li><a href="#" class="text-sm text-blue-500 hover:underline">AutoCAD Tutorials</a></li>
+        <li><a href="#" class="text-sm text-blue-500 hover:underline">Engineering Forums</a></li>
+        <li><a href="#" class="text-sm text-blue-500 hover:underline">Student Projects</a></li>
+        <li><a href="#" class="text-sm text-blue-500 hover:underline">Software Tools</a></li>
+      </ul>
+    </div>
+
+    <!-- Announcements / Ads Card -->
+    <div class="p-4 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+      <h3 class="text-lg font-semibold mb-2 flex items-center gap-2">📢 Announcements</h3>
+      <p class="text-sm mb-2">Join the 3D Modeling Workshop this week!</p>
+      <a href="#" class="text-blue-500 text-sm hover:underline">Learn More</a>
+    </div>
+
+    <!-- Friends Online / Classmate Suggestions Card -->
+    <div class="p-4 bg-gradient-to-r from-indigo-50 to-indigo-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
+      <h3 class="text-lg font-semibold text-indigo-700 mb-3 flex items-center gap-2">👥 Friends Online</h3>
+      <div class="space-y-3">
+        <!-- Friend Card -->
+        <div class="flex items-center gap-3 p-2 bg-white rounded-xl shadow hover:shadow-md transition-shadow cursor-pointer">
+          <img src="https://i.pravatar.cc/40?img=1" alt="Friend" class="w-10 h-10 rounded-full border-2 border-green-400">
+          <div class="flex-1">
+            <p class="text-sm font-semibold text-gray-800">Maximilla</p>
+            <p class="text-xs text-gray-500">Online</p>
+          </div>
+          <button class="text-sm text-blue-500 hover:underline">Message</button>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 bg-white rounded-xl shadow hover:shadow-md transition-shadow cursor-pointer">
+          <img src="https://i.pravatar.cc/40?img=2" alt="Friend" class="w-10 h-10 rounded-full border-2 border-green-400">
+          <div class="flex-1">
+            <p class="text-sm font-semibold text-gray-800">Brian O.</p>
+            <p class="text-xs text-gray-500">Online</p>
+          </div>
+          <button class="text-sm text-blue-500 hover:underline">Message</button>
+        </div>
+
+        <div class="flex items-center gap-3 p-2 bg-white rounded-xl shadow hover:shadow-md transition-shadow cursor-pointer">
+          <img src="https://i.pravatar.cc/40?img=3" alt="Friend" class="w-10 h-10 rounded-full border-2 border-gray-400">
+          <div class="flex-1">
+            <p class="text-sm font-semibold text-gray-800">Jane D.</p>
+            <p class="text-xs text-gray-500">Offline</p>
+          </div>
+          <button class="text-sm text-gray-500 cursor-not-allowed">Message</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- JS for Rotating Tips & Quotes -->
+<script>
+  const tips = [
+    "Use layers in AutoCAD to organize designs efficiently.",
+    "Share your code snippets in group forums for peer review.",
+    "Bookmark frequently used resources for faster access.",
+    "Try keyboard shortcuts to speed up your workflow."
+  ];
+
+  const quotes = [
+    "\"Success is not final, failure is not fatal: It is the courage to continue that counts.\" – Churchill",
+    "\"Don't watch the clock; do what it does. Keep going.\" – Sam Levenson",
+    "\"Strive for progress, not perfection.\"",
+    "\"The expert in anything was once a beginner.\""
+  ];
+
+  let tipIndex = 0, quoteIndex = 0;
+
+  setInterval(() => {
+    document.getElementById('quickTips').querySelector('p').textContent = tips[tipIndex];
+    tipIndex = (tipIndex + 1) % tips.length;
+  }, 7000);
+
+  setInterval(() => {
+    document.getElementById('quoteBox').querySelector('p').textContent = quotes[quoteIndex];
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+  }, 10000);
+</script>
+
+
+
+<style>
+.nav-button {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px 0;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.nav-button .material-icons {
+    font-size: 28px;
+    margin-bottom: 4px;
+}
+
+.nav-label {
+    font-size: 12px;
+    margin: 0;
+    color: white;
+    font-weight: 500;
+}
+</style>
+
     <!-- Divider -->
     <hr class="divider">
 
@@ -775,8 +956,8 @@ window.submitComment = async function(postId) {
     margin-right: 10px; /* Spacing between the profile picture and comment text */
 }
 .profile-pic {
-    width: 50px;!important;
-    height: 50px;!important;
+    width: 50px !important;
+    height: 50px !important;
     border-radius: 50% !important; /* Ensures it is a perfect circle */
     margin-right: 15px;
     object-fit: cover; /* Ensures the image fits well within the circle */
@@ -811,6 +992,37 @@ window.submitComment = async function(postId) {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+}
+.top-nav {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    background-color: #ffffff00;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+.top-nav p {
+    text-decoration: none;
+    color: #f0f2f5;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.top-nav button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #f0f2f5;
 }
 
 .loading-spinner {
@@ -875,8 +1087,9 @@ window.submitComment = async function(postId) {
 /* Add margin or padding to the content below the header */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
+    background-color: #f3f3f5;
     padding-top:0px; /* Push the content down, adjust if the header size changes */
+
 }
 .divider {
     margin: 0px 0;
@@ -887,56 +1100,6 @@ body {
 .header h1 {
     font-size: 24px;
     margin-bottom: 10px;
-}
-
-
-/* General header and navigation styling */
-.header nav {
-    display: flex;
-    justify-content: space-between; /* Evenly distribute icons */
-    align-items: center;
-    width: 100%; /* Full screen width */
-    padding: 3.5px;
-    background-color: transparent;  /* No background */
-}
-
-/* Style for all icons */
-.header nav a {
-    color: #333;  /* Default icon color */
-    font-size: 24px;  /* Icon size */
-    position: relative;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1px;
-    flex: 1; /* Make each icon take up equal space */
-    text-align: center; /* Ensure icons are centered in each space */
-}
-
-.header nav a:hover {
-    color: #007BFF;  /* Change icon color on hover */
-}
-
-/* Material icon specific styling */
-#homeIcon, #notificationsIcon, #profileIcon, #messagesIcon{
-    font-size: 36px !important;
-    color: #fff;
-}
-
-/* Badge styling for notifications and messages */
-.badge {
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    font-size: 10px;
-    padding: 3px 6px;
-    position: absolute;
-    top: -5px;
-    right: 25px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* Dropdown styling for notifications */
@@ -975,8 +1138,8 @@ body {
 
 /* Profile Picture */
 .profile-picture {
-    width: 35px; !important;/* Adjust the size as needed */
-    height: 35px;!important;
+    width: 35px !important;/* Adjust the size as needed */
+    height: 35px!important;
     border-radius: 50%; /* Circular profile picture */
     margin-right: 10px; /* Spacing between the profile picture and textarea */
     vertical-align: middle; /* Aligns the picture vertically with other elements */
@@ -1087,7 +1250,7 @@ font-size: 40px !important;
     color: #4D9CFF;
     border: none;
     font-size: 19px
-    border-radius: 20px;
+    border-radius 20px;
     cursor: pointer;
 }
 
@@ -1099,9 +1262,9 @@ font-size: 40px !important;
 .comment-dialog {
     position: fixed;
     bottom: 0;
-    left: 0;
+    left:0;
     width: 100%;
-    height: 80%; /* Or adjust to your desired height */
+    max-height: 80%; /* Or adjust to your desired height */
     background-color: white;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -1226,9 +1389,8 @@ font-size: 40px !important;
     border-radius: 4px;
     cursor: pointer;
 }
-
 .reply-input button:hover {
-  
+    background-color: #0056b3;
 }
 .reply {
     display: flex;
@@ -1319,7 +1481,7 @@ font-size: 40px !important;
     border-radius: 50%;
     padding: 6px; /* Use correct padding syntax */
     margin-left: auto; /* Push button to the right */
-    margin-right: -15px; !important;
+    margin-right: -15px !important;
     cursor: pointer;
     display: flex; /* Align contents inside button */
     align-items: center;
@@ -1373,5 +1535,167 @@ font-size: 40px !important;
     align-items: center;
     margin-bottom: 10px;
 }
+
+/* ============================
+   RESPONSIVE DESIGN - GLOBAL FIXES
+   ============================ */
+
+/* Smartphones (up to 600px) */
+@media only screen and (max-width: 600px) {
+
+    /* Post box width */
+    .post-box,
+    .feed,
+    .post,
+    .top-nav {
+        width: 100% !important;
+        padding: 8px !important;
+        margin: 0px auto !important;
+    }
+    .feed {
+        padding-bottom: 80px !important; /* Extra space for bottom nav */
+    }
+    .post-box {
+        margin-top: 70px !important; /* Space for fixed header */
+    }
+    .platform_name {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        background: rgba(255, 255, 255, 0.25) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        z-index: 1001 !important;
+        padding: 2px 4px !important;
+        font-size: medium !important;
+        font-weight: 800 !important;
+        text-align: left !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.18) !important;
+    }
+
+    /* Header icons */
+    .header nav a {
+        font-size: 20px !important;
+        padding: 4px !important;
+    }
+    #homeIcon,
+    #notificationsIcon,
+    #profileIcon,
+    #messagesIcon {
+        font-size: 28px !important;
+    }
+
+    /* Textarea smaller */
+    .post-header textarea {
+        font-size: 13px !important;
+        padding: 8px !important;
+    }
+
+    /* Add photo button */
+    .add-image-button .material-icons {
+        font-size: 34px !important;
+        margin-left: 5px !important;
+    }
+
+    /* Post actions */
+    .post-actions button {
+        padding: 8px !important;
+        font-size: 13px !important;
+    }
+
+    /* Profile pics */
+    .profile-picture,
+    .profile-pic {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .reply-profile-pic {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    /* Comment dialog full size on phones */
+    .comment-dialog {
+        height: 85% !important;
+        padding: 15px !important;
+    }
+
+    .comment-list {
+        max-height: 60vh !important;
+    }
+
+    /* Buttons */
+    .post-button-container button {
+        height: 36px !important;
+        padding: 5px 12px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* Tablets & small laptops (600px – 1024px) */
+@media only screen and (min-width: 600px) and (max-width: 1024px) {
+
+    .post-box,
+    .feed,
+    .post,
+    .top-nav {
+        width: 90% !important;
+    }
+
+    .header nav a {
+        font-size: 28px !important;
+    }
+
+    .post-actions button {
+        padding: 10px !important;
+        font-size: 15px !important;
+    }
+
+    .post-header textarea {
+        font-size: 15px !important;
+    }
+}
+
+/* Laptops (above 1024px) */
+@media only screen and (min-width: 1024px) {
+
+    .post-box,
+    .feed {
+        width: 40% !important;   /* Clean centered layout */
+       
+        margin: 10px auto !important;
+    }
+
+    .comment-dialog {
+        width: 50% !important;
+        left: 25% !important; /* Center the dialog */
+    }
+
+    .post {
+        border-radius: 12px;
+        padding: 15px;
+    }
+    .top-nav {
+        max-width: 29%;
+        margin-bottom: 0px;
+        bottom:0;
+        left:0 !important;
+        margin-top: 90px;
+        
+    }
+    
+
+    .post-header textarea {
+        font-size: 16px !important;
+    }
+    .post-image {
+        max-height: 200px; /* Limit max height on larger screens */
+        object-fit: cover;
+    }
+}
+
 </style>
 </html>

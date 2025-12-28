@@ -1,1233 +1,471 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Iskify360 - Founded in June 2024 by Brian Odhiambo, empowering individuals to innovate, learn, connect, and enjoy through technology.">
-    <meta name="google-site-verification" content="RWToLMmWBRWQmV7g8lHVhhXFy4EPDZU_OM2fhhdLy60" />
-<meta name="keywords" content="Iskify360, tech innovation, learning platform, productivity tools, academic tools, communication, collaboration, Brian Odhiambo, innovation, empowerment, Kenya">
-<meta property="og:title" content="Iskify360 - Empowering Innovation, Learning, and Connectivity">
-<meta property="og:description" content="Empowering individuals with cutting-edge tools to innovate, learn, and connect, starting in 2024. Join us on a journey of growth and success.">
-<meta property="og:url" content="https://iskify360.netlify.app">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://iskify360.netlify.app/i_360.jpg">
-<title>Iskify360 - Innovate. Learn. Connect. Enjoy. Empowering Growth Since 2024</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Iskify360 - Empowering individuals to innovate, learn, connect, and enjoy through technology.">
+    <title>Iskify360 | Innovate. Learn. Connect.</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-        </script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Iskify360",
-  "url": "https://iskify360.netlify.app",
-  "logo": "https://iskify360.netlify.app/i_360.png",  
-  "sameAs": [
-    "https://www.facebook.com/profile.php?id=61558945445032",
-    "https://www.linkedin.com/in/brian-odhiambo-4646b4327",
-    "https://x.com/BrianOdhia67569",
-    "https://instagram.com/eng_brayo"
-  ],
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "+254-702495776",  
-    "contactType": "Customer Support",
-    "areaServed": "KE",
-    "availableLanguage": "English"
-  },
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Westlands",
-    "addressRegion": "Nairobi",
-    "postalCode": "00100",
-    "addressCountry": "KE"
-  }
-}
-</script>
-    <script type="application/ld+json">
-{
-   "@context": "https://schema.org",
-   "@type": "Organization",
-   "name": "iskify360",
-   "founder": "Brian Odhiambo",
-   "foundingDate": "2024",
-   "url": "https://iskify360.netlify.app"
-}
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#0F172A', /* Dark Navy */
+                            accent: '#3B82F6', /* Bright Blue */
+                            light: '#F8FAFC',
+                        }
+                    }
+                }
+            }
+        }
     </script>
 
-</head>
-<body>
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <img src="iskify360_brand_image.png" alt="iskify360 Logo"> 
-                <h1></h1>
-            </div>
-            <div class="menu-icon" onclick="openMenu()">
-                <img src="menuweb1.png" alt="Menu Icon"> 
-            </div>
-        </div>
-    </header>
-
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
-        <h2>ISKIFY360 CONTROL CENTER</h2>
-        <h3>Navigation</h3>
-        <a href="#home">Home</a>
-        <a href="#about">About Us</a>
-        <a href="#services">Services</a>
-        <a href="#team">Company Profile</a>
-        <a href="#contact">Contact Us</a>
-        <h3>Platforms</h3>
-        <a href="https://iskify360.netlify.app/download">Iskify360 Online</a>
-        <a href="https://iskify360.netlify.app/download">Android Application</a>
-        <a href="https://iskify360.netlify.app/ceramics">Student Blogs</a>
-        <a href="#">Cyber Services</a>
-        <h3>Policies</h3>
-        <a href="https://iskify360.netlify.app/download#privacy-policy">Privacy Policy</a>
-        <a href="https://iskify360.netlify.app/download#terms-of-service">Terms of Service</a>
-        <h3>Tools</h3>
-        <a href="#">Research & Analysis Tools</a>
-        <a href="#">Assignment Management</a>
-        <a href="#">Custom Student Reports</a>
-    </div>
-
- <section id="home" class="hero">
-    <p><br><br><i><b>"Curiosity is the spark that ignites innovation. Knowledge is the fuel that keeps it burning. At Iskify360, we believe that with the right tools and mindset, anyone can shape their own future. Whether you're innovating, learning, or connecting, the journey starts now. Embrace the power of technology to unlock new opportunities and drive your own success. The world is changing, and it's time for you to lead."</i></b></p>
-    <h3><br>Brian Odhiambo, Founder & CEO<br>Iskify360</h3> 
-    <div class="button-container">
-    </div>
-  </section>
-<section id="about" class="section">
-    <h2>About ISKIFY360</h2>
-
-    <div class="mission-vision-container">
-        <div class="mission">
-            <h3 class="section-title">Our Mission</h3>
-            <p class="section-text">To empower individuals and organizations through innovative, accessible, and integrated digital solutions that foster continuous learning, connectivity, and personal growth. At Iskify360, we aim to create an all-in-one platform that fuels curiosity, enhances productivity, and brings the world of knowledge, entertainment, and communication closer together.</p>
-        </div>
-
-        <div class="vision">
-            <h3 class="section-title">Our Vision</h3>
-            <p class="section-text">To become the leading platform that drives digital transformation, where innovation meets learning, social connection, and entertainment. We envision a world where people can seamlessly access the tools, resources, and communities they need to thrive, all within a single, dynamic platform.</p>
-        </div>
-    </div>
-
-    <div class="story-wrapper">
-    <img src="digital-world.jpg" alt="Digital world" class="story-image">
-    <div class="company-history">
-    <h3 class="section-title">Our Story</h3>
-<p class="section-text">
-Founded in June 2024 by <a href="https://engineerodhiambo.netlify.app">Brian Odhiambo</a>, a student mining and mineral processing engineer and tech enthusiast, Iskify360 started as a simple way to help students manage assignments. Today, it’s a complete digital ecosystem for learning, innovation, and connection.
-</p>
-<p class="section-text">
-The name blends <strong>"Iski"</strong> a tribute to Brian’s mother with <strong>"360"</strong>, our full-circle approach to solving challenges from every angle.
-</p>
-<p class="section-text">
-We combine education, research, media, and social tools in one platform built for curious minds, future leaders, and anyone ready to grow with technology.
-</p>  
-    </div>
-    </div>
-</section>
-    
-<section id="journey" class="section">
-    <h2>Our Journey</h2>
-
-    <!-- 2024 June: Launch -->
-    <div class="journey-step">
-        <div class="journey-image">
-            <img src="i_360.png" alt="i360 app Launch Image" style="object-fit: contain;">
-        </div>
-        <h3>June 2024 - iskify360 Launch</h3>
-        <p>We launched the i360 android application, initially offering basic features to support basic media access such as music and video player.</p>
-    </div>
-
-    <!-- 2023 August: Feature Expansion -->
-    <div class="journey-step">
-        <div class="journey-image">
-            <img src="features.jpg" alt="Assignment and Report Features Added">
-        </div>
-        <h3>August 2024 - Added Assignment Management & Report Generation</h3>
-        <p>Expanded our offerings with tools for managing assignments and generating custom reports.</p>
-    </div>
-
-    <!-- 2023 September: i360 Online Launch -->
-    <div class="journey-step">
-        <div class="journey-image">
-            <img src="sc_space_launch.jpg" alt="i360 Online Social Platform Launch">
-        </div>
-        <h3>September 2024 - iskify360 Online Launch</h3>
-        <p>Launched iskify360 Online, creating a dedicated platform for socialization and communication.</p>
-    </div>
-
-    <!-- 2023 October: Website Launch -->
-    <div class="journey-step">
-        <div class="journey-image">
-            <img src="website_launch.jpg" alt="Website Launch Image">
-        </div>
-        <h3>October 2024 - Website Launch</h3>
-        <p>Established an online presence by launching our official website, broadening our reach to users globally.</p>
-    </div>
-</section>
-
-<style>
-    
-  /* The sidebar menu */
-.sidebar {
-    height: 100%; /* Full-height */
-    width: 0; /* Start with zero width */
-    position: fixed; /* Stay in place */
-    z-index: 3; /* Stay on top */
-    top: 0;
-    left: 0;
-    background-color: #003366; /* Black */
-    overflow-x: hidden; /* Disable horizontal scroll */
-    transition: 0.5s; /* 0.5 second transition effect */
-    padding-top: 60px; /* Place content 60px from the top */
-}
-h4 {
-    color: #003366;
-    text-align: start;
-    margin-bottom: 10px;
-}
-
-.sidebar a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 14px;
-    color: white;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidebar .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-.sidebar a:hover {
-    color: #f1f1f1;
-}
-
-.sidebar h3 {
-    padding: 15px 15px;
-    font-size: 18px;        
-    font-weight: 700;          
-    color: #f1f1f1;            
-    text-transform: uppercase; 
-    letter-spacing: 1px;       
-    background-color: #333;   
-    margin: 0;                
-    border-bottom: 2px solid #575757; 
-}
-.sidebar h2 {
-    font-size: 20px;
-    color: #f1f1f1;
-    padding-left: 32px;
-    margin-bottom: 20px;
-    font-family: 'Arial', sans-serif;
-}
-
-
-.header-container .menu-icon {
-    cursor: pointer;
-}
-    #about {
-        background-color: #f8f9fa;
-    }
-    .mission-vision-container {
-    display: flex;
-    justify-content: space-around;
-    margin: 20px 0;
-        
-        padding: 1rem;
-        border-left: 5px solid #004085;
-        background-color: #e9ecef;
-        border-radius: 8px;
-        position: relative;
-        transition: transform 0.3s ease;
-
-}
-
-.mission, .vision {
-    width: 40%;
-}
-    /* Section styling */
-    #journey {
-        max-width: 40%;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #f8f9fa;
-        padding: 2rem 1rem;
-        text-align: center;
-    }
-    @media (max-width: 768px) {
-        #journey {
-            max-width: 100%;
-            margin-left: auto;
-        margin-right: auto;
-        background-color: #f8f9fa;
-        padding: 2rem 1rem;
-        text-align: center;
-
+    <style>
+        /* Custom Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
         
-    }
-
-    #journey h2 {
-        font-size: 1.5rem;
-        color: #004085;
-        margin-bottom: 2rem;
-    }
-
-    /* Styling journey steps with timeline effect */
-    .journey-step {
-        max-width: 800px;
-        margin: 1rem auto;
-        padding: 1.5rem;
-        border-left: 5px solid #004085;
-        background-color: #e9ecef;
-        border-radius: 8px;
-        position: relative;
-        transition: transform 0.3s ease;
-    }
-
-    .journey-step:hover {
-        transform: translateY(-5px);
-    }
-
-    /* Alternating background color */
-    .journey-step:nth-child(even) {
-        background-color: #d6d8db;
-    }
-
-    /* Full-width, short-height images with rounded corners */
-    .journey-image {
-        width: 100%;
-        height: 200px;
-        overflow: hidden;
-        border-radius: 5px;
-        margin-bottom: 1rem;
-    }
-
-    .journey-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        
-        transition: transform 0.5s ease;
-    }
-
-    .journey-image img:hover {
-        transform: scale(1.05);
-    }
-
-    /* Text styling */
-    .journey-step h3 {
-        font-size: 1.1rem;
-        color: #004085;
-        margin-top: 1rem;
-    }
-
-    .journey-step p {
-        max-width: 700px;
-        margin: 0 auto;
-        color: #495057;
-    }
-</style>
-
-    
-<!-- Notification Pop-Up -->
-<div id="announcementPopup" class="popup-container" style="display: flex;">
-    <div class="popup-content">
-        <div class="announcement-indicator"></div>
-        <span class="close-btn" onclick="closePopup()">&times;</span>
-        <h2>Important Announcement</h2>
-        <p>
-            We deeply regret to inform you that due to an unfortunate loss of both our development laptop and smartphone, we are unable to continue with the <strong>Iskify360 Android Application</strong>. Sadly, all the codebase was stored locally and was not backed up to the cloud.
-        </p>
-        <p>
-            As it stands, the current app is permanently lost. However, our mission and vision remain unchanged. We are now actively working toward building a new application that will carry forward everything Iskify360 stands for. Thank you for your continued support and understanding during this time.
-        </p>
-        <button class="popup-button" onclick="closePopup()">Understood</button>
-    </div>
-</div>
-
-<!-- Styles -->
-<style>
-/* General Container */
-.popup-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    animation: fadeIn 0.8s ease-in-out;
-}
-
-/* Pop-Up Content Box */
-.popup-content {
-    background: #ffffff;
-    width: 90%;
-    max-width: 500px;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    position: relative;
-    animation: bounceIn 0.5s ease-in-out;
-    overflow: hidden;
-}
-
-/* Announcement Indicator */
-.announcement-indicator {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120px;
-    height: 8px;
-    background: linear-gradient(90deg, #ff4d4d, #ff9900);
-    border-radius: 5px;
-    animation: glow 1.5s infinite alternate;
-}
-
-/* Header Title */
-.popup-content h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #0056b3;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-/* Body Text */
-.popup-content p {
-    font-size: 16px;
-    color: #444;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-/* Button Style */
-.popup-button {
-    background-color: #0056b3;
-    color: #fff;
-    border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.popup-button:hover {
-    background-color: #003366;
-    transform: scale(1.05);
-}
-
-/* Close Button */
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #aaa;
-    cursor: pointer;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.close-btn:hover {
-    color: #333;
-    transform: rotate(90deg);
-}
-
-/* Keyframe Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes bounceIn {
-    0% {
-        transform: scale(0.9);
-        opacity: 0.7;
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes glow {
-    from {
-        opacity: 0.5;
-    }
-    to {
-        opacity: 1;
-    }
-}
-</style>
-
-<!-- Script -->
-<script>
-    // Show the pop-up on page load
-    window.onload = function () {
-        /*document.getElementById("announcementPopup").style.display = "flex";*/
-    };
-
-    // Close the pop-up
-    function closePopup() {
-        const popup = document.getElementById("announcementPopup");
-        popup.style.animation = "fadeOut 0.5s ease-in-out";
-        setTimeout(() => (popup.style.display = "none"), 500);
-    }
-</script>
-<section id="services" class="section">
-    <h2>Our Services</h2>
-    <div class="services-slider">
-        <div class="services-wrapper">
-            <div class="service-card">
-                <i class="icon fas fa-comments"></i>
-                <h3 class="service-title">Communication & Socialization</h3>
-                <p class="service-description">Iskify360 connects users through seamless communication and collaboration tools. Share knowledge, connect with peers, and work on projects together effortlessly on <a href="https://iskify360.netlify.app/sc_hompage">Iskify360 Online</a>.</p>
-            </div>
-            <div class="service-card">
-                <i class="icon fas fa-search"></i>
-                <h3 class="service-title">Research & Analytical Tools</h3>
-                <p class="service-description">Our platform provides access to powerful tools for research, analysis, and academic growth, designed to assist you in solving complex problems and advancing your learning journey.</p>
-            </div>
-            <div class="service-card">
-                <i class="icon fas fa-code"></i>
-                <h3 class="service-title">App & Web Development</h3>
-                <p class="service-description">We specialize in creating customized Android and web applications that cater to the unique needs of students, educational institutions, and digital learning environments.</p>
-            </div>
-            <div class="service-card">
-                <i class="icon fas fa-tasks"></i>
-                <h3 class="service-title">Assignment Management</h3>
-                <p class="service-description">Stay organized and on top of your academic workload with our intuitive assignment management tool, which helps track deadlines, set reminders, and ensure timely completion of tasks.</p>
-            </div>
-            <div class="service-card">
-                <i class="icon fas fa-photo-video"></i>
-                <h3 class="service-title">Media & Digital Solutions</h3>
-                <p class="service-description">We offer comprehensive media production services, along with essential cyber solutions such as website creation, printing, publishing, and IT training to equip you with essential digital skills.</p>
-            </div>
-            <div class="service-card">
-                <i class="icon fas fa-chart-line"></i>
-                <h3 class="service-title">Custom Student Reports</h3>
-                <p class="service-description">Generate detailed, customized reports that analyze academic performance, providing actionable insights to track progress, identify strengths, and improve over time.</p>
-            </div>
-        </div>
-    </div>
-    <div class="indicator-container"></div> <!-- Scroll indicators -->
-    <div class="button-container">
-        <a href="#contact" class="cta-button">Get Started with Our Services</a>
-    </div>
-</section>
-<script>
-const servicesWrapper = document.querySelector('.services-wrapper');
-const serviceCards = document.querySelectorAll('.service-card');
-const indicatorContainer = document.querySelector('.indicator-container');
-
-// Dynamically create indicators
-serviceCards.forEach((_, index) => {
-    const dot = document.createElement('div');
-    dot.classList.add('indicator');
-    if (index === 0) dot.classList.add('active'); // First dot active by default
-    dot.dataset.index = index;
-
-    dot.addEventListener('click', () => {
-        const cardWidth = serviceCards[0].getBoundingClientRect().width;
-        servicesWrapper.scrollTo({
-            left: index * cardWidth,
-            behavior: 'smooth',
-        });
-    });
-
-    indicatorContainer.appendChild(dot);
-});
-
-// Update active indicator on scroll
-servicesWrapper.addEventListener('scroll', () => {
-    const cardWidth = serviceCards[0].getBoundingClientRect().width;
-    const activeIndex = Math.round(servicesWrapper.scrollLeft / cardWidth);
-
-    const indicators = document.querySelectorAll('.indicator');
-    indicators.forEach((dot, index) => {
-        dot.classList.toggle('active', index === activeIndex);
-    });
-});
-
-// Auto-scroll functionality
-let autoScrollInterval;
-let isUserInteracting = false;
-
-function startAutoScroll() {
-    autoScrollInterval = setInterval(() => {
-        if (!isUserInteracting) {
-            const cardWidth = serviceCards[0].getBoundingClientRect().width;
-            const currentIndex = Math.round(servicesWrapper.scrollLeft / cardWidth);
-            const nextIndex = (currentIndex + 1) % serviceCards.length;
-
-            servicesWrapper.scrollTo({
-                left: nextIndex * cardWidth,
-                behavior: 'smooth',
-            });
-        }
-    }, 5000);
-}
-
-function stopAutoScroll() {
-    clearInterval(autoScrollInterval);
-    isUserInteracting = true;
-}
-
-function resumeAutoScroll() {
-    setTimeout(() => {
-        isUserInteracting = false;
-        startAutoScroll();
-    }, 5000);
-}
-
-// Add event listeners for user interaction
-servicesWrapper.addEventListener('scroll', () => {
-    isUserInteracting = true;
-});
-// servicesWrapper.addEventListener('touchend', resumeAutoScroll);
-servicesWrapper.addEventListener('wheel', stopAutoScroll);
-
-// Initialize auto-scroll
-// startAutoScroll();
-</script>
-<style>
-/* General Styles */
-.section {
-    padding: 50px 20px;
-    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-    text-align: start;
-}
-
-h2 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* Service Card Styles */
-.services-slider {
-    overflow-x: hidden; /* Prevent overflow */
-    position: relative;
-}
-
-.services-wrapper {
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    gap: 20px;
-    scroll-behavior: smooth;
-    overflow-x: auto; /* Enable horizontal scrolling */
-}
-.service-card {
-    flex: 0 0 300px;
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    text-align: left;
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-    will-change: transform;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    perspective: 500px; /* Adds perspective to the card for the 3D effect */
-}
-
-.service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 15px;
-    padding: 2px;
-    background: linear-gradient(90deg, 
-        rgba(0, 115, 230, 0.5), 
-        rgba(0, 162, 255, 1), 
-        rgba(0, 115, 230, 0.5), 
-        rgba(0, 0, 139, 0.5)
-    ); /* Blue gradient for the glowing strip */
-    background-size: 300% 300%;
-    animation: moveLight 4s linear infinite;
-    z-index: -1;
-    will-change: background-position;
-}
-
-.service-card::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.1) 80%);
-    clip-path: polygon(
-        50% 0%, 
-        61% 35%, 
-        98% 35%, 
-        68% 57%, 
-        79% 91%, 
-        50% 70%, 
-        21% 91%, 
-        32% 57%, 
-        2% 35%, 
-        39% 35%
-    ); /* Star shape */
-    animation: moveStar 4s linear infinite;
-    z-index: 1;
-    will-change: transform;
-}
-
-/* 3D Hover Effect */
-.service-card:hover {
-    transform: rotateY(35deg) rotateX(5deg); /* Creates the 3D tilt effect on hover */
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4); /* Increase the shadow on hover for depth */
-}
-
-@keyframes moveLight {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-@keyframes moveStar {
-    0% {
-        transform: translateX(-30px) translateY(-20px); /* Start point */
-    }
-    25% {
-        transform: translateX(50%) translateY(0); /* Halfway through the card */
-    }
-    50% {
-        transform: translateX(80%) translateY(30px); /* Move near the right side */
-    }
-    75% {
-        transform: translateX(20%) translateY(50px); /* Move up toward the top */
-    }
-    100% {
-        transform: translateX(-30px) translateY(100px); /* End point (back to left but lower) */
-    }
-}
-
-
-.service-card:hover::before {
-    filter: brightness(1.5); /* Intensifies the glowing effect */
-    animation-duration: 2s;
-}
-
-.service-card:hover::after {
-    filter: brightness(2);
-    animation-duration: 2s;
-}
-
-/* Optional: Increase the 3D effect with additional hover states */
-.service-card:active {
-    transform: rotateY(45deg) rotateX(20deg); /* Slightly stronger 3D effect when clicked */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); /* Stronger shadow when clicked */
-}
-.icon {
-    font-size: 40px;
-    color: #007bff;
-    margin-bottom: 15px;
-}
-
-.service-title {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.service-description {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.6;
-}
-
-.service-description a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.service-description a:hover {
-    text-decoration: underline;
-}
-
-/* Indicator Dots */
-.indicator-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px;
-}
-
-.indicator-container .indicator {
-    width: 10px;
-    height: 10px;
-    background-color: #ddd;
-    border-radius: 50%;
-    margin: 0 5px;
-    transition: background-color 0.3s;
-    cursor: pointer;
-}
-
-.indicator-container .indicator.active {
-    background-color: #007bff;
-}
-</style>
-    
-
-<section id="team" class="section">
-    <h2>Our Team Members</h2>
-    <p>Iskify360 currently consists of a small but passionate team, with more talent set to join as we grow. Each team member brings a unique skill set to help us deliver innovative solutions for a wide range of users.</p>
-    
-    <div class="team-member">
-        <div class="team-pic">
-            <img src="engineer_ceo.jpg" alt="Brian, Founder & CEO" id="profile-pic">
-            <h3>Brian Odhiambo - Founder & CEO</h3>
-        </div>
-         <p>A tech enthusiast with a deep passion for innovation, Brian is currently pursuing Mining and Mineral Processing Engineering at JKUAT. He also serves as Secretary General of the Mining Engineers Society of Kenya. As the founder of Iskify360, Brian leads the development of solutions that cater to a diverse community, not limited to students, but to anyone seeking to achieve personal and professional growth through technology. <a href="https://engineerodhiambo.netlify.app" class="read-more-link">View Brian's Bio ➡️</a></p>  
-    </div>
-</section>
-    <style>   
-    #team {
-     background-color: #f8f9fa;
-        padding: 2rem 1rem;
-        text-align: left;
-    }
-
-    #team p {
-        font-size: 1rem;
-        line-height: 1.6;
-        color: #333;
-        max-width: 80%;
-        margin: 0 auto 20px;
-    }
-
-    @media (max-width: 768px) {
-        #team p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #333;
-            max-width: 100%;
-            margin: 0 auto 20px;
-        }
-    }
-
-#team h2 {
-    font-size: 1.5em;
-    color: #003366;
-    margin-bottom: 30px;
-    border-bottom: 2px solid #003366;
-}
-
-
-#profile-pic {
-    width: 300px;
-        height: 300px;
-        overflow: hidden;
-        border-radius: 5px;
-        margin-bottom: 1rem;
-}
-
-.team-member {
-    display: flex;
-max-width: 70%;
-        margin: 1rem auto;
-        padding: 1.5rem;
-        border-left: 5px solid #004085;
-        background-color: #e9ecef;
-        border-radius: 8px;
-        position: relative;
-        transition: transform 0.3s ease;
-        gap: 20px;
-    }
-    @media (max-width: 768px) {
-        .team-member {
-            display: block;
-            max-width: 100%;
-            margin: 1rem auto;
-            padding: 1.5rem;
-            border-left: 5px solid #004085;
-            background-color: #e9ecef;
-            border-radius: 8px;
-            position: relative;
-            transition: transform 0.3s ease;
-            gap: 20px;
-        }
-    }
-
-    .journey-step:hover {
-        transform: translateY(-5px);
-    }
-
-    /* Alternating background color */
-    .journey-step:nth-child(even) {
-        background-color: #d6d8db;
-    }
-
-.team-member p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #333;
-}
-    .team-member h3 {
-        font-size: 1.1rem;
-        color: #004085;
-        margin-top: 1rem;
-    }
-
-
-.read-more-link {
-    display: block;
-    margin-top: 10px;
-    color: #007BFF;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.read-more-link:hover {
-    text-decoration: underline;
-}
-#feedback {
-    max-width: 60%;
-    margin: 0 auto;
-    background-color: #f8f9fa;
-    padding: 2rem 1rem;
-    text-align: left;
-}
-
-@media (max-width: 768px) {
-    #feedback {
-        max-width: 100%;
-        margin: 0 auto;
-        background-color: #f8f9fa;
-        padding: 1rem 1rem;
-        text-align: left;
-    }
-}
-</style>
-<section id="feedback" class="section">
-    <h2>Client Testimonials ⭐</h2>
-    <p>At Iskify360, we value the feedback of our users. Here's what some of them have shared about their experience with our platform: 😊</p>
-
-    <div class="testimonial-container" id="testimonial-container">
-        <div class="testimonial-item">
-            <p>"The Iskify360 app has completely transformed how I manage my tasks and schedule. Its features make it incredibly easy to stay organized and on top of my responsibilities. 🌟"</p>
-            <h4>- Kevin, 3rd Year Engineering Student 🛠️</h4>
-        </div>
-
-        <div class="testimonial-item">
-            <p>"I believe Iskify360 has the potential to become a major player in the tech space. It's intuitive, innovative, and could easily be a top platform in its field. Excited to see where it goes! 🚀"</p>
-            <h4>- Underson, Facebook 👨‍💻</h4>
-        </div>
-
-        <div class="testimonial-item">
-            <p>"The custom reports feature is a game-changer! It’s helped me stay on track with my academic progress, and I can plan ahead with clear insights into my performance. 📈"</p>
-            <h4>- Mary Ann, Engineering Student at JKUAT 🎓</h4>
-        </div>
-    </div>
-</section>
-
-<div class="bottom-container">
-    <div>
-<section id="contact" class="section" style="
-    font-family: Arial, sans-serif; 
-    padding: 20px; 
-    max-width: 600px; 
-    margin: auto; 
-    margin-top: 40px;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2); 
-    border-radius: 15px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-    <h2 style="text-align: center; color: #333;">Get In Touch with Us</h2>
-    <p style="text-align: center; color: #555; margin-bottom: 20px;">Have any questions, suggestions, or need further information about our services? Fill out the form below and we'll get back to you as soon as possible. We're here to help you succeed!</p>
-
-    <form name="contact" method="POST" netlify style="display: flex; flex-direction: column;">
-        <div class="form-group" style="margin-bottom: 15px;">
-            <label for="name" style="color: #555; font-weight: bold;">Your Name:</label>
-            <input type="text" id="name" name="name" style="
-                width: 100%; 
-                padding: 10px; 
-                border: 1px solid #ccc; 
-                border-radius: 5px; 
-                margin-top: 5px;" required>
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            <label for="email" style="color: #555; font-weight: bold;">Your Email:</label>
-            <input type="email" id="email" name="email" style="
-                width: 100%; 
-                padding: 10px; 
-                border: 1px solid #ccc; 
-                border-radius: 5px; 
-                margin-top: 5px;" required>
-        </div>
-        <div class="form-group" style="margin-bottom: 20px;">
-            <label for="message" style="color: #555; font-weight: bold;">Your Message:</label>
-            <textarea id="message" name="message" rows="4" placeholder="Tell us how we can assist you..." style="
-                width: 100%; 
-                padding: 10px; 
-                border: 1px solid #ccc; 
-                border-radius: 5px; 
-                margin-top: 5px;" required></textarea>
-        </div>
-        <button type="submit" id="sendButton" class="send-button" style="
-            padding: 12px 20px; 
-            background-color: #4CAF50; 
-            color: white; 
-            font-size: 16px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            display: none; 
-            margin: auto;">Send Message</button>
-    </form>
-    </section>
-</div>
-<div class="company-info" style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; max-width: 600px; margin: 10px;">
-    <h3 style="color: #333; margin-bottom: 10px;">Our Location</h3>
-    <p style="color: #555; line-height: 1.6;">Our headquarters is based in <strong>Westlands, opposite Sarit Center, Nairobi</strong>, with most of our services currently running online.</p>
-    <p style="color: #555; line-height: 1.6;">For updates on our services, follow us on our social media platforms or reach us through the contact details below.</p>
-    
-    <h3 style="color: #333; margin-top: 20px; margin-bottom: 10px;">Contact Information</h3>
-    <p style="color: #555; line-height: 1.6;">
-        <i class="fas fa-phone-alt" style="color: green; margin-right: 8px;"></i>
-        <strong></strong> <a href="tel:+254702495776" style="color: blue; text-decoration: none;">+254 702 495 776</a>
-    </p>
-    <p style="color: #555; line-height: 1.6;">
-        <i class="fas fa-envelope" style="color: red; margin-right: 8px;"></i>
-        <strong></strong> <a href="mailto:iskify360.tech@gmail.com" style="color: blue; text-decoration: none;">iskify360.tech@gmail.com</a>
-    </p>
-
-    <h3 style="color: #333; margin-top: 20px; margin-bottom: 10px;">Find Us on the Map</h3>
-    <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.123456789!2d36.805!3d-1.265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x123456789abcdef%3A0xabcdef123456789!2sSarit%20Center%2C%20Westlands%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1234567890123" 
-        width="100%" 
-        height="300" 
-        style="border:0; border-radius: 8px;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-</div>
-</div>
-
-<div class="social-links" style="text-align: center; margin-top: 20px;">
-    <a href="https://www.linkedin.com/in/brian-odhiambo-4646b4327" style="color: #0A66C2; margin-right: 15px; text-decoration: none;" target="_blank">
-        <i class="fab fa-linkedin fa-2x"></i>
-    </a>
-    <a href="https://x.com/BrianOdhia67569" style="color: #1DA1F2; margin-right: 15px; text-decoration: none;" target="_blank">
-        <i class="fab fa-twitter fa-2x"></i>
-    </a>
-    <a href="https://www.instagram.com/eng_brayo" style="color: #E1306C; margin-right: 15px; text-decoration: none;" target="_blank">
-        <i class="fab fa-instagram fa-2x"></i>
-    </a>
-    <a href="https://www.facebook.com/profile.php?id=61558945445032" style="color: #1877F2; text-decoration: none;" target="_blank">
-        <i class="fab fa-facebook fa-2x"></i>
-    </a>
-</div>
-</section>     
-<script>
-    // Script to hide the button when inputs are empty
-    const inputs = document.querySelectorAll('#name, #email, #message');
-    const button = document.getElementById('sendButton');
-
-    inputs.forEach(input => {
-        input.addEventListener('input', () => {
-            const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
-            button.style.display = allFilled ? 'block' : 'none';
-        });
-    });
-</script>   
-        <style>
-        /* Global Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: #003366;
-            color: #fff;
-            padding: 50px 20px;
-            text-align: center;
-        }
-
-        footer h2 {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #fff !important;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        footer p {
-            margin-bottom: 20px;
-            font-size: 1rem;
-        }
-
-        footer ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        footer ul li {
-            font-size: 1rem;
-        }
-
-        footer a {
-            color: #003366;
-            text-decoration: none;
-            transition: color 0.3s, text-decoration 0.3s;
-        }
-
-        footer a:hover {
-            color: #ff9800;
-            text-decoration: underline;
-        }
-
-        footer button {
-            padding: 10px 20px;
-            font-size: 1rem;
-            background-color: #ff9800;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        footer button:hover {
-            background-color: #e68900;
-            transform: scale(1.05);
-        }
-
-        footer input {
-            padding: 10px;
-            width: 250px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 5px;
-        }
-
-        footer form {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        footer .footer-note {
-            margin-top: 50px;
-            font-size: 0.9rem;
-            color: #aaa;
+        /* Glass effect for navbar */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(200, 200, 200, 0.2);
         }
     </style>
 </head>
-<body>
-    <!-- Footer Section -->
-    <footer>
-        <!-- Quick Links Section -->
-        <div>
-            <h2>Quick Links</h2>
-            <ul>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-                 <li><a href="https://iskify360.netlify.app/download">Android application</a></li>
-                  <li><a href="https://iskify360.netlify.app/download">Iskify360 Online</a></li>
-                <li><a href="https://iskify360.netlify.app/download#privacy-policy">Policies</a></li>
-            </ul>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <img class="h-10 w-auto rounded-full shadow-sm" src="iskify360_brand_image.png" onerror="this.src='https://via.placeholder.com/40'" alt="Iskify360">
+                    <span class="font-heading font-bold text-xl text-slate-900 tracking-tight"></span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="text-slate-600 hover:text-brand-accent font-medium transition">About Us</a>
+                    <a href="https://odhiambobrian.dev/chat_system" class="text-slate-600 hover:text-brand-accent font-medium transition">Connexa</a>
+                    <a href="#careers" class="text-slate-600 hover:text-brand-accent font-medium transition">Careers</a>
+                    <a href="leadership" class="text-slate-600 hover:text-brand-accent font-medium transition">Leadership</a>
+                    <a href="#policies" class="text-slate-600 hover:text-brand-accent font-medium transition">Policies</a>
+                    <a href="#contact" class="px-5 py-2 bg-blue-600 text-white rounded-full font-medium hover:bg-brand-accent transition shadow-lg shadow-blue-500/20">Contact Us</a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-800 hover:text-brand-accent focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <!-- Newsletter Section -->
-        <div style="margin-top: 40px; margin-left: auto; margin-right: auto;">
-            <h2>Stay Updated</h2>
-            <p>Subscribe to our newsletter for the latest updates and insights.</p>
-            <form action="#" method="post" style="margin: 0 auto;">
-                <input 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    required>
-                <button type="submit">Subscribe</button>
-            </form>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-1 shadow-lg">
+                <a href="#about" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-accent">About Us</a>
+                <a href="https://odhiambobrian.dev/chat_system" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-accent">Connexa</a>
+                <a href="#careers" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-accent">Careers</a>
+                <a href="#policies" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-accent">Policies</a>
+                <a href="#leadership" class="block px-3 py-3 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-accent">Leadership</a>
+                <a href="#contact" class="block px-3 py-3 mt-4 text-center rounded-md text-base font-bold bg-blue-600 text-white">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="relative pt-24 pb-8 lg:pt-24 lg:pb-16 overflow-hidden bg-slate-900 text-white selection:bg-blue-500 selection:text-white">
+    
+    <div class="absolute inset-0 bg-[url('https://iskify360.netlify.app/digital-world.jpg')] bg-cover bg-center opacity-30 mix-blend-overlay"></div>
+    
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-900"></div>
+    
+    <div class="absolute inset-0 bg-[url('https://iskify360.netlify.app/digital-world.jpg')] opacity-20"></div>
+    <div class="absolute inset-0" style="background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); background-size: 50px 50px;"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal active z-10">
+
+        <h1 class="text-5xl md:text-7xl font-heading font-black tracking-tight mb-6 leading-tight">
+            365 Days of <br class="hidden md:block" />
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-green-400 to-emerald-400 filter drop-shadow-lg">
+                Limitless Innovation.
+            </span>
+        </h1>
+
+        <div class="max-w-3xl mx-auto">
+
+            <div class="mb-12 mx-auto max-w-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-2xl relative">
+                <i class="fas fa-quote-left absolute -top-3 -left-3 text-3xl text-blue-500/50"></i>
+                <p class="text-slate-200 italic font-serif text-lg leading-relaxed">
+                    "Knowledge is the fuel. At Iskify360, we believe that with the right tools, anyone can shape their own future. The world is changing, and it's time for you to lead."
+                </p>
+                <div class="mt-4 flex items-center justify-center gap-3">
+                    <div class="h-px w-12 bg-blue-500/50"></div>
+                    <span class="font-bold text-white text-sm">Brian Odhiambo</span>
+                    <span class="text-blue-400 text-xs uppercase tracking-widest border border-blue-500/30 px-2 py-0.5 rounded">Founder & CEO</span>
+                    <div class="h-px w-12 bg-blue-500/50"></div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+                <a href="#services" class="group relative px-8 py-4 bg-blue-600 rounded-lg font-bold text-white shadow-lg shadow-blue-600/30 overflow-hidden transition-all hover:scale-105 hover:shadow-blue-600/50">
+                    <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                    <span class="relative flex items-center gap-2">
+                        Explore Our Platform <i class="fas fa-arrow-down group-hover:translate-x-1 transition-transform"></i>
+                    </span>
+                </a>
+                
+                <a href="https://iskify360.netlify.app/download" class="px-8 py-4 bg-slate-800/50 hover:bg-slate-800 backdrop-blur-md text-white border border-slate-600 rounded-lg font-semibold transition-all hover:border-blue-400 hover:text-blue-400 group">
+                    <span class="flex items-center gap-2">
+                        <i class="fab fa-android text-xl group-hover:text-green-400 transition-colors"></i> Download App
+                    </span>
+                </a>
+            </div>
+            
+            <p class="mt-6 text-slate-500 text-xs uppercase tracking-widest">
+                Trusted by students & professionals since 2024
+            </p>
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes shimmer {
+        100% { transform: translateX(100%); }
+    }
+</style>
+
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="relative reveal">
+                    <div class="absolute -inset-4 bg-blue-100 rounded-xl transform -rotate-2"></div>
+                    <img src="digital-world.jpg" alt="Team collaborating" class="relative rounded-xl shadow-2xl w-full object-fit h-[500px]">
+                </div>
+
+                <div class="reveal">
+                    <h2 class="text-blue-600 font-bold uppercase tracking-wide text-sm mb-2">Who We Are</h2>
+                    <h3 class="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-6">Empowering the Future Through Technology</h3>
+                    
+                    <div class="space-y-6 text-slate-600 leading-relaxed">
+                        <p>
+                            Founded in June 2024 by <strong>Brian Odhiambo</strong>, Iskify360 started as a solution for student assignments and has evolved into a complete digital ecosystem.
+                        </p>
+                        <p>
+                            The name blends <strong>"Iski"</strong>, a tribute to Brian’s mother, with <strong>"360"</strong>, representing our full-circle approach to solving challenges.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-6 rounded-lg border-l-4 border-blue-500">
+                            <h4 class="font-bold text-slate-900 mb-2">Our Mission</h4>
+                            <p class="text-sm text-slate-600">To create an all-in-one platform that fuels curiosity, enhances productivity, and fosters continuous learning.</p>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-lg border-l-4 border-green-300">
+                            <h4 class="font-bold text-slate-900 mb-2">Our Vision</h4>
+                            <p class="text-sm text-slate-600">To become the leading platform driving digital transformation where innovation meets social connection.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-slate-900">Our Services</h2>
+                <p class="mt-4 text-slate-600">We offer digital solutions tailored for students, professionals, and institutions.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition duration-300 border border-slate-100 reveal">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-6 text-2xl">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Communication</h3>
+                    <p class="text-slate-600 mb-4">Seamless collaboration tools. Connect with peers and share knowledge on Iskify360 Online.</p>
+                    <a href="#" class="text-blue-600 font-semibold hover:text-blue-800">Learn more &rarr;</a>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition duration-300 border border-slate-100 reveal">
+                    <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-6 text-2xl">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Research Tools</h3>
+                    <p class="text-slate-600 mb-4">Powerful analytical tools tailored for academic growth and solving complex problems.</p>
+                    <a href="#" class="text-purple-600 font-semibold hover:text-purple-800">Learn more &rarr;</a>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition duration-300 border border-slate-100 reveal">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-6 text-2xl">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">App Development</h3>
+                    <p class="text-slate-600 mb-4">Customized Android and web applications catering to unique educational needs.</p>
+                    <a href="#" class="text-green-600 font-semibold hover:text-green-800">Learn more &rarr;</a>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition duration-300 border border-slate-100 reveal">
+                    <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-6 text-2xl">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Assignment Mgmt</h3>
+                    <p class="text-slate-600 mb-4">Intuitive tracking for deadlines and tasks to ensure you stay on top of your workload.</p>
+                </div>
+
+                 <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition duration-300 border border-slate-100 reveal">
+                    <div class="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center text-red-600 mb-6 text-2xl">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Student Reports</h3>
+                    <p class="text-slate-600 mb-4">Generate detailed custom reports to analyze academic performance and track progress.</p>
+                </div>
+
+                 <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition duration-300 border border-slate-100 reveal">
+                    <div class="w-14 h-14 bg-teal-100 rounded-xl flex items-center justify-center text-teal-600 mb-6 text-2xl">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Cyber Services</h3>
+                    <p class="text-slate-600 mb-4">Website creation, printing, publishing, and IT training to equip you with digital skills.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="journey" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-heading font-bold text-center text-slate-900 mb-16">Our Journey</h2>
+            
+            <div class="relative border-l-4 border-blue-100 ml-6 space-y-12">
+                <div class="relative pl-8 reveal">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-blue-600 rounded-full border-4 border-white shadow"></div>
+                    <span class="text-sm font-bold text-blue-600 uppercase">June 2024</span>
+                    <h3 class="text-xl font-bold text-slate-900 mt-1">Iskify360 Launch</h3>
+                    <p class="text-slate-600 mt-2">Launched the Android application with core media features.</p>
+                </div>
+
+                <div class="relative pl-8 reveal">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-blue-400 rounded-full border-4 border-white shadow"></div>
+                    <span class="text-sm font-bold text-blue-600 uppercase">August 2024</span>
+                    <h3 class="text-xl font-bold text-slate-900 mt-1">Feature Expansion</h3>
+                    <p class="text-slate-600 mt-2">Added Assignment Management and Report Generation tools.</p>
+                </div>
+
+                <div class="relative pl-8 reveal">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-blue-400 rounded-full border-4 border-white shadow"></div>
+                    <span class="text-sm font-bold text-blue-600 uppercase">September 2024</span>
+                    <h3 class="text-xl font-bold text-slate-900 mt-1">Connexa</h3>
+                    <p class="text-slate-600 mt-2">Launch of the dedicated social and communication platform.</p>
+                </div>
+                
+                <div class="relative pl-8 reveal">
+                    <div class="absolute -left-3 top-1 w-6 h-6 bg-blue-400 rounded-full border-4 border-white shadow"></div>
+                    <span class="text-sm font-bold text-blue-600 uppercase">October 2024</span>
+                    <h3 class="text-xl font-bold text-slate-900 mt-1">Global Presence</h3>
+                    <p class="text-slate-600 mt-2">Official website launch.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white" id="publications">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-3xl font-heading font-bold text-slate-900 mb-4">Market Insights & Press</h2>
+            <p class="text-lg text-slate-600">Explore our latest annual reports, media coverage, and technical publications designed to keep you informed on industry trends.</p>
         </div>
 
-        <!-- Footer Note -->
-        <div class="footer-note">
-            &copy; 2025 Iskify360. All Rights Reserved.
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div class="group bg-white rounded-2xl border border-slate-200 p-8 hover:shadow-xl transition-all duration-300 reveal flex flex-col h-full">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full uppercase tracking-wide">Annual Report</span>
+                    <i class="fas fa-file-pdf text-slate-400 text-xl group-hover:text-blue-600 transition-colors"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">2025 Impact & Transparency Report</h3>
+                <p class="text-slate-600 mb-6 flex-grow">A comprehensive analysis of our operational milestones, financial growth, and sustainability initiatives over the last fiscal year.</p>
+                <a href="#" class="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+                    Download PDF <i class="fas fa-arrow-down ml-2"></i>
+                </a>
+            </div>
+
+            <div class="group bg-white rounded-2xl border border-slate-200 p-8 hover:shadow-xl transition-all duration-300 reveal flex flex-col h-full">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-semibold rounded-full uppercase tracking-wide">Press Release</span>
+                    <i class="fas fa-newspaper text-slate-400 text-xl group-hover:text-purple-600 transition-colors"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-purple-600 transition-colors">Strategic Partnership with The House of Brian Odhiambo</h3>
+                <p class="text-slate-600 mb-6 flex-grow">We are thrilled to announce our new joint venture aimed at revolutionizing digital ecosystems for young students, professors, and researchers.</p>
+                <a href="https://odhiambobrian.dev/" class="inline-flex items-center text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">
+                    Read Full Story <i class="fas fa-external-link-alt ml-2"></i>
+                </a>
+            </div>
+
+            <div class="group bg-white rounded-2xl border border-slate-200 p-8 hover:shadow-xl transition-all duration-300 reveal flex flex-col h-full">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full uppercase tracking-wide">Whitepaper</span>
+                    <i class="fas fa-layer-group text-slate-400 text-xl group-hover:text-emerald-600 transition-colors"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-emerald-600 transition-colors">The Future of Automation</h3>
+                <p class="text-slate-600 mb-6 flex-grow">Our engineering team explores the technical specifications and productivity metrics of the new Iskify360 architecture.</p>
+                <a href="#" class="inline-flex items-center text-sm font-semibold text-emerald-600 hover:text-emerald-800 transition-colors">
+                    View Publication <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+
+        </div>
+        
+        <div class="mt-16 text-center">
+            <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-slate-300 shadow-sm text-base font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 transition-all">
+                View All Publications
+            </a>
+        </div>
+    </div>
+</section>
+
+    <section id="contact" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <div class="bg-white p-8 rounded-2xl shadow-lg reveal">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2">Get in Touch</h2>
+                    <p class="text-slate-500 mb-6">Have questions? We are here to help.</p>
+                    
+                    <form name="contact" method="POST" netlify class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                            <input type="text" name="name" class="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                            <input type="email" name="email" class="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Message</label>
+                            <textarea name="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition shadow-md">Send Message</button>
+                    </form>
+                </div>
+
+                <div class="flex flex-col justify-between reveal">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg mb-8">
+                        <h3 class="text-xl font-bold text-slate-900 mb-4">Contact Info</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center text-slate-600">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 mr-4">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <span>+254 7#####</span>
+                            </div>
+                            <div class="flex items-center text-slate-600">
+                                <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-red-600 mr-4">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <span>iskify360.tech@gmail.com</span>
+                            </div>
+                            <div class="flex items-center text-slate-600">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-4">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <span>Westlands, Opposite Sarit Center, Nairobi</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="rounded-2xl overflow-hidden shadow-lg h-64 border border-slate-200">
+                        <iframe src="https://maps.google.com/maps?q=Sarit%20Center%20Nairobi&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 text-white pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-heading font-bold mb-4">Iskify360</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Empowering individuals to innovate, learn, and connect. Join us on a journey of growth and success.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="https://www.linkedin.com/in/brian-odhiambo-4646b4327" class="text-slate-400 hover:text-white transition"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="https://x.com/BrianOdhia67569" class="text-slate-400 hover:text-white transition"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="https://www.instagram.com/eng_brayo" class="text-slate-400 hover:text-white transition"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61558945445032" class="text-slate-400 hover:text-white transition"><i class="fab fa-facebook fa-lg"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="#about" class="hover:text-blue-400 transition">About Us</a></li>
+                        <li><a href="#services" class="hover:text-blue-400 transition">Services</a></li>
+                        <li><a href="#careers" class="hover:text-blue-400 transition">Careers</a></li>
+                        <li><a href="https://iskify360.netlify.app/download" class="hover:text-blue-400 transition">Android Application</a></li>
+                        <li><a href="https://iskify360.netlify.app/connexa" class="hover:text-blue-400 transition">Connexa Platform</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Stay Updated</h4>
+                    <form class="flex flex-col space-y-2">
+                        <input type="email" placeholder="Enter your email" class="px-4 py-2 rounded bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-blue-500">
+                        <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded text-sm font-bold transition">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-8 text-center">
+                <p class="text-slate-500 text-xs">© 2025 Iskify360. All Rights Reserved.</p>
+            </div>
         </div>
     </footer>
 
-    <!-- JavaScript for Smooth Scrolling -->
     <script>
-        // Smooth scrolling for internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            });
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
         });
-    </script> 
-      
-    <script>
-        function openMenu() {
-            if (window.innerWidth <= 768) {
-                document.getElementById("sidebar").style.width = "60%";
-            } else {
-                document.getElementById("sidebar").style.width = "40%";
+
+        // Scroll Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
             }
         }
-
-        function closeMenu() {
-            document.getElementById("sidebar").style.width = "0";
-        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
     </script>
 </body>
 </html>

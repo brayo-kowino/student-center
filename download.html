@@ -3,411 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Download Iskify360, a comprehensive app designed for professionals with features like Notepad, Exam Analysis, Assignment Tracker, Internet Explorer, and Media Player.">
-    <title>Iskify360 for Android and Policies</title>
-    <link rel="stylesheet" href="style6.css">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">    
-    <style>
-        .form-container {
-            padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 0.3125rem;
-            background: #ffffff;
-            box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
-            display: none; /* Initially hidden */
-        }
-        #success-message {
-            display: none;
-            margin-top: 1rem;
-            color: green;
-            font-weight: bold;
-        }
-        footer {
-        background-color: #0073e6;
-    text-align: center; /* Center align the text */
-    padding: 1rem 0; /* Optional: Add some padding for better spacing */
-}
-footer p {
-    font-size: 0.7rem; /* Set font size to small */
-    color: white; /* Ensure text color is white */
-}
+    <meta name="description" content="Iskify360 Project Archive - A comprehensive student companion app.">
+    <title>Iskify360 - Project Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f9ff; /* Very light blue background */
+        }
+        
+        /* Premium Scrollbar for Screenshot Gallery */
+        .screenshot-gallery::-webkit-scrollbar {
+            height: 8px;
+        }
+        .screenshot-gallery::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .screenshot-gallery::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .screenshot-gallery::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Gradient Text Class */
+        .text-gradient {
+            background: linear-gradient(to right, #2563eb, #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
-<body class="bg-gray-100 font-sans leading-relaxed text-gray-800">
-    </head>
-<body class="bg-gray-50 font-sans text-gray-800 leading-relaxed">
-    <!-- Header Section -->
-    <header class="bg-blue-600 text-white shadow-lg">
-        <div class="container mx-auto px-4 py-6 flex items-center">
-            <img src="i_360.jpg" alt="Iskify360 Logo" class="w-12 h-12 mr-4 rounded-full">
-            <div>
-                <h1 class="text-3xl font-bold">Iskify360 for Android and Policies</h1>
-                <p class="mt-2">
-                    Experiencing download or installation issues or would like us to help in any way? 
-                    <a href="#" id="toggle-form" class="underline hover:text-blue-200">Click here to submit your issues</a>.
-                </p>
+<body class="text-slate-700 antialiased">
+
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-blue-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <img src="i_360.jpg" alt="Logo" class="w-10 h-10 rounded-full shadow-md mr-3">
+                    <span class="font-bold text-xl text-slate-800 tracking-tight">Iskify360 <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded ml-2 uppercase tracking-wide">Archived</span></span>
+                </div>
+                <div>
+                    <a href="https://odhiambobrian.dev/connexa_platform" id="toggle-form" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition">
+                        Contact Developer
+                    </a>
+                </div>
             </div>
+        </div>
+    </nav>
+
+    <header class="relative overflow-hidden pt-16 pb-12 lg:pt-24 lg:pb-20 text-center px-4">
+        <div class="max-w-4xl mx-auto fade-in">
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">
+                <span class="text-slate-900">The Legacy of</span> <br>
+                <span class="text-gradient">Iskify360</span>
+            </h1>
+            <p class="mt-4 text-xl text-slate-600 max-w-2xl mx-auto">
+                A comprehensive digital companion designed for professionals and students. 
+                <br>Currently preserved in the project archives.
+            </p>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-10">
-        <!-- Query/Feedback Form -->
-        <div id="form-container" class="bg-white shadow-md rounded-lg p-6 hidden">
-            <form id="issue-form" name="issue-form" method="POST" netlify>
+    <section class="max-w-4xl mx-auto px-4 mb-16">
+        <div class="bg-white border-l-4 border-red-500 rounded-r-xl shadow-lg p-8 fade-in">
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-archive text-red-500 text-3xl mt-1"></i>
+                </div>
+                <div class="ml-6">
+                    <h3 class="text-xl font-bold text-slate-900">Project Status: Archived & Discontinued</h3>
+                    <div class="mt-2 text-slate-600 leading-relaxed">
+                        <p class="mb-2">
+                            We regret to inform our users that the development of Iskify360 has officially ceased. 
+                            Due to an irretrievable loss of the source code and core project files, we can no longer provide updates, bug fixes, or download links for the application.
+                        </p>
+                        <p class="text-sm font-semibold text-red-600 mt-4">
+                            <i class="fas fa-ban mr-1"></i> Downloads are currently unavailable.
+                        </p>
+                        <p class="text-sm text-slate-500 mt-2">
+                            This page now serves as a digital museum and archive to showcase the features and design of the project as it stood in version 8.02.00.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-developer" class="max-w-3xl mx-auto px-4 mb-10">
+        <div id="form-container" class="bg-white rounded-2xl shadow-xl p-8 border border-blue-50 hidden">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-slate-800">Contact the Developer</h3>
+                <p class="text-slate-500 text-sm">Have questions about the archive or future projects?</p>
+            </div>
+            
+            <form id="issue-form" name="issue-form" method="POST" netlify class="space-y-4">
                 <input type="hidden" name="form-name" value="issue-form">
-                <h3 class="text-2xl font-bold mb-4 text-gray-900">Submit Your Queries/Feedbacks</h3>
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-700">Name:</label>
-                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                        <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700">Email:</label>
-                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
+                
+                <div>
+                    <label for="issue" class="block text-sm font-medium text-slate-700 mb-1">Message</label>
+                    <textarea id="issue" name="issue" rows="4" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"></textarea>
                 </div>
-                <div class="mb-4">
-                    <label for="issue" class="block text-gray-700">Issue/Message Description:</label>
-                    <textarea id="issue" name="issue" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Submit</button>
+                
+                <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
+                    Send Message
+                </button>
             </form>
-            <div id="success-message" class="hidden mt-4 text-green-600">
-                <p>Thank you! Your message has been submitted successfully.</p>
+            <div id="success-message" class="hidden mt-4 bg-green-50 text-green-700 p-4 rounded-lg text-center font-medium border border-green-200">
+                Message received. Thank you for reaching out.
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-6xl mx-auto px-4 pb-20">
+        
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-12 border border-slate-100">
+            <div class="bg-blue-600 px-8 py-4 flex flex-col md:flex-row justify-between items-center">
+                <h2 class="text-2xl font-bold text-white">Last Stable Release: v8.02.00</h2>
+                <span class="text-blue-100 text-sm mt-2 md:mt-0 bg-blue-700 px-3 py-1 rounded-full">Released: 23rd March 2025</span>
+            </div>
+            
+            <div class="p-8">
+                <div class="bg-blue-50 rounded-xl p-6 mb-8">
+                    <h3 class="text-lg font-bold text-blue-900 mb-4 flex items-center">
+                        <i class="fas fa-star text-blue-500 mr-2"></i> Final Update Highlights
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start text-slate-700">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i>
+                            <span><strong>Smart360 AI Integration:</strong> Experimental implementation of our first AI assistant.</span>
+                        </li>
+                        <li class="flex items-start text-slate-700">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i>
+                            <span><strong>Media Engine Overhaul:</strong> The media player reached its peak performance state.</span>
+                        </li>
+                        <li class="flex items-start text-slate-700">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i>
+                            <span><strong>UI Polish:</strong> Refined animations and smoother navigation transitions.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">What It Could Do</h3>
+                    <p class="text-slate-500 mb-6">A look back at the core features that defined Iskify360.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-6 border border-slate-100 rounded-xl hover:shadow-md transition bg-slate-50">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-4">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-2">Advanced Analytics</h4>
+                        <p class="text-sm text-slate-600">Detailed report generation with actionable insights for exam analysis.</p>
+                    </div>
+
+                    <div class="p-6 border border-slate-100 rounded-xl hover:shadow-md transition bg-slate-50">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-4">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-2">Task Tracker</h4>
+                        <p class="text-sm text-slate-600">Pending deliverables management with smart due-date reminders.</p>
+                    </div>
+
+                    <div class="p-6 border border-slate-100 rounded-xl hover:shadow-md transition bg-slate-50">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-4">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-2">Media Suite</h4>
+                        <p class="text-sm text-slate-600">Advanced local and online media playback with background capabilities.</p>
+                    </div>
+
+                    <div class="p-6 border border-slate-100 rounded-xl hover:shadow-md transition bg-slate-50">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-4">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-2">Communication</h4>
+                        <p class="text-sm text-slate-600">Real-time peer connection via the Online Communication Platform.</p>
+                    </div>
+
+                    <div class="p-6 border border-slate-100 rounded-xl hover:shadow-md transition bg-slate-50">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mb-2">Privacy First</h4>
+                        <p class="text-sm text-slate-600">Local storage focus to ensure user data remained private.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-       <!-- Features Section as a Card -->
-<section class="mt-10">
-    <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
-        <!-- Version and Update Info -->
-        <h2 class="text-3xl font-bold text-blue-600">Iskify360 v8.02.00</h2>
-        <p class="mt-2 text-gray-600">Update Date: <span class="font-semibold text-gray-900">23rd March 2025</span></p>
-        
-        <!-- Update Highlights -->
-        <div class="mt-6 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-600">
-            <h3 class="text-xl font-bold text-gray-900">What's New in This Version:</h3>
-            <ul class="mt-4 space-y-2 text-gray-700 list-disc pl-6">
-                 <li><span class="font-bold text-gray-900">Integration of Smart360 AI:</span> The key feature in this update is the integration of Smart360 AI, our first ever experimental AI feature.</li>
-                <li><span class="font-bold text-gray-900">Improved Media Player Functionalities and UI:</span> The media player is currently in its best state.</li>
-                <li><span class="font-bold text-gray-900">Global Media Player Improvements:</span> Enhanced playback experience across all supported devices.</li>
-                <li><span class="font-bold text-gray-900">Bug Fixes:</span> Addressed issues for smoother performance and stability.</li>
-                <li><span class="font-bold text-gray-900">Enhanced UI Design:</span> Polished user interface for better navigation and usability.</li>  
-                <li><span class="font-bold text-gray-900">Faster Cloud Sync:</span> Improved speed and reliability for cloud-based data synchronization.</li>
-            </ul>
-        </div>
-
-        <!-- Key Features -->
-        <div class="mt-8">
-            <h3 class="text-2xl font-bold text-gray-900">Key Features:</h3>
-            <p class="mt-2 text-gray-700">
-                Iskify360 delivers an all-in-one solution to elevate your student life:
-            </p>
-            <ul class="mt-4 space-y-4 text-gray-700 list-disc pl-6">
-                <li>
-                    <span class="font-bold text-gray-900">Advanced Report Analysis and Generation:</span> Create detailed reports with actionable insights.
-                </li>
-                <li>
-                    <span class="font-bold text-gray-900">Digital Notebook:</span> Take notes with offline and cloud sync for secure, accessible storage(Has been phased out in this verson).
-                </li>
-                <li>
-                    <span class="font-bold text-gray-900">Pending Deliverables:</span> Track all your assignments and due dates with smart reminders.
-                </li>
-                <li>
-                    <span class="font-bold text-gray-900">Advanced Media Player:</span> Enjoy local and online media with enhanced functionality and a seamless user experience.
-                </li>
-                <li>
-                    <span class="font-bold text-gray-900">Access to Iskify360 Online Communication Platform:</span> Connect with peers for real-time collaboration and communication.
-                </li>
-                <li>
-                    <span class="font-bold text-gray-900">...and Many More Features:</span> Explore additional tools tailored for students’ needs.
-                </li>
-            </ul>
-        </div>
-
-        <!-- Updates Notice -->
-        <div class="mt-6 bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
-            <p class="text-gray-800">
-                <strong>Note:</strong> We regret to inform you that this update will force you to unistall previous version of the app, we tried our best to avoid this, but unfortunately, WE COULD NOT.
-            </p>
-        </div>
-
-        <!-- Download Button -->
-        <div class="mt-6 text-center">
-            <a href="iskify360v8.apk" download class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700">
-                Download Iskify360 APK
-            </a>
-        </div>
-    </div>
-</section>
-
-        <!-- Installation Instructions -->
-        <section class="mt-10 bg-white shadow-md rounded-lg p-6">
-            <h3 class="text-2xl font-bold text-gray-900">Installation Instructions</h3>
-            <ol class="mt-4 space-y-2 text-gray-700 list-decimal list-inside">
-                <li>Download the APK file by clicking the button above.</li>
-                <li>Open your device's settings and navigate to Security or Privacy.</li>
-                <li>Enable "Install from unknown sources" to allow installation of apps outside Google Play Store.</li>
-                <li>Locate the downloaded APK file in your file manager and tap to install.</li>
-                <li>Follow on-screen prompts to complete installation.</li>
-                <li><strong>If the installation is blocked by PLAY PROTECT, go to play store settings, disable <i>play protect scaning,</i> then proceed or staart over again.</strong></li>
-            </ol>
+        <section class="mt-16">
+            <h3 class="text-3xl font-bold text-slate-900 mb-8 text-center">Visual Archive</h3>
+            <div class="screenshot-gallery flex space-x-6 overflow-x-auto pb-8 px-4 snap-x">
+                <img src="image1.jpg" alt="Interface Design" class="snap-center w-72 rounded-2xl shadow-xl border border-slate-200 transform hover:scale-105 transition duration-300">
+                <img src="image2.jpg" alt="Interface Design" class="snap-center w-72 rounded-2xl shadow-xl border border-slate-200 transform hover:scale-105 transition duration-300">
+                <img src="image3.jpg" alt="Interface Design" class="snap-center w-72 rounded-2xl shadow-xl border border-slate-200 transform hover:scale-105 transition duration-300">
+                <img src="image4.jpg" alt="Interface Design" class="snap-center w-72 rounded-2xl shadow-xl border border-slate-200 transform hover:scale-105 transition duration-300">
+                <img src="image5.jpg" alt="Interface Design" class="snap-center w-72 rounded-2xl shadow-xl border border-slate-200 transform hover:scale-105 transition duration-300">
+                <img src="image39.jpg" alt="Interface Design" class="snap-center w-72 rounded-2xl shadow-xl border border-slate-200 transform hover:scale-105 transition duration-300">
+            </div>
+            <p class="text-center text-slate-400 text-sm mt-4">Scroll horizontally to view more</p>
         </section>
 
-        <!-- Safety Notice -->
-        <section class="mt-10 bg-white shadow-md rounded-lg p-6">
-            <h3 class="text-2xl font-bold text-gray-900">Is the App Safe?</h3>
-            <p class="mt-4 text-gray-700">
-                We prioritize your safety. I360 undergoes rigorous testing for performance and security. We do not collect personal data, and all locally stored data is kept private. For added protection, ensure your device security settings and antivirus software are up-to-date.
-            </p>
-        </section>
-    
-    
-        <section class="screenshots mt-10">
-    <h3 class="text-2xl font-bold text-gray-900 mb-4">App Screenshots</h3>
-    <p class="text-gray-700 mb-6">Here are some screenshots of the I360 app to give you a preview:</p>
-    <div class="screenshot-gallery flex space-x-4 overflow-x-auto pb-4">
-        <img src="image1.jpg" alt="Screenshot 1" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image2.jpg" alt="Screenshot 2" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image3.jpg" alt="Screenshot 3" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image4.jpg" alt="Screenshot 4" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image5.jpg" alt="Screenshot 5" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image6.jpg" alt="Screenshot 6" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image7.jpg" alt="Screenshot 7" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image8.jpg" alt="Screenshot 8" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image9.jpg" alt="Screenshot 9" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image11.jpg" alt="Screenshot 11" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image12.jpg" alt="Screenshot 12" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image38.jpg" alt="Screenshot 38" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image39.jpg" alt="Screenshot 39" class="w-72 h-auto rounded-lg shadow-md">
-        <img src="image40.jpg" alt="Screenshot 40" class="w-72 h-auto rounded-lg shadow-md">
-    </div>
-</section>
-
-          <style>
-    /* Custom styles */
-    .section-heading {
-      border-bottom: 2px solid #4A90E2;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-    .content-text {
-      line-height: 1.8;
-      font-size: 1.1rem;
-    }
-    .highlight-text {
-      font-weight: bold;
-      color: #e74c3c;
-    }
-  </style>
-
-
-  <div class="container mx-auto px-1 py-16">
-    <div class="max-w-3xl mx-auto bg-white p-2 rounded-lg shadow-lg">
-
-      <!-- Title Section -->
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-blue-600">Iskify360 - Terms of Service & Privacy Policy</h1>
-        <p class="text-lg text-gray-500 mt-2">Effective Date: [10/01/2025]</p>
-      </div>
-
-      <!-- Terms of Service Section -->
-      <section class="terms-of-service mb-12">
-        <h2 class="section-heading">Terms of Service</h2>
-
-        <p class="content-text mb-6">By accessing or using our services, including Iskify360 apps and i360 Online, you agree to these terms and any applicable laws. If you disagree, discontinue use immediately.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">1. Acceptance of Terms</h3>
-        <p class="content-text mb-4">By accessing or using our services, you agree to these terms and applicable laws. If you disagree, discontinue use immediately.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">2. Description of Services</h3>
-        <p class="content-text mb-4">Iskify360 provides productivity tools such as media players, note managers, assignment trackers, and more. i360 Online is a communication platform offering messaging, file sharing, and collaboration features. The services are accessible through mobile apps, web platforms, and APIs.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">3. User Accounts</h3>
-        <ul class="list-disc pl-6 mb-4">
-          <li>Eligibility: Users must be at least 18 years old or provide verifiable parental consent.</li>
-          <li>Account Responsibility: Users are solely responsible for securing their login credentials and activity on their accounts.</li>
-          <li>Account Inactivity: Accounts inactive for more than 2 years may be deactivated or removed without prior notice.</li>
-        </ul>
-
-
-        <h3 class="text-2xl font-semibold mt-6">4. Content Ownership and Use</h3>
-        <p class="content-text mb-4">Users retain ownership of their content but grant Iskify360 and i360 Online a license to store, display, and distribute it as required for service delivery.</p>
-        
-        <h3 class="text-2xl font-semibold mt-6">5. Payment and Subscription Terms</h3>
-        <p class="content-text mb-4">Subscription fees are charged in advance and are non-refundable unless required by law. Pricing may change with a 30-day notice.</p>
-
-         
-        <h3 class="text-2xl font-semibold mt-6">6. Defamation of Government and Individuals</h3>
-        <p class="content-text mb-4">We hold all users to the highest standard of accountability, especially regarding how they conduct themselves in relation to government entities or other individuals. We acknowledge the importance of <span class="font-bold text-blue-600">**FREEDOM OF SPEECH**</span>; however, it is crucial that this freedom is exercised in a <span class="font-bold text-red-600">**RESPECTFUL AND RESPONSIBLE MANNER**</span>. ANY ATTEMPT TO USE ISKIFY360 OR I360 ONLINE TO SLANDER, DEFAME, OR MALIGN GOVERNMENT BODIES, POLITICAL LEADERS, OR ANY INDIVIDUALS WILL BE CONSIDERED A SERIOUS VIOLATION OF OUR TERMS. CONTENT THAT ADVOCATES OR PROMOTES VIOLENCE, HARM, OR DISCONTENT AGAINST GOVERNMENTAL BODIES, POLITICAL LEADERS, OR ANY INDIVIDUAL WILL BE MET WITH <span class="font-bold text-red-600">**IMMEDIATE ACCOUNT SUSPENSION**</span> AND POTENTIAL <span class="font-bold text-red-600">**LEGAL ACTION**</span>.</p>
-        
-        <p class="content-text mb-4">While you are entitled to express your opinions, <span class="font-bold text-blue-600">**WE EXPECT ALL CONTENT TO BE RESPECTFUL, NON-VIOLENT, AND FOCUSED ON CONSTRUCTIVE DISCUSSION**</span>. UNDER NO CIRCUMSTANCES SHOULD YOU USE OUR PLATFORM TO SPREAD <span class="font-bold text-red-600">**UNFOUNDED ACCUSATIONS**</span>, <span class="font-bold text-red-600">**MALICIOUS ATTACKS**</span>, OR PROMOTE UNNECESSARY CONFLICT. VIOLENT, OFFENSIVE, OR DESTRUCTIVE BEHAVIOUR WILL <span class="font-bold text-red-600">**NOT BE TOLERATED**</span>.</p>
-        <p class="content-text mb-4"><span class="font-bold text-red-600">**ALL FORMS OF POLITICAL OR PERSONAL ATTACKS ARE STRONGLY DISCOURAGED**</span> AND WILL BE MONITORED. THIS MEANS NO USE OF ISKIFY360 OR I360 ONLINE TO PROMOTE <span class="font-bold text-red-600">**NEGATIVE CAMPAIGNS**</span>, <span class="font-bold text-red-600">**UNFOUNDED ACCUSATIONS**</span>, OR ANY FORM OF ONLINE <span class="font-bold text-red-600">**HARMFUL CAMPAIGNS**</span> TARGETED AT INDIVIDUALS OR GOVERNMENT ENTITIES. IF YOU ARE FOUND ENGAGED IN SUCH ACTIVITIES, YOU WILL BE SUBJECT TO <span class="font-bold text-red-600">**IMMEDIATE SUSPENSION AND ACCOUNT TERMINATION**</span>. WE WILL <span class="font-bold text-red-600">**NOT ALLOW ANYONE TO ABUSE THE PLATFORM TO SPREAD HATE OR DIVISION**</span>.</p>
-
-
-        <h3 class="text-2xl font-semibold mt-6">7. Reporting Violations</h3>
-        <p class="content-text mb-4">Users can report inappropriate content or activities through our support channels which will be made public soon. We investigate all reports thoroughly and act accordingly.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">8. Strict Monitoring and Automated App Disablement</h3>
-        <p class="content-text mb-4">The Iskify360 platform employs advanced monitoring tools to detect and prevent policy violations, malicious activities, or unauthorized access attempts. Severe violations will trigger the android application to automatically disable itself, and suspension of Iskify360 Online services. Users must provide an explanation and evidence for review, and reactivation is at Iskify360’s discretion.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">9. User Responsibilities</h3>
-        <p class="content-text mb-4">Users are expected to exercise extreme discipline in their activities on the platform. Violations or attempted breaches of these terms will result in automatic actions being taken by the platform, such as account suspension, content removal, or further investigation, which may result in the complete removal of the user's account.</p>
-             
-        <h3 class="text-2xl font-semibold mt-6">10 Enforcement and Appeals</h3>
-        <p class="content-text mb-4">We reserve the right to terminate or suspend accounts found violating our policies. Users who have had their accounts suspended or terminated have the right to appeal the decision. Appeals should be submitted with full evidence of the alleged violation and the actions that led to it. We will carefully review all appeals, but the decision to restore account functionality lies at our discretion.</p>
-
-                <h3 class="text-2xl font-semibold mt-6">11. Governing Law</h3>
-        <p class="content-text mb-4">These terms are governed by the laws of Kenya. Disputes will be resolved in Kenyan courts.</p>
-
-        <!-- i360 Online Policies Section -->
-        <h3 class="text-2xl font-semibold mt-6">12. i360 Online Specific Policies</h3>
-        <p class="content-text mb-4">i360 Online, being a communication platform within Iskify360, follows strict content moderation policies. This includes surveillance on all uploaded content such as images, text, and multimedia. Our goal is to maintain a healthy and respectful environment for all users, focusing on preventing misuse, hate speech, and harmful activities.</p>
-        
-        <h3 class="text-2xl font-semibold mt-6">12.1 Prohibited Content on i360 Online</h3>
-        <ul class="list-disc pl-6 mb-4">
-          <li class="highlight-text">Graphic Content, including but not limited to, explicit images, pornography, or harmful visual material.</li>
-          <li class="highlight-text">Political or Individual Defamation: Any content directed towards government entities, individuals, or organizations in a manner that harms their reputation or spreads misinformation.</li>
-          <li class="highlight-text">Promotion of Violence or Hate Speech, including any content promoting terrorism, racial, or religious intolerance.</li>
-          <li class="highlight-text">Spreading Misinformation or Content that causes social unrest.</li>
-        </ul>
-        
-        <h3 class="text-2xl font-semibold mt-6">12.2 Misuse of i360 Online</h3>
-        <p class="content-text mb-4">Misuse includes spamming other users, attempting to hack the system, or using the platform for illegal activities. Users are expected to engage in meaningful communication and respect others' privacy.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">12.3 Government and Individual Criticism on i360 Online</h3>
-        <p class="content-text mb-4">While freedom of speech is encouraged, we have a strict policy against content that crosses into defamatory or harmful territory. Content that insults, targets, or spreads false claims about government bodies, officials, or individuals will not be tolerated. Any such posts will result in immediate account suspension and investigation.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">13.Iskify360 Android App Policies</h3>
-        <p class="content-text mb-4">The Android application is also subject to strict policies for usage. As a user of the Iskify360 Android app, you agree to comply with the rules and regulations set out in this document. Failure to follow these policies will result in <span class="font-bold text-red-600">**automatic suspension**</span> or <span class="font-bold text-red-600">**permanent banishment**</span> of your account and app functionality. Here are some of the strict policies in place for the Android application:</p>
-
-                <ul class="list-disc pl-6 mb-4">
-          <li><span class="font-bold text-blue-600">**APP MONITORING**</span>: ISKIFY360 AND I360 ONLINE APPS ARE CONSTANTLY MONITORED FOR COMPLIANCE WITH THESE POLICIES. AUTOMATED AND MANUAL SYSTEMS ARE IN PLACE TO CHECK FOR VIOLATIONS. ANY ATTEMPTED BREACH OF OUR POLICIES WILL SIGNAL THE APP TO <span class="font-bold text-red-600">**AUTOMATICALLY DISABLE ITSELF**</span>.</li>
-          <li><span class="font-bold text-blue-600">**SEVERE VIOLATIONS**</span>: IF YOU ATTEMPT TO BREAK OR VIOLATE THESE POLICIES, YOUR ACCOUNT WILL BE <span class="font-bold text-red-600">**IMMEDIATELY DISABLED**</span>. YOU WILL BE REQUIRED TO REPORT FOR REVIEW AND PROVIDE EVIDENCE OF WHAT YOU WERE DOING AT THE TIME OF THE VIOLATION. HOWEVER, THE DECISION TO RESTORE YOUR ACCOUNT AND FUNCTIONALITY WILL BE AT THE <span class="font-bold text-red-600">**DISCRETION OF ISKIFY360**</span>. WE MAY OR MAY NOT REACTIVATE THE APP BASED ON THE SEVERITY OF THE VIOLATION.</li>
-          <li><span class="font-bold text-blue-600">**HARSH ENFORCEMENT**</span>: WE EXPECT USERS TO EXERCISE EXTREME DISCIPLINE. ANY ATTEMPT TO HACK, ABUSE, OR MISUSE THE APP WILL BE MET WITH SEVERE CONSEQUENCES, INCLUDING <span class="font-bold text-red-600">**TERMINATION OF ACCESS TO THE APP**</span>, LEGAL ACTION, OR BOTH. USERS ARE RESPONSIBLE FOR THE ACTIONS TAKEN THROUGH THEIR ACCOUNTS, AND FAILURE TO COMPLY WITH THESE POLICIES WILL RESULT IN <span class="font-bold text-red-600">**PERMANENT REMOVAL OF APP FUNCTIONALITY**</span> AND POSSIBLE <span class="font-bold text-red-600">**LEGAL RECOURSE**</span>.</li>
-        </ul>
-
-        <h3 class="text-2xl font-semibold mt-6">13.1 Misuse of the Android App</h3>
-        <p class="content-text mb-4">Misuse on the Android app includes tampering with system files, accessing unauthorized areas, distributing malicious content, and using the app for fraudulent activities. Any misuse will lead to an immediate permanent ban from the app, and legal action may be pursued.</p>
-        
-        <h3 class="text-2xl font-semibold mt-6">13.2 Reporting Violations</h3>
-        <p class="content-text mb-4">Any user who encounters or suspects a violation of these terms, including prohibited content or misuse of the platform, is encouraged to report it immediately through the official reporting channels. Reports will be investigated thoroughly, and appropriate actions will be taken based on the severity of the violation.</p>
-
-
-      </section>
-
-      <!-- Privacy Policy Section -->
-      <section class="privacy-policy">
-        <h2 class="section-heading">Privacy Policy</h2>
-
-        <p class="content-text mb-6">We prioritize your privacy and data protection. This privacy policy outlines the collection, usage, and protection of your personal data.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">1. Information We Collect</h3>
-        <ul class="list-disc pl-6 mb-4">
-          <li>Personal Data: Name, email, phone number, and payment details.</li>
-          <li>Content Data: Messages, files, and media shared through i360 Online and other features within the platform.</li>
-          <li>Device Data: Information about the device you use to access our services, including IP address, operating system, and app version.</li>
-          <li>Usage Data: Logs of your interaction with our services, including access times, activities, and any technical errors encountered.</li>
-        </ul>
-
-        <h3 class="text-2xl font-semibold mt-6">2. How We Use Your Data</h3>
-        <ul class="list-disc pl-6 mb-4">
-          <li>To Provide Services: Your data is used to create and manage your account, facilitate communication, and provide the features within Iskify360 and i360 Online.</li>
-          <li>To Improve Services: We analyze usage data to improve user experience, enhance performance, and address technical issues.</li>
-          <li>For Communications: We use your contact information to send updates, notifications, and other communications regarding your account or the platform.</li>
-          <li>For Legal Compliance: We may use your data to comply with legal obligations or respond to lawful requests from government authorities.</li>
-        </ul>
-
-        <h3 class="text-2xl font-semibold mt-6">3. Data Security</h3>
-        <p class="content-text mb-4">We employ robust security measures to protect your personal data from unauthorized access, alteration, or destruction. These include encryption, firewalls, and access controls to safeguard your information. However, no system is completely secure, and we cannot guarantee absolute protection of your data.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">4. Data Retention</h3>
-        <p class="content-text mb-4">We retain your data only for as long as necessary to fulfill the purposes outlined in this privacy policy or as required by law. If you request the deletion of your account, we will delete your personal data from our systems, subject to any applicable retention laws.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">5. Sharing of Your Data</h3>
-        <p class="content-text mb-4">We do not sell your personal data. However, we may share your data with third-party service providers that assist in operating the platform (e.g., hosting services, payment processors) or as required by law. We ensure that these third parties adhere to privacy and security standards.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">6. Third-Party Links</h3>
-        <p class="content-text mb-4">Our platform may contain links to third-party websites. These external sites are not under our control, and we are not responsible for their privacy practices. We encourage you to read the privacy policies of any third-party sites you visit.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">7. User Rights</h3>
-        <ul class="list-disc pl-6 mb-4">
-          <li>Access: You have the right to request a copy of your personal data held by Iskify360.</li>
-          <li>Rectification: You may request correction of inaccurate or incomplete data.</li>
-          <li>Deletion: You can request the deletion of your personal data, subject to certain conditions.</li>
-          <li>Objection: You have the right to object to the processing of your data in certain circumstances.</li>
-        </ul>
-
-        <h3 class="text-2xl font-semibold mt-6">8. Cookies and Tracking Technologies</h3>
-        <p class="content-text mb-4">We use cookies and similar tracking technologies to enhance your experience, personalize content, and analyze traffic. You can adjust your browser settings to refuse cookies, but this may impact the functionality of some features of our platform.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">9. International Data Transfers</h3>
-        <p class="content-text mb-4">Your personal data may be transferred to and stored in servers located outside your country. We ensure that any such transfers comply with applicable data protection laws, including ensuring the security and privacy of your data during transit and storage.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">10. Policy Updates</h3>
-        <p class="content-text mb-4">We reserve the right to update and modify this privacy policy as necessary. Any changes will be posted on this page with an updated effective date. We encourage you to review this policy regularly to stay informed about how we protect your privacy.</p>
-
-        <h3 class="text-2xl font-semibold mt-6">11. Contact Information</h3>
-        <p class="content-text mb-4">If you have any questions or concerns about our privacy policy or terms of service, please contact us at <span class="font-semibold">iskify360.tech@gmail.com</span>.</p>
-
-      </section>
-
-      <div class="text-center mt-12">
-        <p class="content-text">By using Iskify360's services, you acknowledge that you have read, understood, and agreed to both the Terms of Service and Privacy Policy.</p>
-        
-      </div>
-
-    </div>
-  </div>
     </main>
 
-    <footer>
-       <p class="content-text mt-6 text-sm">© 2025 Iskify360 | All rights reserved</p>
+    <footer class="bg-slate-900 text-white py-10 mt-10">
+        <div class="container mx-auto px-4 text-center">
+            <h4 class="text-xl font-bold mb-2">Iskify360</h4>
+            <div class="border-t border-slate-800 pt-6">
+                <p class="text-xs text-slate-500">© 2025 Iskify360 Archive. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-    const formContainer = document.getElementById('form-container');
-    const toggleFormLink = document.getElementById('toggle-form');
-    const issueForm = document.getElementById('issue-form');
-    const successMessage = document.getElementById('success-message');
+            const formContainer = document.getElementById('form-container');
+            const toggleFormLink = document.getElementById('');
+            const issueForm = document.getElementById('issue-form');
+            const successMessage = document.getElementById('success-message');
 
-    // Toggle form visibility on link click
-    toggleFormLink.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default link behavior
-        formContainer.style.display = formContainer.style.display === 'block' ? 'none' : 'block';
-    });
+            // Toggle form visibility
+            toggleFormLink.addEventListener('click', function (event) {
+                event.preventDefault();
+                if(formContainer.classList.contains('hidden')){
+                    formContainer.classList.remove('hidden');
+                    formContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    formContainer.classList.add('hidden');
+                }
+            });
 
-    // Handle form submission
-    issueForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent default form submission
-        fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(new FormData(issueForm)).toString()
-        })
-        .then(response => {
-            if (response.ok) {
-                successMessage.style.display = 'block'; // Show success message
-                formContainer.style.display = 'none'; // Hide the form
-                issueForm.reset(); // Clear the form
-            } else {
-                alert('There was a problem with your submission. Please try again.');
-            }
-        })
-        .catch(error => {
-            console.error('Form submission error:', error);
-            alert('There was a problem with your submission. Please try again.');
+            // Handle form submission
+            issueForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                // Simulate network request
+                setTimeout(() => {
+                    successMessage.classList.remove('hidden');
+                    issueForm.reset();
+                    issueForm.style.display = 'none'; // Hide form fields after success
+                }, 500);
+            });
         });
-    });
-
-    // Check URL hash to display form
-    if (window.location.hash === '#form-container') {
-        formContainer.style.display = 'block'; // Show the form if the hash is present
-        formContainer.scrollIntoView({ behavior: 'smooth' }); // Scroll smoothly to the form
-    }
-});
     </script>
 </body>
 </html>
