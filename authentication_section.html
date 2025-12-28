@@ -1,130 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <title>I360 Online - Authentication</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Connexa | Authentication</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-    import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
-      authDomain: "my-website-d875f.firebaseapp.com",
-      projectId: "my-website-d875f",
-      storageBucket: "my-website-d875f.appspot.com",
-      messagingSenderId: "1084724880551",
-      appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
-      measurementId: "G-54E0SH3VJQ"
-    };
-
-    let currentUser = null;
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const displayMessage = (message, isError = false) => {
-      const div = document.createElement('div');
-      div.textContent = message;
-      div.className = `fixed top-5 left-1/2 -translate-x-1/2 px-4 py-2 text-white rounded-xl shadow-xl text-sm ${isError ? 'bg-red-600' : 'bg-green-600'}`;
-      document.body.appendChild(div);
-      setTimeout(() => div.remove(), 3000);
-    };
-
-    const register = async (email, password) => {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        await setDoc(doc(db, "users", user.uid), {
-          email: user.email,
-          uid: user.uid,
-        });
-
-        displayMessage("Registration successful! Signing in...");
-        await signIn(email, password);
-      } catch (error) {
-        displayMessage("Registration failed: " + error.message, true);
-      }
-    };
-
-    const signIn = async (email, password) => {
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        currentUser = userCredential.user;
-        displayMessage("Login successful! Welcome back.");
-        window.location.href = "sc_hompage.html";
-      } catch (error) {
-        let msg = "Login failed: ";
-        if (error.code === 'auth/wrong-password') msg += "Wrong password.";
-        else if (error.code === 'auth/user-not-found') msg += "User not found.";
-        else msg += error.message;
-        displayMessage(msg, true);
-      }
-    };
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        localStorage.setItem('currentUser', JSON.stringify({ uid: user.uid, email: user.email }));
-        window.location.href = "sc_hompage.html";
-      }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('register-button').addEventListener('click', () => {
-        register(email.value, password.value);
-      });
-      document.getElementById('sign-in-button').addEventListener('click', () => {
-        signIn(email.value, password.value);
-      });
-    });
-  </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .slide-in { animation: slideIn 0.4s ease-out forwards; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Smooth transition for height changes */
+        .form-container { transition: all 0.3s ease; }
+    </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600 flex items-center justify-center p-4">
+<body class="bg-gray-50 h-auto w-full flex items-center justify-center p-4">
 
-  <div id="auth-section" class="w-full max-w-md bg-white/10 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-white/20 text-white animate-fadeIn">
+    <div class="w-full max-w-4xl bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row h-[85vh] md:h-auto max-h-[800px]">
+        
+        <div class="hidden md:flex w-1/2 bg-blue-600 flex-col items-center justify-center p-12 text-white relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600 to-indigo-800 opacity-90 z-0"></div>
+            <div class="absolute -top-10 -left-10 w-40 h-40 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
 
-    <img src="i_360.jpg" class="w-28 h-28 mx-auto rounded-full shadow-lg" />
+            <div class="relative z-10 text-center">
+                <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg border border-white/20">
+                    <span class="material-icons text-5xl text-white">hub</span>
+                </div>
+                <h2 class="text-4xl font-bold mb-4">Welcome to Connexa</h2>
+                <p class="text-blue-100 text-lg">Connect, collaborate, and create with your engineering community.</p>
+            </div>
+        </div>
 
-    <h1 class="text-3xl font-bold text-center mt-4">Welcome to I360 Online</h1>
-    <p class="text-center text-white/80 mb-6">Create an account or login to continue.</p>
+        <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center relative bg-white">
+            
+            <div class="md:hidden text-center mb-8">
+                <span class="material-icons text-4xl text-blue-600">hub</span>
+                <h1 class="text-2xl font-bold text-gray-800 mt-2">Connexa</h1>
+            </div>
 
-    <input type="email" id="email" placeholder="Enter your email" class="w-full p-3 mb-4 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 focus:ring-2 focus:ring-blue-300" />
+            <div id="form-header" class="mb-8 text-center md:text-left">
+                <h2 id="page-title" class="text-3xl font-bold text-gray-800">Sign In</h2>
+                <p id="page-subtitle" class="text-gray-500 mt-2">Welcome back! Please enter your details.</p>
+            </div>
 
-    <div class="relative mb-4">
-      <input type="password" id="password" placeholder="Enter your password" class="w-full p-3 pr-12 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 focus:ring-2 focus:ring-blue-300" />
-      <span id="toggle-password" class="material-icons absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">visibility</span>
+            <form id="auth-form" class="space-y-5 slide-in" onsubmit="return false;">
+                
+                <div id="name-field" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <div class="relative">
+                        <span class="material-icons absolute left-3 top-3 text-gray-400 text-sm">person</span>
+                        <input type="text" id="full-name" placeholder="Brian Odhis" 
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition outline-none bg-gray-50 focus:bg-white" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <div class="relative">
+                        <span class="material-icons absolute left-3 top-3 text-gray-400 text-sm">email</span>
+                        <input type="email" id="email" placeholder="name@domain.com" required
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition outline-none bg-gray-50 focus:bg-white" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <div class="relative">
+                        <span class="material-icons absolute left-3 top-3 text-gray-400 text-sm">lock</span>
+                        <input type="password" id="password" placeholder="••••••••" required
+                            class="w-full pl-10 pr-12 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition outline-none bg-gray-50 focus:bg-white" />
+                        <span id="toggle-password" class="material-icons absolute right-3 top-3 text-gray-400 cursor-pointer hover:text-gray-600">visibility_off</span>
+                    </div>
+                    <div class="flex justify-end mt-2">
+                        <a href="#" class="text-sm text-blue-600 hover:text-blue-700 hover:underline" id="forgot-pass-link">Forgot password?</a>
+                    </div>
+                </div>
+
+                <div id="error-container" class="hidden bg-red-50 text-red-600 p-3 rounded-lg text-sm flex items-center">
+                    <span class="material-icons text-sm mr-2">error</span>
+                    <span id="error-message">Error goes here</span>
+                </div>
+
+                <button id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform active:scale-95 flex items-center justify-center">
+                    <span id="btn-text">Sign In</span>
+                    <svg id="btn-spinner" class="animate-spin ml-2 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+            </form>
+
+            <div class="mt-8 text-center text-sm text-gray-600">
+                <span id="toggle-text">Don't have an account?</span>
+                <button id="toggle-mode-btn" class="text-blue-600 font-semibold hover:underline ml-1">Create an account</button>
+            </div>
+            
+            <div class="mt-auto pt-6 text-center">
+                 <p class="text-xs text-gray-400">© 2025 Connexa. <a href="#" class="hover:text-gray-600">Privacy</a> & <a href="#" class="hover:text-gray-600">Terms</a></p>
+            </div>
+        </div>
     </div>
 
-    <div class="flex items-center mb-4 text-sm">
-      <input type="checkbox" id="agree-checkbox" class="mr-2 w-4 h-4" checked />
-      <label>I agree to the <a href="https://iskify360.netlify.app/download#privacy-policy" class="underline text-blue-200">Terms & Privacy Policy</a></label>
-    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+        import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-    <button id="register-button" class="w-full bg-blue-500 hover:bg-blue-600 transition p-3 rounded-xl font-semibold shadow-lg mb-3">Create New Account</button>
+        const firebaseConfig = {
+          apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
+          authDomain: "my-website-d875f.firebaseapp.com",
+          projectId: "my-website-d875f",
+          storageBucket: "my-website-d875f.appspot.com",
+          messagingSenderId: "1084724880551",
+          appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
+          measurementId: "G-54E0SH3VJQ"
+        };
 
-    <p class="text-center mb-4">Already have an account? <button id="sign-in-button" class="underline text-blue-200">Sign In</button></p>
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    <p class="text-center text-white/80">Need help? <a href="https://iskify360.netlify.app/download#form-container" class="underline text-blue-200">Contact Support</a></p>
+        // UI State
+        let isLoginMode = true;
 
-    <p class="text-center text-white/60 text-sm mt-6">© 2025 I360 Online. All rights reserved.</p>
-  </div>
+        // Elements
+        const titleEl = document.getElementById('page-title');
+        const subtitleEl = document.getElementById('page-subtitle');
+        const nameField = document.getElementById('name-field');
+        const btnText = document.getElementById('btn-text');
+        const toggleText = document.getElementById('toggle-text');
+        const toggleBtn = document.getElementById('toggle-mode-btn');
+        const forgotLink = document.getElementById('forgot-pass-link');
+        const errorContainer = document.getElementById('error-container');
+        const errorMsg = document.getElementById('error-message');
+        const spinner = document.getElementById('btn-spinner');
+        const submitBtn = document.getElementById('submit-btn');
 
-<script>
-  const togglePassword = document.getElementById('toggle-password');
-  const passwordInput = document.getElementById('password');
+        // Check Auth Status (Redirect if already logged in)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = "sc_hompage.html";
+            }
+        });
 
-  togglePassword.addEventListener('click', () => {
-    const type = passwordInput.type === 'password' ? 'text' : 'password';
-    passwordInput.type = type;
-    togglePassword.textContent = type === 'password' ? 'visibility' : 'visibility_off';
-  });
-</script>
+        // Toggle UI Mode (Login <-> Register)
+        toggleBtn.addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            errorContainer.classList.add('hidden'); // Clear errors
 
+            if (isLoginMode) {
+                // Switch to Sign In
+                titleEl.textContent = "Sign In";
+                subtitleEl.textContent = "Welcome back! Please enter your details.";
+                nameField.classList.add('hidden');
+                btnText.textContent = "Sign In";
+                toggleText.textContent = "Don't have an account?";
+                toggleBtn.textContent = "Create an account";
+                forgotLink.classList.remove('hidden');
+            } else {
+                // Switch to Register
+                titleEl.textContent = "Create Account";
+                subtitleEl.textContent = "Start connecting with your peers today.";
+                nameField.classList.remove('hidden');
+                btnText.textContent = "Sign Up";
+                toggleText.textContent = "Already have an account?";
+                toggleBtn.textContent = "Sign In";
+                forgotLink.classList.add('hidden');
+            }
+        });
+
+        // Handle Submit
+        submitBtn.addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const fullName = document.getElementById('full-name').value;
+
+            // Basic validation
+            if (!email || !password) {
+                showError("Please enter email and password.");
+                return;
+            }
+            if (!isLoginMode && !fullName) {
+                showError("Please enter your full name.");
+                return;
+            }
+
+            setLoading(true);
+
+            try {
+                if (isLoginMode) {
+                    // Sign In Logic
+                    await signInWithEmailAndPassword(auth, email, password);
+                    // Redirect happens via onAuthStateChanged
+                } else {
+                    // Sign Up Logic
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+
+                    // Update Auth Profile
+                    await updateProfile(user, { displayName: fullName });
+
+                    // Create User Document
+                    await setDoc(doc(db, "users", user.uid), {
+                        uid: user.uid,
+                        email: user.email,
+                        name: fullName,
+                        profilePicture: "pic4.png", // Default
+                        bio: "Hey there! I am using Connexa.",
+                        createdAt: new Date()
+                    });
+                    
+                    // Redirect
+                    window.location.href = "sc_hompage.html";
+                }
+            } catch (error) {
+                let msg = error.message;
+                if(error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
+                    msg = "Invalid email or password.";
+                } else if (error.code === 'auth/email-already-in-use') {
+                    msg = "This email is already registered.";
+                } else if (error.code === 'auth/weak-password') {
+                    msg = "Password should be at least 6 characters.";
+                }
+                showError(msg);
+                setLoading(false);
+            }
+        });
+
+        // Toggle Password Visibility
+        const togglePassBtn = document.getElementById('toggle-password');
+        const passInput = document.getElementById('password');
+        togglePassBtn.addEventListener('click', () => {
+            const type = passInput.type === 'password' ? 'text' : 'password';
+            passInput.type = type;
+            togglePassBtn.textContent = type === 'password' ? 'visibility_off' : 'visibility';
+        });
+
+        // Helpers
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorContainer.classList.remove('hidden');
+            // Shake animation
+            errorContainer.classList.add('animate-pulse');
+            setTimeout(() => errorContainer.classList.remove('animate-pulse'), 500);
+        }
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                spinner.classList.remove('hidden');
+                btnText.textContent = isLoginMode ? "Signing In..." : "Creating Account...";
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            } else {
+                spinner.classList.add('hidden');
+                btnText.textContent = isLoginMode ? "Sign In" : "Sign Up";
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        }
+    </script>
 </body>
 </html>

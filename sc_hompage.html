@@ -2,1700 +2,770 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,  initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Connexa | S.C Space</title>
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>S.C Space</title>
-     <script type="module">    
-// Import Firebase libraries
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getFirestore, updateDoc, setDoc, getDoc, getDocs, doc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, increment} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
-import { signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --nav-height: 60px;
+        }
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
-  authDomain: "my-website-d875f.firebaseapp.com",
-  projectId: "my-website-d875f",
-  storageBucket: "my-website-d875f.appspot.com",
-  messagingSenderId: "1084724880551",
-  appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
-  measurementId: "G-54E0SH3VJQ"
-};
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-top: 70px; /* Space for fixed header */
+            padding-bottom: 80px; /* Space for mobile nav */
+        }
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app); // Firestore database
-const auth = getAuth(app); // Firebase Auth
-const storage = getStorage(app); 
+        /* --- Header --- */
+        .app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
 
-let currentUser = null;
-let userData = null; // Declare userData globally
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
+        .header-actions { display: flex; gap: 15px; }
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .icon-btn:hover { color: var(--primary-color); }
 
-    // Listen for auth state changes
-    auth.onAuthStateChanged(async (user) => {
-        currentUser = user; // Update currentUser globally
-        if (user) {
-            // User is signed in
-            if (window.AndroidInterface && typeof window.AndroidInterface.authStatus === 'function') {
-             window.AndroidInterface.authStatus('success');
-             } else {
-             console.warn('AndroidInterface or authStatus not available');
-       }
+        /* --- Main Layout Grid --- */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 0 15px;
+        }
 
-            // Fetch user data and update UI here
-            try {
-                const userDoc = await getDoc(doc(db, "users", user.uid));
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    onSnapshotPostsListener(); // Call the function to listen for posts
-                    const profilePictureElement = document.getElementById('profilePicture');
-                    profilePictureElement.src = userData.profilePicture || 'pic4.png';
-                    profilePictureElement.style.cursor = 'pointer';
-                    profilePictureElement.addEventListener('click', () => {
-                        window.location.href = 'profile_page.html';
-                    });
-
-                    const postContent = document.getElementById("postContent");
-                    const firstName = userData.name ? userData.name.split(" ")[0] : 'User';
-                    postContent.placeholder = `Update your status, ${firstName}.`;
-                } else {
-                    console.error("User document does not exist.");
-                    window.location.href = "authentication_section.html";
-                }
-            } catch (error) {
-                console.error("Error fetching user document:", error);
+        /* Desktop Layout Override */
+        @media (min-width: 900px) {
+            .main-container {
+                grid-template-columns: 240px 1fr 300px; /* Left Nav, Feed, Right Widgets */
+                padding: 20px;
             }
-
-        } else {
-            window.location.href = "authentication_section.html";
+            body { padding-bottom: 0; }
         }
-    });
-});
 
-function onSnapshotPostsListener() {
-   onSnapshot(query(collection(db, "posts"), orderBy("timestamp", "desc")), async (snapshot) => {
-    const now = new Date();
-    const today = new Date(now.setHours(0, 0, 0, 0));
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-    // Prepare to collect user data promises and comments count promises
-    const userPromises = {};
-    const commentsPromises = {};
-
-    // Iterate over snapshot docs to prepare user and comment fetching
-    snapshot.docs.forEach(docSnapshot => {
-        const post = docSnapshot.data();
-        const postId = docSnapshot.id;
-
-        // Prepare user doc ref and comment collection ref
-        const userDocRef = doc(db, "users", post.userId);
-        userPromises[postId] = getDoc(userDocRef);
-        commentsPromises[postId] = getDocs(collection(db, `posts/${postId}/comments`));
-    });
-
-    // Resolve all user data and comments counts concurrently
-    const userDocs = await Promise.all(Object.values(userPromises));
-    const commentsSnapshots = await Promise.all(Object.values(commentsPromises));
-
-    let postsHtml = "";
-
-// Show loading indicator while data is being fetched
-document.getElementById("postFeed").innerHTML = `<div class="loading-spinner">Loading...</div>`;
-
-// Construct the posts HTML progressively
-snapshot.docs.forEach((docSnapshot, index) => {
-    const post = docSnapshot.data();
-    const postId = docSnapshot.id;
-    const likedByUser = post.likes && post.likes.includes(currentUser.uid);
-
-    // Extract user data
-    const userDoc = userDocs[index];
-    const userData = userDoc.data() || {};
-    const userDisplayName = userData.name || "Connect360 User"; // Fallback to a default name
-    const userProfilePic = userData.profilePicture || 'pic4.png'; // Fallback image
-
-    const postDate = new Date(post.timestamp.toDate());
-    let formattedTimestamp = postDate.toLocaleString('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-    });
-
-    // Check if post is today, tomorrow, or another day
-    if (postDate >= today && postDate < tomorrow) {
-        formattedTimestamp = `Today at ${postDate.toLocaleTimeString('en-GB', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        })}`;
-    } else if (postDate >= tomorrow && postDate < new Date(tomorrow.setDate(tomorrow.getDate() + 1))) {
-        formattedTimestamp = `Tomorrow at ${postDate.toLocaleTimeString('en-GB', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        })}`;
-    } else {
-        formattedTimestamp = postDate.toLocaleString('en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        });
-    }
-
-    // Get comments count for the post
-    const commentsSnapshot = commentsSnapshots[index];
-    const commentsCount = commentsSnapshot.size;
-
-    // Construct HTML for the post
-    postsHtml += `
-        <div class="post">
-            <div class="post-header">
-                <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
-               <div class="post-info">
-  <p class="post-user">
-    <strong>
-      ${userDisplayName}
-      <img src="verified_badge.png" alt="Verified Badge" style="width:16px; height:16px; margin-left:5px; vertical-align:middle;">
-    </strong>
-  </p>
-  <p class="post-time" style ="margin-top: -10px;">${formattedTimestamp}</p>
-</div>
-
-            </div>
-            <p>${post.content || ''}</p>
-            ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post Image" style="width: 100%; max-height: 400px; object-fit: cover; margin-top:10px;" />` : ''}
-            <div class="post-actions">
-                <button onclick="likePost('${postId}')">
-                    <span class="material-icons">${likedByUser ? 'favorite' : 'favorite_border'}</span> ${post.likes ? post.likes.length : 0}
-                </button>
-                <button onclick="openCommentSection('${postId}')">
-                    <span class="material-icons">question_answer</span> ${commentsCount}
-                </button>
-                <button class="share-button">
-                    <span class="material-icons">share</span> Share
-                </button>
-            </div>
-            <div id="comments-${postId}" class="comments-section"></div>
-        </div>
-    `;
-
-    // Update the DOM progressively after each post
-    document.getElementById("postFeed").innerHTML = postsHtml;
-});
-
-// After all posts are loaded, remove the loading spinner
-setTimeout(() => {
-    document.getElementById("postFeed").innerHTML = postsHtml; // Final update
-    document.getElementById("loadingIndicator").style.display = 'none';
-    document.getElementById("spinnerOverlay").style.display = 'none'; // Hide spinner overlay
-}, 500); // Optional: Add a slight delay to simulate progressive loading effect
-
-});
-
-
-// Handle image upload
-document.getElementById('postImage').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const preview = document.getElementById('imagePreview');
-            preview.src = e.target.result;
-            preview.style.display = 'block'; // Show image preview
-        }
-        reader.readAsDataURL(file);
-    }
- });
-}
-
-window.submitPost = async function() {
-    const postContent = document.getElementById("postContent").value;
-    const postImage = document.getElementById("postImage").files[0]; // Get the uploaded image file
-
-    if (!currentUser || !currentUser.uid) {
-        console.error('No valid user ID. Please ensure the user is logged in.');
-        return;
-    }
-
-    let imageUrl = "";
-    
-    if (postImage) {
-        try {
-            // Upload image to Firebase Storage
-            const storageRef = ref(storage, `images/${postImage.name}`);
-            const uploadTask = await uploadBytes(storageRef, postImage);
-            imageUrl = await getDownloadURL(uploadTask.ref); // Get the image URL
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            return;
-        }
-    }
-
-    if (postContent || imageUrl) {
-        try {
-            // Add the post to Firestore with the userId, content, and imageUrl
-            await addDoc(collection(db, "posts"), {
-                userId: currentUser.uid,
-                content: postContent,
-                imageUrl: imageUrl, // Include image URL if available
-                timestamp: serverTimestamp(),
-                likes: [] // Initialize likes as an empty array
-            });
-            document.getElementById("postContent").value = ""; // Clear input after posting
-            document.getElementById("imagePreview").style.display = 'none'; // Hide image preview
-            document.getElementById("postImage").value = ""; // Clear the file input
-            console.log('Post successfully added.');
-        } catch (error) {
-            console.error('Error adding post:', error);
-        }
-    } else {
-        console.error('Post content or image cannot be empty.');
-    }
-};
-
-
-// Function to open comment section (showing bottom sheet dialog)
-window.openCommentSection = function(postId) {
-    const commentsHtml = `
-<div class="comments-section">
-  <div class="comment-dialog">
-    <div class="comments-header">
-      <h3>Comments</h3>
-    </div>
-
-    <!-- Comment List -->
-    <div id="commentList-${postId}" class="comment-list"></div>
-
-    <!-- Comment Input Box -->
-    <div class="comment-input-box">
-      <textarea id="comment-${postId}" placeholder="Write a comment..."></textarea>
-      <button onclick="submitComment('${postId}')">
-        <span class="material-icons">send</span>
-      </button>
-    </div>
-    
-    <button class="close-button" onclick="closeCommentSection('${postId}')">
-      <span class="material-icons">close</span>
-    </button>
-  </div>
-</div>
-    `;
-    document.getElementById(`comments-${postId}`).innerHTML = commentsHtml;
-    loadComments(postId); // Load comments when opening
-}
-
-function getTimeAgo(timestamp) {
-    const now = new Date();
-    const timeDiff = now - timestamp; // Difference in milliseconds
-
-    const seconds = Math.floor(timeDiff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-    if (days > 0) return `${days}d`;
-    if (hours > 0) return `${hours}h`;
-    if (minutes > 0) return `${minutes}m`;
-    return `${seconds}s`;
-}
- 
- async function loadComments(postId) {
-    const commentsSnapshot = await getDocs(collection(db, `posts/${postId}/comments`));
-    
-    // Collect all promises for fetching comments, users, and replies
-    const commentPromises = commentsSnapshot.docs.map(async (commentDoc) => {
-        const comment = commentDoc.data();
-        const commentId = commentDoc.id;
-
-        // Fetch user data and replies concurrently
-        const [userDoc, repliesSnapshot] = await Promise.all([
-            getDoc(doc(db, "users", comment.userId)),
-            getDocs(collection(db, `posts/${postId}/comments/${commentId}/replies`))
-        ]);
-
-        const userData = userDoc.data() || {};
-        const userDisplayName = userData.name ? userData.name.split(" ")[0] : comment.userId;
-        const userProfilePic = userData.profilePicture || 'pic4.png';
-        const commentDate = new Date(comment.timestamp.toDate());
-        const formattedTimestamp = getTimeAgo(commentDate);
-
-        // Process replies concurrently and build the replies HTML
-       const repliesHtml = repliesSnapshot.docs.map(replyDoc => {
-    const reply = replyDoc.data();
-    
-    // Example of how to format the timestamp (you need to implement this function)
-    const timeAgo = formatTimestamp(reply.timestamp); 
-
-    return `
-        <div class="reply">
-            <img src="${reply.userProfilePicture || 'pic4.png'}" alt="Profile Picture" class="reply-profile-pic" />
-            <div class="reply-content">
-                <strong class="reply-author">${reply.userName || 'S.C Space users'}</strong>
-                <p class="reply-text">${reply.content}</p>
-                <div class="reply-meta">
-                    <button class="like-button" onclick="likeReply('${postId}', '${commentId}', '${replyDoc.id}')">
-                        <span class="material-icons">thumb_up</span>
-                        <span class="like-count">${reply.likes || 0}</span>
-                    </button>
-                    <span class="reply-timestamp">${timeAgo}</span>
-                </div>
-            </div>
-        </div>
-    `;
-}).join('');
-
-        // Like count
-        const likesCount = Array.isArray(comment.likes) ? comment.likes.length : 0;
-        const repliesCount = repliesSnapshot.size;
-
-        // Return the complete HTML structure for each comment
-        return `
-            <div class="comment-container">
-                <div class="comment-header">
-                    <img src="${userProfilePic}" alt="Profile Picture" class="profile-pic" />
-                    <div class="comment-content">
-                        <strong class="comment-author">${userDisplayName}</strong>
-                        <p class="comment-text">${comment.content}</p>
-                        <div class="comment-meta">
-                            <span class="comment-timestamp">${formattedTimestamp}</span>
-                            <button onclick="likeComment('${postId}', '${commentId}')">Like (${likesCount})</button>
-                            <button onclick="toggleReplyInput('${commentId}')">Reply</button>
-                            <button id="toggle-replies-${commentId}" onclick="toggleReplies('${commentId}', ${repliesCount})">
-                                ${repliesCount > 0 ? `View ${repliesCount} Replies` : ''}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div id="replies-${commentId}" class="replies-section" style="display:none;">
-                    ${repliesHtml}
-                </div>
-                <div id="reply-input-${commentId}" class="reply-input" style="display:none;">
-                    <textarea id="reply-text-${commentId}" placeholder="Write a reply..."></textarea>
-                    <button onclick="submitReply('${postId}', '${commentId}')">Submit</button>
-                </div>
-            </div>
-        `;
-    });
-
-    // Await all the comment processing promises
-    const commentsHtml = (await Promise.all(commentPromises)).join('');
-
-    // Inject the entire comments HTML into the DOM at once
-    document.getElementById(`commentList-${postId}`).innerHTML = commentsHtml;
-}
-// Close comment section
-window.closeCommentSection = function(postId) {
-    document.getElementById(`comments-${postId}`).innerHTML = ""; // Clear the comments section
-}
-
-// Toggle reply input visibility
-window.toggleReplyInput = function(commentId) {
-    const replyInput = document.getElementById(`reply-input-${commentId}`);
-    replyInput.style.display = replyInput.style.display === 'none' ? 'block' : 'none';
-}
-
-// Toggle replies visibility and update button text
-window.toggleReplies = function(commentId, repliesCount) {
-    const repliesSection = document.getElementById(`replies-${commentId}`);
-    const toggleButton = document.getElementById(`toggle-replies-${commentId}`);
-    
-    if (repliesSection.style.display === 'none') {
-        repliesSection.style.display = 'block';
-        toggleButton.textContent = 'Close';
-    } else {
-        repliesSection.style.display = 'none';
-        toggleButton.textContent = `View ${repliesCount} Replies`;
-    }
-};
-
-// Toggle reply input visibility
-window.toggleReplyInput = function(commentId) {
-    const replyInput = document.getElementById(`reply-input-${commentId}`);
-    replyInput.style.display = replyInput.style.display === 'none' ? 'block' : 'none';
-};
-window.submitReply = async function(postId, commentId) {
-    const replyContent = document.getElementById(`reply-text-${commentId}`).value;
-    if (replyContent) {
-        // Get the current user's information
-        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-        const userData = userDoc.data() || {};
+        /* --- Left Sidebar (Desktop Nav) --- */
+        .left-sidebar { display: none; }
         
-        await addDoc(collection(db, `posts/${postId}/comments/${commentId}/replies`), {
-            userId: currentUser.uid,
-            content: replyContent,
-            timestamp: serverTimestamp(),
-            userName: userData.name || currentUser.uid,  // Use user's name or fallback to uid
-            userProfilePicture: userData.profilePicture || 'pic4.png' // Fallback image
-        });
-        loadComments(postId); // Reload comments after submitting
-    } else {
-        console.error('Reply content cannot be empty.');
-    }
-};
+        @media (min-width: 900px) {
+            .left-sidebar {
+                display: block;
+                position: sticky;
+                top: 80px;
+                height: fit-content;
+            }
+            
+            .nav-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                border-radius: 12px;
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.2s;
+                margin-bottom: 5px;
+            }
+            .nav-item:hover, .nav-item.active {
+                background-color: white;
+                color: var(--primary-color);
+                box-shadow: var(--shadow-sm);
+            }
+            .nav-item .material-icons { font-size: 24px; }
+        }
 
-// Like a comment
-window.likeComment = async function(postId, commentId) {
-    const commentRef = doc(db, `posts/${postId}/comments`, commentId);
-    const commentDoc = await getDoc(commentRef);
-    
-    if (commentDoc.exists()) {
-        const commentData = commentDoc.data();
-        const likes = Array.isArray(commentData.likes) ? commentData.likes : [];
+        /* --- Right Sidebar (Widgets) --- */
+        .right-sidebar { display: none; }
+
+        @media (min-width: 900px) {
+            .right-sidebar {
+                display: block;
+                position: sticky;
+                top: 80px;
+                height: fit-content;
+            }
+            .widget-card {
+                background: white;
+                border-radius: 16px;
+                padding: 16px;
+                margin-bottom: 20px;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid var(--border-color);
+            }
+            .widget-title {
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text-secondary);
+                margin-bottom: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .trend-item {
+                display: block;
+                padding: 8px 0;
+                color: var(--text-main);
+                text-decoration: none;
+                font-size: 14px;
+            }
+            .trend-item:hover { color: var(--primary-color); }
+        }
+
+        /* --- Mobile Bottom Nav --- */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        @media (min-width: 900px) { .mobile-nav { display: none; } }
+
+        .mobile-nav-btn {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 10px;
+            gap: 4px;
+        }
+        .mobile-nav-btn.active { color: var(--primary-color); }
+
+        /* --- Create Post Card --- */
+        .create-post-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+        .cp-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .cp-input {
+            flex: 1;
+            border: none;
+            background: var(--bg-color);
+            border-radius: 20px;
+            padding: 12px 16px;
+            font-family: inherit;
+            resize: none;
+            outline: none;
+            transition: background 0.2s;
+        }
+        .cp-input:focus { background: #eef2ff; }
         
-        if (likes.includes(currentUser.uid)) {
-            // Unlike the comment
-            await updateDoc(commentRef, {
-                likes: likes.filter(uid => uid !== currentUser.uid)
-            });
-        } else {
-            // Like the comment
-            await updateDoc(commentRef, {
-                likes: [...likes, currentUser.uid]
-            });
+        .cp-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+        .attach-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .attach-btn:hover { color: var(--primary-color); }
+        .post-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .post-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* --- Feed Post --- */
+        .feed { display: flex; flex-direction: column; gap: 16px; }
+        .post-card {
+            background: white;
+            border-radius: 16px;
+            padding: 0;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .post-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .post-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+        }
+        .verified-badge { width: 14px; height: 14px; margin-left: 4px; }
+        .post-time { font-size: 12px; color: var(--text-secondary); }
+        
+        .post-content { padding: 0 16px 16px; font-size: 15px; line-height: 1.5; }
+        .post-image { width: 100%; height: auto; display: block; max-height: 500px; object-fit: cover; }
+        
+        .post-stats {
+            padding: 12px 16px;
+            display: flex;
+            border-top: 1px solid var(--border-color);
+            gap: 5px;
+        }
+        .action-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .action-btn:hover { background: var(--bg-color); }
+        .action-btn.liked { color: #ef4444; }
+        .action-btn .material-icons { font-size: 20px; }
+
+        /* --- Comments Section --- */
+        .comments-wrapper {
+            background: #f9fafb;
+            padding: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+        .comment-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .comment-bubble {
+            background: white;
+            padding: 10px 14px;
+            border-radius: 18px;
+            border-top-left-radius: 4px;
+            box-shadow: var(--shadow-sm);
+            flex: 1;
+        }
+        .comment-author { font-weight: 600; font-size: 13px; display: block; margin-bottom: 4px; }
+        .comment-text { font-size: 14px; color: var(--text-main); }
+        .comment-actions {
+            margin-left: 50px;
+            margin-top: 4px;
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .comment-actions button { background: none; border: none; color: inherit; font-size: inherit; cursor: pointer; font-weight: 600; }
+        
+        /* Input for comments */
+        .comment-input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            align-items: center;
+        }
+        .comment-input {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            outline: none;
+        }
+        .send-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
 
-        loadComments(postId); // Reload comments to reflect like count
-    }
-}
- window.likeReply = async function(postId, commentId, replyId) {
-    const replyRef = doc(db, `posts/${postId}/comments/${commentId}/replies`, replyId);
-    
-    await updateDoc(replyRef, {
-        likes: increment(1) // Increment the like count by 1
-    });
-    
-    loadComments(postId); // Reload comments to update the display
-}
-
-// Like post function
-window.likePost = async function(postId) {
-    const postRef = doc(db, "posts", postId);
-    const postDoc = await getDoc(postRef);
-    
-    if (postDoc.exists()) {
-        const postData = postDoc.data();
-        // Ensure likes is an array
-        const likes = Array.isArray(postData.likes) ? postData.likes : [];
-
-        if (likes.includes(currentUser.uid)) {
-            // Unlike the post (remove user ID from likes)
-            await updateDoc(postRef, {
-                likes: likes.filter(userId => userId !== currentUser.uid)
-            });
-        } else {
-            // Like the post (add user ID to likes)
-            await updateDoc(postRef, {
-                likes: [...likes, currentUser.uid]
-            });
+        /* Loading Spinner */
+        .loader-container { text-align: center; padding: 20px; color: var(--text-secondary); }
+        
+        /* Image Preview */
+        #imagePreview {
+            width: 100%;
+            border-radius: 12px;
+            margin-top: 10px;
+            display: none;
+            border: 1px solid var(--border-color);
         }
-    } else {
-        console.error('Post does not exist');
-    }
-}
-function formatTimestamp(timestamp) {
-    const now = new Date();
-    const seconds = Math.floor((now - timestamp.toDate()) / 1000);
-    let interval = Math.floor(seconds / 31536000);
-    
-    if (interval >= 1) return interval + "y"; // years
-    interval = Math.floor(seconds / 2592000);
-    if (interval >= 1) return interval + "mo"; // months
-    interval = Math.floor(seconds / 86400);
-    if (interval >= 1) return interval + "d"; // days
-    interval = Math.floor(seconds / 3600);
-    if (interval >= 1) return interval + "h"; // hours
-    interval = Math.floor(seconds / 60);
-    if (interval >= 1) return interval + "m"; // minutes
-    return seconds + "s"; // seconds
-}
-// Toggle notification dropdown visibility
-document.getElementById('notificationsIcon').addEventListener('click', function(event) {
-    event.stopPropagation(); // Prevent the click from bubbling up to the document
-    const dropdown = document.getElementById('notificationsDropdown');
-    dropdown.style.display = dropdown.style.display === 'none' || dropdown.style.display === '' ? 'block' : 'none';
-});
-
-// Hide the dropdown when clicking outside of it
-document.addEventListener('click', function(event) {
-    const dropdown = document.getElementById('notificationsDropdown');
-    const notificationsIcon = document.getElementById('notificationsIcon');
-
-    // Check if the click is outside of the dropdown and the notification icon
-    if (!notificationsIcon.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.style.display = 'none';
-    }
-});
-
-// Example function to update the notifications
-function updateNotifications(newNotifications) {
-    const notificationList = document.getElementById('notificationList');
-    const notificationCount = document.getElementById('notificationCount');
-
-    if (newNotifications.length > 0) {
-        notificationCount.textContent = newNotifications.length;
-        let notificationsHtml = '';
-        newNotifications.forEach(notification => {
-            notificationsHtml += `<p>${notification.message} - <em>${notification.timestamp}</em></p>`;
-        });
-        notificationList.innerHTML = notificationsHtml;
-    } else {
-        notificationCount.textContent = '0';
-        notificationList.innerHTML = '<p>No new notifications</p>';
-    }
-}
-
-// Simulate new notifications (this could be from Firestore in real implementation)
-const newNotifications = [
-    { message: 'You have a new message', timestamp: '10:45 AM' },
-    { message: 'New comment on your post', timestamp: '11:00 AM' }
-];
-updateNotifications(newNotifications);
-
-window.openCommentSection = function(postId) {
-    const commentsHtml = `
-<div class="comments-section">
-  <div class="comment-dialog">
-    <div class="comments-header">
-      <h3>Comments</h3>
-    </div>
-
-    <!-- Comment List -->
-    <div id="commentList-${postId}" class="comment-list"></div>
-
-    <!-- Comment Input Box -->
-    <div class="comment-input-box">
-      <textarea id="comment-${postId}" placeholder="Write a comment..."></textarea>
-      <button onclick="submitComment('${postId}')">
-        <span class="material-icons">send</span>
-      </button>
-    </div>
-    
-    <button class="close-button" onclick="closeCommentSection('${postId}')">
-      <span class="material-icons">close</span>
-    </button>
-  </div>
-</div>
-    `;
-    document.getElementById(`comments-${postId}`).innerHTML = commentsHtml;
-    loadComments(postId); // Load comments when opening
-}
-window.submitComment = async function(postId) {
-    const commentContent = document.getElementById(`comment-${postId}`).value;
-    if (commentContent) {
-        await addDoc(collection(db, `posts/${postId}/comments`), {
-            content: commentContent,
-            userId: currentUser.uid,
-            timestamp: serverTimestamp()
-        });
-        document.getElementById(`comment-${postId}`).value = ""; // Clear the comment box after posting
-        loadComments(postId); // Reload comments after submission
-    }
-}
-</script>
-    <link rel="stylesheet" href="styles.css">
+    </style>
 </head>
 <body>
-<style>
-</style>
 
-<div class="platform_name" onclick="window.location.href='sc_hompage.html'" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 18px; color: rgb(88, 181, 243); text-align: left; cursor: pointer; position: fixed; top: 0; left: 0; z-index: 1002; padding: 8px 10px; width: 100%;">
-    <h1 style="margin: 0;">Connexa | Home</h1>
-</div>
-
-<!-- Chat iframe (Left side) -->
-<div class="chat-container" style="position: fixed; top: 64px; left: 0; width: 30%; height: 78%; z-index: 500; overflow: hidden;">
-    <iframe 
-      src="Chat.html" 
-      style="width: 100%; height: 100%; border: none; border-radius: 0;"
-      allow="autoplay; microphone; camera; clipboard-write"
-      sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
-    ></iframe>
-</div>
-
-<!-- Help icon (Top right) -->
-<div id="why_our_platform" style="position: fixed; top: 20px; right: 20px; cursor: pointer; z-index: 1001;" onclick="window.location.href='why_our_platform.html'">
-    <span class="material-icons" style="font-size: 48px; color: rgb(88, 181, 243);">help_outline</span>
-</div>
-
-<div class="top-nav" style="background-color: rgb(88, 181, 243); height: 70px; position: fixed; bottom: 0; left: 0; left: 0; border-top: 1px solid #e0e0e0;">
-    <!-- Home -->
-    <button class="nav-button" onclick="window.location.href='sc_hompage.html'">
-        <span class="material-icons">home</span>
-        <p class="nav-label">Home</p>
-    </button>
-
-    <!-- Explore -->
-    <button class="nav-button" onclick="window.location.href='explore.html'">
-        <span class="material-icons">explore</span>
-        <p class="nav-label">Explore</p>
-    </button>
-
-    <!-- Messages -->
-    <button class="nav-button" onclick="window.location.href='Chat.html'">
-        <span class="material-icons">chat_bubble</span>
-        <p class="nav-label">Chats</p>
-    </button>
-
-    <!-- Profile -->
-    <button class="nav-button" onclick="window.location.href='profile_page.html'">
-        <span class="material-icons">person</span>
-        <p class="nav-label">Profile</p>
-    </button>
-
-    <!-- Notifications -->
-    <button class="nav-button" id="notificationsIcon">
-        <span class="material-icons">notifications</span>
-        <p class="nav-label">Alerts</p>
-    </button>
-</div>
-<div class="hidden lg:block lg:w-1/4 lg:pl-4" style="position: fixed; overflow: auto; top: 72px; right: 20px; width: 28%; max-height: calc(100vh - 120px); z-index: 100;">
-  <div class="space-y-6">
-
-    <!-- Quick Tips Card -->
-    <div id="quickTips" class="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl shadow-lg transition-transform transform hover:scale-105">
-      <h3 class="text-lg font-semibold text-blue-700 mb-2 flex items-center gap-2">Did you know you can</h3>
-      <p class="text-sm text-gray-700">Connect with classmates, share projects, and explore tools efficiently.</p>
-    </div>
-
-    <!-- Trending Topics Card -->
-    <div class="p-4 bg-gradient-to-r from-pink-50 to-pink-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
-      <h3 class="text-lg font-semibold text-pink-700 mb-2 flex items-center gap-2">🔥 Trending</h3>
-      <ul class="space-y-1 text-sm text-gray-700">
-        <li>#AutodeskTips</li>
-        <li>#EngineeringChallenges</li>
-        <li>#CampusHacks</li>
-      </ul>
-    </div>
-
-    <!-- Latest News Card -->
-    <div class="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
-      <h3 class="text-lg font-semibold text-purple-700 mb-2 flex items-center gap-2">📰 Latest News</h3>
-      <ul class="space-y-1 text-sm text-gray-700">
-        <li><a href="#" class="hover:underline text-blue-500">New AutoCAD update released!</a></li>
-        <li><a href="#" class="hover:underline text-blue-500">Engineering Society announces workshop</a></li>
-        <li><a href="#" class="hover:underline text-blue-500">Campus hackathon registration open</a></li>
-      </ul>
-    </div>
-
-    <!-- Quick Poll Card -->
-    <div class="p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
-      <h3 class="text-lg font-semibold text-orange-700 mb-2 flex items-center gap-2">📊 Quick Poll</h3>
-      <p class="text-sm text-gray-700 mb-2">Which tutorials do you want next?</p>
-      <ul class="space-y-1 text-sm text-gray-700">
-        <li><input type="radio" name="poll" /> AutoCAD Advanced</li>
-        <li><input type="radio" name="poll" /> 3D Modeling</li>
-        <li><input type="radio" name="poll" /> Python for Engineers</li>
-      </ul>
-    </div>
-
-    <!-- Resources Card -->
-    <div class="p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
-      <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">📚 Resources</h3>
-      <ul class="space-y-2">
-        <li><a href="#" class="text-sm text-blue-500 hover:underline">AutoCAD Tutorials</a></li>
-        <li><a href="#" class="text-sm text-blue-500 hover:underline">Engineering Forums</a></li>
-        <li><a href="#" class="text-sm text-blue-500 hover:underline">Student Projects</a></li>
-        <li><a href="#" class="text-sm text-blue-500 hover:underline">Software Tools</a></li>
-      </ul>
-    </div>
-
-    <!-- Announcements / Ads Card -->
-    <div class="p-4 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
-      <h3 class="text-lg font-semibold mb-2 flex items-center gap-2">📢 Announcements</h3>
-      <p class="text-sm mb-2">Join the 3D Modeling Workshop this week!</p>
-      <a href="#" class="text-blue-500 text-sm hover:underline">Learn More</a>
-    </div>
-
-    <!-- Friends Online / Classmate Suggestions Card -->
-    <div class="p-4 bg-gradient-to-r from-indigo-50 to-indigo-100 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow">
-      <h3 class="text-lg font-semibold text-indigo-700 mb-3 flex items-center gap-2">👥 Friends Online</h3>
-      <div class="space-y-3">
-        <!-- Friend Card -->
-        <div class="flex items-center gap-3 p-2 bg-white rounded-xl shadow hover:shadow-md transition-shadow cursor-pointer">
-          <img src="https://i.pravatar.cc/40?img=1" alt="Friend" class="w-10 h-10 rounded-full border-2 border-green-400">
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-gray-800">Maximilla</p>
-            <p class="text-xs text-gray-500">Online</p>
-          </div>
-          <button class="text-sm text-blue-500 hover:underline">Message</button>
+    <header class="app-header">
+        <a href="sc_hompage.html" class="logo">
+            <span class="material-icons" style="color:var(--primary-color)">hub</span>
+            Connexa
+        </a>
+        <div class="header-actions">
+            <button class="icon-btn" onclick="window.location.href='Chat.html'">
+                <span class="material-icons">chat_bubble_outline</span>
+            </button>
+            <button class="icon-btn" id="notificationsIcon">
+                <span class="material-icons">notifications_none</span>
+            </button>
+            <img id="headerProfilePic" src="pic4.png" alt="Profile" class="user-avatar" onclick="window.location.href='profile_page.html'" style="cursor:pointer">
         </div>
+    </header>
 
-        <div class="flex items-center gap-3 p-2 bg-white rounded-xl shadow hover:shadow-md transition-shadow cursor-pointer">
-          <img src="https://i.pravatar.cc/40?img=2" alt="Friend" class="w-10 h-10 rounded-full border-2 border-green-400">
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-gray-800">Brian O.</p>
-            <p class="text-xs text-gray-500">Online</p>
-          </div>
-          <button class="text-sm text-blue-500 hover:underline">Message</button>
-        </div>
-
-        <div class="flex items-center gap-3 p-2 bg-white rounded-xl shadow hover:shadow-md transition-shadow cursor-pointer">
-          <img src="https://i.pravatar.cc/40?img=3" alt="Friend" class="w-10 h-10 rounded-full border-2 border-gray-400">
-          <div class="flex-1">
-            <p class="text-sm font-semibold text-gray-800">Jane D.</p>
-            <p class="text-xs text-gray-500">Offline</p>
-          </div>
-          <button class="text-sm text-gray-500 cursor-not-allowed">Message</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- JS for Rotating Tips & Quotes -->
-<script>
-  const tips = [
-    "Use layers in AutoCAD to organize designs efficiently.",
-    "Share your code snippets in group forums for peer review.",
-    "Bookmark frequently used resources for faster access.",
-    "Try keyboard shortcuts to speed up your workflow."
-  ];
-
-  const quotes = [
-    "\"Success is not final, failure is not fatal: It is the courage to continue that counts.\" – Churchill",
-    "\"Don't watch the clock; do what it does. Keep going.\" – Sam Levenson",
-    "\"Strive for progress, not perfection.\"",
-    "\"The expert in anything was once a beginner.\""
-  ];
-
-  let tipIndex = 0, quoteIndex = 0;
-
-  setInterval(() => {
-    document.getElementById('quickTips').querySelector('p').textContent = tips[tipIndex];
-    tipIndex = (tipIndex + 1) % tips.length;
-  }, 7000);
-
-  setInterval(() => {
-    document.getElementById('quoteBox').querySelector('p').textContent = quotes[quoteIndex];
-    quoteIndex = (quoteIndex + 1) % quotes.length;
-  }, 10000);
-</script>
-
-
-
-<style>
-.nav-button {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 8px 0;
-    transition: all 0.3s ease;
-}
-
-.nav-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: scale(1.05);
-}
-
-.nav-button .material-icons {
-    font-size: 28px;
-    margin-bottom: 4px;
-}
-
-.nav-label {
-    font-size: 12px;
-    margin: 0;
-    color: white;
-    font-weight: 500;
-}
-</style>
-
-    <!-- Divider -->
-    <hr class="divider">
-
-<div class="post-box">
-    <div class="post-header">
-        <img id="profilePicture" src="pic4.png" alt="Profile Picture" class="profile-picture" />
-        <textarea id="postContent" placeholder="" rows="4" cols="50" onkeyup="togglePostButton()"></textarea>
-        <button class="add-image-button" onclick="document.getElementById('postImage').click()">
-            <span id="addPhotoIcon" class="material-icons">add_photo_alternate</span>
-        </button>
-    </div>
-</div>
-
-<input type="file" id="postImage" accept="image/*" style="display: none;" onchange="previewImage(); togglePostButton();" />
-
-<img id="imagePreview" src="#" alt="Image Preview" style="display:none; width: 100%; margin-top: 10px;" />
-
-<div class="post-button-container">
-    <button id="postButton" class="post-button" onclick="submitPost()" style="display: none;">
-        <span class="material-icons">publish</span>
-        Publish Post
-    </button>
-</div>
-
-<script>
-    function togglePostButton() {
-        var postContent = document.getElementById('postContent').value;
-        var postImage = document.getElementById('postImage').files.length > 0;
-        var postButton = document.getElementById('postButton');
-
-        if (postContent.trim().length > 0 || postImage) {
-            postButton.style.display = 'flex'; // Show the button
-        } else {
-            postButton.style.display = 'none'; // Hide the button
-        }
-    }
-
-    function previewImage() {
-        var file = document.getElementById('postImage').files[0];
-        var imagePreview = document.getElementById('imagePreview');
-
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                imagePreview.src = e.target.result;
-                imagePreview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            imagePreview.style.display = 'none';
-        }
-    }
-</script>
-
- <!-- Divider -->
-    <hr class="divider">
-
-   <!-- Post Feed -->
-    <div id="spinnerOverlay" class="spinner-overlay"></div>
-   <div id="loadingIndicator" class="loading-spinner"></div>
-    <div id="postFeed" class="feed">
-        <!-- Posts will be dynamically added here -->
-    </div>
-    
-
-    <!-- Firebase scripts -->
-    <script type="module" src="app.js"></script>
-</body>
-<style>
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Overlay styling */
-.spinner-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 900; /* Ensure it appears above other elements */
-    display: flex; /* Hidden by default */
-}
-
-
-.post-button {
-    display: none; /* Center the icon and text */
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-    padding: 5px 10px !important; /* Add padding for a better appearance */
-    font-size: 14px; /* Adjust font size */
-    border: none; /* Remove border */
-    border-radius: 3px; /* Optional: rounded corners */
-    background-color: #4CAF50; /* Green background (adjust as needed) */
-    color: white; /* Text color */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    margin-top: -4px; /* Space above the button */
-    margin-right: 7px;
-}
-
-.post-button .material-icons {
-    font-size: 24px; /* Increase icon size */
-    margin-right: 8px; /* Space between icon and text */
-}
-/* Style for the notification badge */
-
-
-.comment {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.comment-container {
-    background-color: #f5f5f5; /* Light background color */
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.comment-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-}
-.comment-header img {
-    width: 30px; /* Adjust the size as needed */
-    height: 30px; /* Adjust the size as needed */
-    border-radius: 50%; /* Circular profile picture */
-    margin-right: 10px; /* Spacing between the profile picture and comment text */
-}
-.profile-pic {
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 50% !important; /* Ensures it is a perfect circle */
-    margin-right: 15px;
-    object-fit: cover; /* Ensures the image fits well within the circle */
-}
-
-/* Post Info Styling */
-.post-info {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Post User Styling */
-.post-user {
-    margin-top: 0px;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 1px;
-}
-
-/* Post Time Styling */
-.post-time {
-    font-size: 12px;
-    color: #777;
-}
-
-/* Post Content Styling */
-.post p {
-    margin-bottom: 10px;
-}
-
-.post-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-.top-nav {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    background-color: #ffffff00;
-    border-top: 1px solid #e0e0e0;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Ensure it appears above other elements */
-}
-.top-nav p {
-    text-decoration: none;
-    color: #f0f2f5;
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.top-nav button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #f0f2f5;
-}
-
-.loading-spinner {
-    display: flex;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    justify-content: center;
-    align-items: center;
-    transform: translate(-50%, -50%);
-    height: 100px;
-    z-index: 9999; /* Ensure it appears above other elements */
-    font-size: 24px;
-    color: #555;
-}
-
-.loading-spinner::after {
-    content: '';
-    width: 40px;
-    height: 40px;
-    border: 5px solid #ccc;
-    border-top-color: #4285f4; /* Google Blue or your theme color */
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-
-.post-actions button {
-    background-color: #e0f7fa; /* Light blue background */
-    border: none;
-    border-radius: 20px;
-    padding: 10px 15px;
-    font-size: 14px;
-    color: #007BFF; /* Blue text */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Space between icon and text */
-    flex-grow: 1; /* Make buttons equal width */
-    margin: 0 5px; /* Space between buttons */
-}
-
-
-.post-actions button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus state shadow */
-}
-
-/* Specific styling for the share button */
-.share-button {
-    flex-grow: 0; /* Prevent share button from growing */
-    padding: 10px 20px; /* Adjust padding for larger size */
-}
-
-
-/* Add margin or padding to the content below the header */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f3f3f5;
-    padding-top:0px; /* Push the content down, adjust if the header size changes */
-
-}
-.divider {
-    margin: 0px 0;
-    border: 0px solid #ccc;
-}
-
-
-.header h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-/* Dropdown styling for notifications */
-.dropdown-content {
-    position: absolute;
-    top: 40px;
-    right: 0;
-    background-color: white;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    z-index: 1;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.dropdown-content h4 {
-    margin: 0;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.dropdown-content p {
-    margin: 10px 0;
-}
-
-/* Post Box Styling */
-.post-box {
-    margin: 10px auto;
-    padding: 10px;
-    background-color: #f0f2f5; /* Light gray background */
-    border-radius: 8px;
-    width: 95%;
-    box-shadow: 0 2px 5px rgba(0.1, 0.1, 0.1, 0.2);
-}
-
-/* Profile Picture */
-.profile-picture {
-    width: 35px !important;/* Adjust the size as needed */
-    height: 35px!important;
-    border-radius: 50%; /* Circular profile picture */
-    margin-right: 10px; /* Spacing between the profile picture and textarea */
-    vertical-align: middle; /* Aligns the picture vertically with other elements */
-}
-
-/* Post Header Flexbox Layout */
-.post-header {
-    display: flex;
-    align-items: center; /* Vertically centers the items */
-    height: 35px; /* Set the same height for the header */
-}
-
-/* Textarea styling */
-.post-header textarea {
-    flex: 1; /* Takes up the remaining space */
-    height: 100%; /* Makes the textarea fill the height of the header */
-    padding: 10px;
-   
-    margin-bottom: 0px;
-    border-radius: 50px;
-    border: 1px solid #ccc;
-    resize: none; /* Prevents resizing */
-    font-size: 14px;
-    background-color: white; /* White background for textarea */
-}
-.add-image-button {
-    width: 40px; /* Adjust width as needed */
-    height: 40px; /* Adjust height as needed */
-    display: flex; /* Center the icon */
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-    border: none; /* Optional: remove border */
-    background-color: transparent; /* Optional: keep the background transparent */
-    cursor: pointer; /* Change cursor to pointer on hover */
-}
-
-.add-image-button .material-icons {
-color: #1877F2;
-margin-left: 15px;
-    font-size: 42px; /* Increase icon size */
-    line-height: 1; /* Prevent extra spacing */
-}
-
-.add-image-button:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Optional: add hover effect */
-    border-radius: 5px; /* Optional: rounded corners */
-}
-.add-image-button:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Optional: add hover effect */
-    border-radius: 5px; /* Optional: rounded corners */
-}
-
-/* Material Icon style */
-#addPhotoIcon {
-font-size: 40px !important;
-    margin-right: 3px;
-}
-
-/* Post button container */
-.post-button-container {
-    display: flex;
-    justify-content: flex-end; /* Aligns the post button to the right */
-    margin-top: 10px; /* Space between the image preview and button */
-}
-
-/* Post button styling */
-.post-button-container button {
-    padding: 8px 16px;
-    background-color: #1877F2; /* Post button color */
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    height: 40px; /* Same height as other elements */
-}
-
-/* Post Feed Styling */
-.feed {
-    margin: 10px auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-/* Post Styling */
-.post {
-    background-color: white;
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-}
-
-.post p {
-    margin-bottom: 5px;
-}
-
-.post-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.post button {
-    padding: 8px 15px;
-    background-color: #F0F0F0;
-    color: #4D9CFF;
-    border: none;
-    font-size: 19px
-    border-radius 20px;
-    cursor: pointer;
-}
-
-.post button:hover {
-    background-color: #0056b3;
-}
-
-
-.comment-dialog {
-    position: fixed;
-    bottom: 0;
-    left:0;
-    width: 100%;
-    max-height: 80%; /* Or adjust to your desired height */
-    background-color: white;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for the top edge */
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    z-index: 1000; /* Ensures it's above other elements */
-}
-
-.comments-header {
-    font-size: 18px;
-    
-    margin-bottom: 10px;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
-}
-
-.comment-list {
-    max-height: 600px;
-    overflow-y: auto;
-    margin-bottom: 15px;
-}
-
-.comment-container {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    font-family: Arial, sans-serif;
-}
-
-.comment-header {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 5px;
-}
-
-.profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-top: 1px !important;
-    margin-right: 10px;
-    
-}
-
-.comment-content {
-    flex-grow: 1;
-}
-
-.comment-author {
-    font-weight: bold;
-    margin-top: 10px !important;
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
-.comment-text {
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-.comment-meta {
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    color: gray;
-    margin-top: 5px;
-}
-
-.comment-meta button {
-    background-color: transparent;
-    border: none;
-    color: #007BFF;
-    cursor: pointer;
-    margin-right: 10px;
-    font-size: 12px;
-    padding: 2px 5px;
-}
-
-/* Light background when clicked or focused */
-.comment-meta button:focus,
-.comment-meta button:active {
-    background-color: #e6f3ff;  /* Very light blue */
-    outline: none;
-    box-shadow: none;
-}
-
-.comment-meta button:hover {
-    text-decoration: underline;
-}
-
-.replies-section {
-    margin-top: 10px;
-    padding-left: 10px;
-    border-left: 2px solid #ddd;
-    display: none;
-}
-
-
-
-.reply-input {
-    margin-top: 10px;
-    display: none;
-}
-
-.reply-input textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-.reply-input button {
-    padding: 6px 12px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.reply-input button:hover {
-    background-color: #0056b3;
-}
-.reply {
-    display: flex;
-    align-items: flex-start;  /* Align profile pic and content vertically at the top */
-    margin-bottom: 6px;
-    padding-left: 10px;
-    padding: 5px;  /* Add padding inside the box */
-    background-color: white;  /* Fused white background */
-    border-radius: 15px;  /* Rounded corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Optional: adds a subtle shadow for depth */
-}
-.reply-profile-pic {
-    width: 30px !important;
-    height: 30px !important;
-    border-radius: 50% !important;  /* Enforce the profile picture to be round */
-    object-fit: cover !important;   /* Ensure the image fits inside the circular frame */
-    margin-right: 10px !important;  /* Add spacing and prevent it from being overridden */
-}
-
-.reply-content {
-    flex-grow: 1;  /* Ensure the content takes up the remaining space */
-}
-
-.reply-author {
-    font-weight: bold;
-    font-size: 13px !important;
-    margin-top: 10px !important;
-    display: block; /* Ensure the name is on its own line */
-}
-
-.reply-text {
-    margin: 5px 0 0 0; /* Add some spacing between the name and content */
-    font-size: 13px;
-    line-height: 1.5;
-}
-.reply-meta {
-    display: flex;
-    justify-content: space-between; /* Aligns the like button and timestamp to the ends */
-    width: 100%;
-    margin-top: 5px; /* Adds some space between content and meta */
-}
-
-.like-button {
-    background: #fff !important;
-    border: none;
-    display: flex;
-    margin-left: -9px !important;
-    align-items: center;
-    cursor: pointer;
-    color: #777 !important; /* Change this color as needed */
-}
-
-.material-icons {
-    font-size: 24px !important; /* Adjust size as needed */
-    margin-right: 5px; /* Space between icon and like count */
-}
-
-.reply-timestamp {
-    color: #777; /* Color for the timestamp */
-    font-size: 14px; /* Font size for the timestamp */
-}
-
-/* Input Section at the Bottom */
-.comment-input-box {
-    margin-top: auto; /* Push input box to the bottom */
-    display: flex;
-    align-items: center;
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
-    padding-bottom: 0px !important; /* Ensure padding at the bottom */
-}
-
-/* Styling for the Textarea */
-.comment-input-box textarea {
-    flex-grow: 1;
-    border: none;
-    padding: 10px;
-    border-radius: 15px;
-    background-color: #f0f0f0;
-    resize: none;
-}
-
-/* Styling for the Send Button */
-.comment-input-box button {
-    background-color: #fff;
-    color: blue;
-    border: none;
-    border-radius: 50%;
-    padding: 6px; /* Use correct padding syntax */
-    margin-left: auto; /* Push button to the right */
-    margin-right: -15px !important;
-    cursor: pointer;
-    display: flex; /* Align contents inside button */
-    align-items: center;
-}
-
-.comment-input-box button .material-icons {
-    font-size: 30px;
-}
-/* Close Button Styling */
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: black !important;
-  background: none !important;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  outline: none; /* Remove focus outline */
-}
-
-/* Image preview styling in the post creation box */
-#imagePreview {
-    display: none;
-    max-width: 100%;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-/* Post image styling */
-.post img {
-    max-width: 100%;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-/* Post Styling */
-.post {
-    background-color: white;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 3px;
-}
-
-/* Post Header Styling */
-.post-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-/* ============================
-   RESPONSIVE DESIGN - GLOBAL FIXES
-   ============================ */
-
-/* Smartphones (up to 600px) */
-@media only screen and (max-width: 600px) {
-
-    /* Post box width */
-    .post-box,
-    .feed,
-    .post,
-    .top-nav {
-        width: 100% !important;
-        padding: 8px !important;
-        margin: 0px auto !important;
-    }
-    .feed {
-        padding-bottom: 80px !important; /* Extra space for bottom nav */
-    }
-    .post-box {
-        margin-top: 70px !important; /* Space for fixed header */
-    }
-    .platform_name {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        background: rgba(255, 255, 255, 0.25) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
-        z-index: 1001 !important;
-        padding: 2px 4px !important;
-        font-size: medium !important;
-        font-weight: 800 !important;
-        text-align: left !important;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.18) !important;
-    }
-
-    /* Header icons */
-    .header nav a {
-        font-size: 20px !important;
-        padding: 4px !important;
-    }
-    #homeIcon,
-    #notificationsIcon,
-    #profileIcon,
-    #messagesIcon {
-        font-size: 28px !important;
-    }
-
-    /* Textarea smaller */
-    .post-header textarea {
-        font-size: 13px !important;
-        padding: 8px !important;
-    }
-
-    /* Add photo button */
-    .add-image-button .material-icons {
-        font-size: 34px !important;
-        margin-left: 5px !important;
-    }
-
-    /* Post actions */
-    .post-actions button {
-        padding: 8px !important;
-        font-size: 13px !important;
-    }
-
-    /* Profile pics */
-    .profile-picture,
-    .profile-pic {
-        width: 32px !important;
-        height: 32px !important;
-    }
-
-    .reply-profile-pic {
-        width: 25px !important;
-        height: 25px !important;
-    }
-
-    /* Comment dialog full size on phones */
-    .comment-dialog {
-        height: 85% !important;
-        padding: 15px !important;
-    }
-
-    .comment-list {
-        max-height: 60vh !important;
-    }
-
-    /* Buttons */
-    .post-button-container button {
-        height: 36px !important;
-        padding: 5px 12px !important;
-        font-size: 14px !important;
-    }
-}
-
-/* Tablets & small laptops (600px – 1024px) */
-@media only screen and (min-width: 600px) and (max-width: 1024px) {
-
-    .post-box,
-    .feed,
-    .post,
-    .top-nav {
-        width: 90% !important;
-    }
-
-    .header nav a {
-        font-size: 28px !important;
-    }
-
-    .post-actions button {
-        padding: 10px !important;
-        font-size: 15px !important;
-    }
-
-    .post-header textarea {
-        font-size: 15px !important;
-    }
-}
-
-/* Laptops (above 1024px) */
-@media only screen and (min-width: 1024px) {
-
-    .post-box,
-    .feed {
-        width: 40% !important;   /* Clean centered layout */
-       
-        margin: 10px auto !important;
-    }
-
-    .comment-dialog {
-        width: 50% !important;
-        left: 25% !important; /* Center the dialog */
-    }
-
-    .post {
-        border-radius: 12px;
-        padding: 15px;
-    }
-    .top-nav {
-        max-width: 29%;
-        margin-bottom: 0px;
-        bottom:0;
-        left:0 !important;
-        margin-top: 90px;
+    <div class="main-container">
         
-    }
-    
+        <aside class="left-sidebar">
+            <nav>
+                <a href="sc_hompage.html" class="nav-item active">
+                    <span class="material-icons">home</span> Home
+                </a>
+                <a href="explore.html" class="nav-item">
+                    <span class="material-icons">explore</span> Explore
+                </a>
+                <a href="Chat.html" class="nav-item">
+                    <span class="material-icons">chat</span> Chats
+                </a>
+                <a href="profile_page.html" class="nav-item">
+                    <span class="material-icons">person</span> Profile
+                </a>
+                <div style="margin-top: 20px; padding: 10px; background: white; border-radius: 12px; border:1px solid var(--border-color)">
+                    <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 5px;">Quick Chat</p>
+                    <button onclick="window.location.href='Chat.html'" style="width:100%; padding:8px; background: var(--bg-color); border:none; border-radius:8px; cursor:pointer; font-size:13px; color: var(--primary-color); font-weight:600;">Open Messenger</button>
+                </div>
+            </nav>
+        </aside>
 
-    .post-header textarea {
-        font-size: 16px !important;
-    }
-    .post-image {
-        max-height: 200px; /* Limit max height on larger screens */
-        object-fit: cover;
-    }
-}
+        <main>
+            <div class="create-post-card">
+                <div class="cp-header">
+                    <img id="profilePicture" src="pic4.png" class="user-avatar">
+                    <textarea id="postContent" class="cp-input" rows="1" placeholder="What's on your mind?" onkeyup="autoResize(this); togglePostButton()"></textarea>
+                </div>
+                <img id="imagePreview" src="#" alt="Preview">
+                <div class="cp-actions">
+                    <button class="attach-btn" onclick="document.getElementById('postImage').click()">
+                        <span class="material-icons" style="color:#10b981">photo_library</span> Photo
+                    </button>
+                    <input type="file" id="postImage" accept="image/*" style="display: none;" onchange="previewImage(); togglePostButton();" />
+                    <button id="postButton" class="post-btn" onclick="submitPost()" disabled>Post</button>
+                </div>
+            </div>
 
-</style>
+            <div id="loadingIndicator" class="loader-container">
+                <span class="material-icons" style="animation: spin 1s linear infinite">refresh</span> Loading feed...
+            </div>
+            <div id="postFeed" class="feed">
+                </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="widget-card">
+                <div class="widget-title">Did you know?</div>
+                <div id="quickTips" style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">
+                    <p>Use layers in AutoCAD to organize designs efficiently.</p>
+                </div>
+            </div>
+
+            <div class="widget-card">
+                <div class="widget-title">Trending Now</div>
+                <a href="#" class="trend-item">#EngineeringHacks</a>
+                <a href="#" class="trend-item">#CampusLife</a>
+                <a href="#" class="trend-item">#ProjectShowcase</a>
+            </div>
+
+            <div class="widget-card">
+                <div class="widget-title">Friends Online</div>
+                <div style="display:flex; gap:10px; overflow-x:auto; padding-bottom:5px;">
+                    <img src="https://i.pravatar.cc/40?img=1" class="user-avatar" title="Maximilla">
+                    <img src="https://i.pravatar.cc/40?img=2" class="user-avatar" title="Brian">
+                    <img src="https://i.pravatar.cc/40?img=8" class="user-avatar" title="Sarah">
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <nav class="mobile-nav">
+        <button class="mobile-nav-btn active" onclick="window.location.href='sc_hompage.html'">
+            <span class="material-icons">home</span> Home
+        </button>
+        <button class="mobile-nav-btn" onclick="window.location.href='explore.html'">
+            <span class="material-icons">explore</span> Explore
+        </button>
+        <button class="mobile-nav-btn" onclick="window.location.href='Chat.html'">
+            <span class="material-icons">chat_bubble</span> Chats
+        </button>
+        <button class="mobile-nav-btn" onclick="window.location.href='profile_page.html'">
+            <span class="material-icons">person</span> Profile
+        </button>
+    </nav>
+
+    <script type="module">    
+        // Import Firebase libraries
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getFirestore, updateDoc, setDoc, getDoc, getDocs, doc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, increment} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
+          authDomain: "my-website-d875f.firebaseapp.com",
+          projectId: "my-website-d875f",
+          storageBucket: "my-website-d875f.appspot.com",
+          messagingSenderId: "1084724880551",
+          appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
+          measurementId: "G-54E0SH3VJQ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const storage = getStorage(app); 
+
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth State Listener
+            auth.onAuthStateChanged(async (user) => {
+                currentUser = user;
+                if (user) {
+                    if (window.AndroidInterface && typeof window.AndroidInterface.authStatus === 'function') {
+                        window.AndroidInterface.authStatus('success');
+                    }
+                    try {
+                        const userDoc = await getDoc(doc(db, "users", user.uid));
+                        if (userDoc.exists()) {
+                            const userData = userDoc.data();
+                            onSnapshotPostsListener();
+                            
+                            // Update Profile Pictures
+                            const profileUrl = userData.profilePicture || 'pic4.png';
+                            document.getElementById('profilePicture').src = profileUrl;
+                            document.getElementById('headerProfilePic').src = profileUrl;
+                            
+                            // Update Placeholder
+                            const firstName = userData.name ? userData.name.split(" ")[0] : 'User';
+                            document.getElementById("postContent").placeholder = `What's on your mind, ${firstName}?`;
+                        } else {
+                            window.location.href = "authentication_section.html";
+                        }
+                    } catch (error) {
+                        console.error("Error fetching user data:", error);
+                    }
+                } else {
+                    window.location.href = "authentication_section.html";
+                }
+            });
+        });
+
+        // ------------------------------------
+        //  REFACTORED POST RENDERING LOGIC
+        // ------------------------------------
+        function onSnapshotPostsListener() {
+            onSnapshot(query(collection(db, "posts"), orderBy("timestamp", "desc")), async (snapshot) => {
+                
+                const userPromises = {};
+                const commentsPromises = {};
+
+                snapshot.docs.forEach(docSnapshot => {
+                    const post = docSnapshot.data();
+                    const postId = docSnapshot.id;
+                    userPromises[postId] = getDoc(doc(db, "users", post.userId));
+                    commentsPromises[postId] = getDocs(collection(db, `posts/${postId}/comments`));
+                });
+
+                const userDocs = await Promise.all(Object.values(userPromises));
+                const commentsSnapshots = await Promise.all(Object.values(commentsPromises));
+
+                let postsHtml = "";
+
+                snapshot.docs.forEach((docSnapshot, index) => {
+                    const post = docSnapshot.data();
+                    const postId = docSnapshot.id;
+                    const likedByUser = post.likes && post.likes.includes(currentUser.uid);
+
+                    const userDoc = userDocs[index];
+                    const userData = userDoc.data() || {};
+                    const userDisplayName = userData.name || "Connexa User";
+                    const userProfilePic = userData.profilePicture || 'pic4.png';
+
+                    // Timestamp logic
+                    let formattedTimestamp = "Just now";
+                    if(post.timestamp) {
+                         const date = post.timestamp.toDate();
+                         formattedTimestamp = date.toLocaleDateString() + " " + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    }
+
+                    const commentsCount = commentsSnapshots[index].size;
+
+                    // NEW HTML STRUCTURE FOR POSTS
+                    postsHtml += `
+                        <div class="post-card">
+                            <div class="post-header">
+                                <img src="${userProfilePic}" class="user-avatar" />
+                                <div class="post-info">
+                                    <h4>${userDisplayName} <img src="verified_badge.png" class="verified-badge" onerror="this.style.display='none'"></h4>
+                                    <span class="post-time">${formattedTimestamp}</span>
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <p>${post.content || ''}</p>
+                            </div>
+                            ${post.imageUrl ? `<img src="${post.imageUrl}" class="post-image" />` : ''}
+                            
+                            <div class="post-stats">
+                                <button class="action-btn ${likedByUser ? 'liked' : ''}" onclick="likePost('${postId}')">
+                                    <span class="material-icons">${likedByUser ? 'favorite' : 'favorite_border'}</span> 
+                                    ${post.likes ? post.likes.length : 0} Likes
+                                </button>
+                                <button class="action-btn" onclick="toggleComments('${postId}')">
+                                    <span class="material-icons">chat_bubble_outline</span> 
+                                    ${commentsCount} Comments
+                                </button>
+                                <button class="action-btn">
+                                    <span class="material-icons">share</span> Share
+                                </button>
+                            </div>
+                            <div id="comments-wrapper-${postId}" class="comments-wrapper" style="display:none;">
+                                <div id="commentList-${postId}"></div>
+                                <div class="comment-input-area">
+                                    <img src="${document.getElementById('headerProfilePic').src}" class="user-avatar" style="width:32px;height:32px;">
+                                    <input type="text" id="comment-input-${postId}" class="comment-input" placeholder="Write a comment...">
+                                    <button class="send-btn" onclick="submitComment('${postId}')">
+                                        <span class="material-icons" style="font-size:18px;">send</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                document.getElementById("postFeed").innerHTML = postsHtml;
+                document.getElementById("loadingIndicator").style.display = 'none';
+            });
+        }
+
+        // Global functions for window access
+        window.submitPost = async function() {
+            const postContent = document.getElementById("postContent").value;
+            const postImage = document.getElementById("postImage").files[0];
+            const btn = document.getElementById("postButton");
+
+            if (!currentUser) return;
+            
+            btn.innerHTML = "Posting...";
+            btn.disabled = true;
+
+            let imageUrl = "";
+            if (postImage) {
+                try {
+                    const storageRef = ref(storage, `images/${Date.now()}_${postImage.name}`);
+                    const uploadTask = await uploadBytes(storageRef, postImage);
+                    imageUrl = await getDownloadURL(uploadTask.ref);
+                } catch (error) {
+                    console.error('Error uploading image:', error);
+                }
+            }
+
+            if (postContent || imageUrl) {
+                await addDoc(collection(db, "posts"), {
+                    userId: currentUser.uid,
+                    content: postContent,
+                    imageUrl: imageUrl,
+                    timestamp: serverTimestamp(),
+                    likes: []
+                });
+                
+                // Reset UI
+                document.getElementById("postContent").value = "";
+                document.getElementById("postImage").value = "";
+                document.getElementById("imagePreview").style.display = 'none';
+                btn.innerHTML = "Post";
+                btn.disabled = false;
+            }
+        };
+
+        window.toggleComments = function(postId) {
+            const wrapper = document.getElementById(`comments-wrapper-${postId}`);
+            if (wrapper.style.display === "none") {
+                wrapper.style.display = "block";
+                loadComments(postId);
+            } else {
+                wrapper.style.display = "none";
+            }
+        };
+
+        window.loadComments = async function(postId) {
+            const commentsSnapshot = await getDocs(collection(db, `posts/${postId}/comments`));
+            let html = "";
+            
+            for (const commentDoc of commentsSnapshot.docs) {
+                const comment = commentDoc.data();
+                const userDoc = await getDoc(doc(db, "users", comment.userId));
+                const userData = userDoc.data() || {};
+                
+                html += `
+                    <div class="comment-item">
+                        <img src="${userData.profilePicture || 'pic4.png'}" class="user-avatar" style="width:32px;height:32px;">
+                        <div class="comment-bubble">
+                            <span class="comment-author">${userData.name || 'User'}</span>
+                            <span class="comment-text">${comment.content}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById(`commentList-${postId}`).innerHTML = html;
+        };
+
+        window.submitComment = async function(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            if(input.value.trim()) {
+                await addDoc(collection(db, `posts/${postId}/comments`), {
+                    content: input.value,
+                    userId: currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+                input.value = "";
+                loadComments(postId);
+            }
+        };
+
+        window.likePost = async function(postId) {
+            const postRef = doc(db, "posts", postId);
+            const postDoc = await getDoc(postRef);
+            if (postDoc.exists()) {
+                const data = postDoc.data();
+                const likes = data.likes || [];
+                if (likes.includes(currentUser.uid)) {
+                    await updateDoc(postRef, { likes: likes.filter(id => id !== currentUser.uid) });
+                } else {
+                    await updateDoc(postRef, { likes: [...likes, currentUser.uid] });
+                }
+            }
+        };
+
+        // UI Helpers
+        window.togglePostButton = function() {
+            const content = document.getElementById('postContent').value;
+            const hasImage = document.getElementById('postImage').files.length > 0;
+            const btn = document.getElementById('postButton');
+            btn.disabled = !(content.trim().length > 0 || hasImage);
+        };
+
+        window.previewImage = function() {
+            const file = document.getElementById('postImage').files[0];
+            const preview = document.getElementById('imagePreview');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        };
+
+        window.autoResize = function(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        };
+
+        // Tip rotator
+        const tips = [
+            "Use layers in AutoCAD to organize designs.",
+            "Share code snippets in forums for reviews.",
+            "Shortcuts save 30% of your workflow time.",
+            "Hydrate while coding for better focus!"
+        ];
+        let tipIndex = 0;
+        setInterval(() => {
+            const tipEl = document.getElementById('quickTips');
+            if(tipEl) {
+                tipEl.innerHTML = `<p>${tips[tipIndex]}</p>`;
+                tipIndex = (tipIndex + 1) % tips.length;
+            }
+        }, 5000);
+    </script>
+</body>
 </html>

@@ -3,740 +3,702 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My profile</title>
+    <title>Profile | Connexa</title>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --cover-height: 200px;
         }
 
-        .profile-container {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-top: 70px; /* Header space */
+            padding-bottom: 80px; /* Mobile nav space */
+        }
+
+        /* --- Global Header (Same as Feed) --- */
+        .app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Profile Container --- */
+        .main-container {
             max-width: 1000px;
             margin: 0 auto;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
+            padding: 0 15px;
         }
 
-        /* Cover Photo */
-        .cover-photo {
-            width: 100%;
-            height: 180px;
-            background-image: url('sc_space_image1.jpg');
-            background-size: cover;
-            background-position: center;
+        /* --- Profile Card --- */
+        .profile-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
             position: relative;
         }
 
-        /* Profile Picture */
-        .profile-pic {
+        .cover-photo {
+            height: var(--cover-height);
+            background-image: url('sc_space_image1.jpg'); /* Default */
+            background-size: cover;
+            background-position: center;
+            background-color: #cbd5e1;
+        }
+
+        .profile-header-content {
+            padding: 0 20px 20px;
+            position: relative;
+        }
+
+        .avatar-wrapper {
+            position: absolute;
+            top: -75px;
+            left: 20px;
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            object-fit: cover;
             border: 5px solid white;
-            position: absolute;
-            bottom: -75px; /* Pulls the image halfway below the cover photo */
-            left: 20px;
-        }
-
-        /* Profile Info */
-        .profile-info {
-            padding: 70px 20px 20px; /* Adjust padding to give space for profile picture */
-            text-align: start;
-        }
-
-        .profile-info h1 {
-            font-size: 2.5em;
-            color: #333;
-            margin: 0;
-        }
-
-        .profile-info p {
-            color: #777;
-            margin-top: 10px;
-        }
-
-        .edit-profile-btn {
-            padding: 10px 20px;
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            background: white;
             cursor: pointer;
-            margin-top: 0px;
-            margin-left: 20px;
-            margin-bottom: 5px;
         }
 
-        /* Tabs */
-        .profile-tabs {
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .online-indicator {
+            width: 24px;
+            height: 24px;
+            background-color: #10b981;
+            border: 3px solid white;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            display: none; /* Controlled by JS */
+        }
+
+        .profile-actions {
             display: flex;
-            justify-content: center;
-            border-top: 2px solid #ddd;
-            background-color: #fff;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            justify-content: flex-end;
+            padding-top: 15px;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover { background-color: #1d4ed8; }
+        
+        .btn-outline {
+            background-color: white;
+            border-color: var(--border-color);
+            color: var(--text-main);
+        }
+        .btn-outline:hover { background-color: var(--bg-color); }
+
+        /* User Info Section */
+        .user-identity {
+            margin-top: 50px; /* Space for avatar */
+        }
+        
+        .user-name-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        
+        .user-name { font-size: 24px; font-weight: 700; color: var(--text-main); }
+        .verified-badge { width: 20px; height: 20px; }
+        
+        .user-bio { color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5; max-width: 600px; }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #ecfdf5;
+            color: #059669;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        /* Details Grid */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+        }
+        .detail-icon { color: var(--text-secondary); font-size: 20px; }
+        .detail-content strong { display: block; color: var(--text-main); font-size: 12px; text-transform: uppercase; margin-bottom: 2px; }
+        .detail-content span { color: var(--text-secondary); }
+
+        /* --- Tabs --- */
+        .tabs-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            min-height: 300px;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .tab-btn {
-            padding: 15px 30px;
-            background-color: #fff;
+            flex: 1;
+            padding: 16px;
+            background: none;
             border: none;
+            font-weight: 500;
+            color: var(--text-secondary);
             cursor: pointer;
-            font-weight: bold;
-            color: #555;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
         }
 
         .tab-btn.active {
-            border-bottom: 3px solid #0066cc;
-            color: #0066cc;
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background-color: #eff6ff;
         }
 
-        /* Tab Content */
-        .tab-content {
-            height: 500px;
-            padding: 20px;
-        }
+        .tab-content { padding: 20px; }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
 
-        .tab-pane {
-            display: none;
-        }
-
-        .tab-pane.active {
-            display: block;
-        }
-
-        /* Activity List */
-        .activity-list {
-            margin-top: 20px;
-        }
-
-        .activity-item {
-            padding: 10px;
-            background-color: #f9f9f9;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-
-        .timestamp {
-            color: #999;
-            font-size: 0.85em;
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* Media Grid */
         .media-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
+        .media-item img { width: 100%; border-radius: 8px; aspect-ratio: 1/1; object-fit: cover; }
 
-        .media-item img {
+        /* --- Edit Modal --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary); }
+        .form-control {
             width: 100%;
-            height: auto;
-            border-radius: 5px;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+            outline: none;
         }
+        .form-control:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
 
-        .media-item p {
-            text-align: center;
-            color: #333;
-            margin-top: 5px;
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
         }
-        /* Online Status Indicator */
-.online-indicator {
-    width: 20px;
-    height: 20px;
-    background-color: #4CAF50; /* Green color */
-    border: 2px solid white; /* White border around the indicator */
-    border-radius: 50%;
-    position: absolute;
-    bottom: -60px;
-    left: 140px; /* Adjust this to align the indicator */
-    z-index: 2; /* Ensure it appears above the profile picture */
-}
-/* Center the dialog on the screen */
-#profile-update-dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    border: none; /* Removed border for a cleaner look */
-    width: 300px;
-    background-color: #ffffff; /* White background for contrast */
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Softer shadow */
-    border-radius: 10px; /* Rounded corners */
-    z-index: 1000; /* Ensure it's above other elements */
-}
+        .btn-full { flex: 1; text-align: center; }
 
-/* Title styling */
-#profile-update-dialog h2 {
-    color: #007bff; /* Blue color */
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ddd;
-    font-size: 1.5em; /* Slightly larger title */
-}
-
-/* Form styling */
-#update-profile-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Input fields styling */
-#update-profile-form label {
-    text-align: left;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333; /* Darker text color for better readability */
-}
-
-#update-profile-form input[type="text"],
-#update-profile-form input[type="file"] {
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #ddd; /* Lighter border color */
-    border-radius: 5px; /* Slightly larger border radius */
-    transition: border-color 0.3s; /* Transition for border color on focus */
-}
-
-#update-profile-form input[type="text"]:focus,
-#update-profile-form input[type="file"]:focus {
-    border-color: #007bff; /* Change border color on focus */
-    outline: none; /* Remove outline */
-}
-
-/* Button styling */
-.profile-button {
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px; /* Rounded corners */
-    font-weight: bold; /* Make button text bold */
-    transition: background-color 0.3s; /* Transition for background color */
-}
-
-/* Cancel button styling */
-.button-cancel {
-    background-color: #f44336; /* Red */
-    color: white;
-}
-
-/* Button hover effect */
-.button-cancel:hover {
-    background-color: #c62828; /* Darker red on hover */
-}
-
-.profile-button-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-/* Flex layout for buttons */
-.profile-button-container .profile-button {
-    flex: 1;
-    background-color: #007bff; /* Primary button color */
-    color: white;
-}
-
-/* Primary button hover effect */
-.profile-button-container .profile-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-/* Make the dialog content scrollable */
-#profile-update-dialog {
-    display: none; /* initially hidden */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 500px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 11; /* Above the overlay */
-    max-height: 80vh; /* Set a max height for scrolling */
-    overflow-y: auto; /* Enable scrolling */
-}
-
-/* Transparent background overlay */
-#overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 50% transparent black */
-    z-index: 10; /* Below the dialog */
-}
-
-/* Basic styling for buttons */
-.profile-button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.profile-button {
-    padding: 10px 20px;
-    background-color: #007BFF; /* Blue button */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.button-cancel {
-    background-color: #dc3545; /* Red button */
-}
-
-.profile-button:hover {
-    opacity: 0.8;
-}
-#user-status-text {
-    background-color: green; /* Green background */
-    color: white;            /* White text */
-    text-align: center;      /* Center text */
-    padding: 10px;          /* Add some padding */
-    border-radius: 5px;     /* Optional: rounded corners */
-    margin: 10px 20px;         /* Optional: margin for spacing */
-    display: inline-block;   /* Change to inline-block */
-    white-space: nowrap;     /* Prevent text from wrapping */
-}
+        /* --- Mobile Responsive --- */
+        @media (max-width: 768px) {
+            .avatar-wrapper {
+                left: 50%;
+                transform: translateX(-50%);
+                top: -75px;
+            }
+            .profile-header-content {
+                text-align: center;
+            }
+            .profile-actions {
+                justify-content: center;
+                margin-top: 80px; /* Push buttons down */
+            }
+            .user-identity {
+                margin-top: 10px;
+            }
+            .user-name-row {
+                justify-content: center;
+            }
+            .user-bio { margin: 0 auto 15px; }
+            .details-grid { text-align: left; }
+        }
     </style>
 </head>
 <body>
-    <div class="profile-container">
-        <!-- Cover Photo -->
-        <div class="cover-photo">
-            <img id="profilePicture" src="pic4.png" alt="Profile Picture" class="profile-pic">
-            <div class="online-indicator"></div> <!-- Green online indicator -->
-    </div>
-    <div class
+
+    <header class="app-header">
+        <a href="sc_hompage.html" class="logo">
+            <span class="material-icons" style="color:var(--primary-color)">hub</span>
+            Connexa
+        </a>
+        <div style="display:flex; gap:15px;">
+            <span class="material-icons" style="color:var(--text-secondary); cursor:pointer;" onclick="window.location.href='sc_hompage.html'">home</span>
+            <span class="material-icons" style="color:var(--text-secondary); cursor:pointer;">settings</span>
         </div>
+    </header>
 
-       <!-- Profile Information -->
-<div class="profile-info">
-    <h1 id="profile-title" style="display:inline-block; vertical-align:middle;">Connect360 User</h1>
-    <img src="verified_badge.png" alt="Verified Badge" style="width:24px; height:24px; margin-left:5px; vertical-align:middle; display:inline-block;">
-    <p id="profile-bio">No bio available</p>
-    <p><strong>Email:</strong> <span id="profile-email">user@example.com</span></p>
-    <p><strong>Institution:</strong> <span id="profile-institution">No institution available</span></p> <!-- Institution field -->
-    <p><strong>Degree:</strong> <span id="profile-degree">No degree available</span></p> <!-- Degree field -->
-    <p><strong>Skills:</strong> <span id="profile-skills">No skills available</span></p> <!-- Skills field -->
-    <p><strong>Profession:</strong> <span id="profile-profession">No profession available</span></p> <!-- Profession field -->
-    <p><strong>Interests:</strong> <span id="profile-interests">No interests available</span></p> <!-- Interests field -->
-    <p><span id="user-count-text">You and 0 others are using Connect360.</span></p> <!-- Total users count -->
-</div>
-<div id="user-status-text"></div>
-    <button class="edit-profile-btn" id="editProfileBtn">Edit Profile</button>
+    <div class="main-container">
+        <div class="profile-card">
+            <div class="cover-photo" id="coverPhotoDisplay"></div>
+            
+            <div class="profile-header-content">
+                <div class="avatar-wrapper" onclick="showFullScreenImage(document.getElementById('profilePicture').src)">
+                    <img id="profilePicture" src="pic4.png" alt="Profile" class="profile-pic">
+                    <div id="onlineIndicator" class="online-indicator"></div>
+                </div>
 
-        <!-- Tabs -->
-        <div class="profile-tabs">
-            <button class="tab-btn active" onclick="showTab('activity')">Recent Activity</button>
-            <button class="tab-btn" onclick="showTab('media')">Media</button>
-            <button class="tab-btn" onclick="showTab('settings')">Settings</button>
-        </div>
+                <div class="profile-actions">
+                    <button id="editProfileBtn" class="btn btn-outline" style="display:none;">
+                        <span class="material-icons" style="font-size:16px; vertical-align:middle; margin-right:4px;">edit</span> Edit Profile
+                    </button>
+                    <button id="messageBtn" class="btn btn-primary" style="display:none;">
+                        Message
+                    </button>
+                </div>
 
-        <!-- Tab Content -->
-<div class="tab-content">
-    <div id="activity" class="tab-pane active">
-        <h2></h2>
-        
-        <!-- General notification text when no recent activity is found -->
-        <p style="color: #333; font-style: italic;">
-            We couldn't retrieve your recent activity at the moment. Keep engaging with the platform, and your recent interactions will show up here soon.
-        </p>
-    </div>
-</div>
-
-            <div id="media" class="tab-pane">
-                <h2>Media</h2>
-                <div class="media-grid">
-                    <div class="media-item">
-                        <img src="media-thumbnail.jpg" alt="Media Thumbnail">
-                        <p>Video Title</p>
+                <div class="user-identity">
+                    <div class="user-name-row">
+                        <span class="user-name" id="profile-title">Loading...</span>
+                        <img src="verified_badge.png" class="verified-badge" onerror="this.style.display='none'">
                     </div>
-                    <div class="media-item">
-                        <img src="media-thumbnail.jpg" alt="Media Thumbnail">
-                        <p>Another Video</p>
+                    
+                    <div id="user-status-badge" class="status-badge" style="display:none;">Offline</div>
+                    
+                    <p class="user-bio" id="profile-bio">No bio available.</p>
+                    
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <span class="material-icons detail-icon">school</span>
+                            <div class="detail-content">
+                                <strong>Institution</strong>
+                                <span id="profile-institution">--</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons detail-icon">workspace_premium</span>
+                            <div class="detail-content">
+                                <strong>Degree</strong>
+                                <span id="profile-degree">--</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons detail-icon">work</span>
+                            <div class="detail-content">
+                                <strong>Profession</strong>
+                                <span id="profile-profession">--</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons detail-icon">lightbulb</span>
+                            <div class="detail-content">
+                                <strong>Skills</strong>
+                                <span id="profile-skills">--</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons detail-icon">favorite</span>
+                            <div class="detail-content">
+                                <strong>Interests</strong>
+                                <span id="profile-interests">--</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons detail-icon">email</span>
+                            <div class="detail-content">
+                                <strong>Contact</strong>
+                                <span id="profile-email">--</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="settings" class="tab-pane">
-                <h2>Profile Settings</h2>
-                <p>Here you can manage your profile settings.</p>
+        <p id="user-count-text" style="text-align:center; font-size:12px; color:var(--text-secondary); margin-bottom:15px;"></p>
+
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="showTab('activity', event)">Recent Activity</button>
+                <button class="tab-btn" onclick="showTab('media', event)">Media</button>
+                <button class="tab-btn" onclick="showTab('settings', event)">Settings</button>
+            </div>
+
+            <div class="tab-content">
+                <div id="activity" class="tab-pane active">
+                    <div style="text-align:center; padding:40px 20px;">
+                        <span class="material-icons" style="font-size:48px; color:#e5e7eb; margin-bottom:10px;">history_edu</span>
+                        <p style="color:var(--text-secondary); font-size:14px;">No recent activity to show yet.</p>
+                    </div>
+                </div>
+
+                <div id="media" class="tab-pane">
+                    <div class="media-grid">
+                        <div class="media-item"><img src="https://via.placeholder.com/150" alt="Media"></div>
+                        <div class="media-item"><img src="https://via.placeholder.com/150" alt="Media"></div>
+                        <div class="media-item"><img src="https://via.placeholder.com/150" alt="Media"></div>
+                    </div>
+                </div>
+
+                <div id="settings" class="tab-pane">
+                    <p style="color:var(--text-secondary)">Settings panel is under construction.</p>
+                </div>
             </div>
         </div>
     </div>
-  <!-- Transparent Overlay -->
-<div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index: 10;"></div>
 
-<!-- Profile Update Dialog -->
-<div id="profile-update-dialog" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; max-width:500px; background-color:white; padding:20px; border-radius:10px; z-index: 11; max-height: 80vh; overflow-y: auto;">
-  <h2>Please hang on a minute to complete your profile</h2>
-  <form id="update-profile-form">
+    <div id="editModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <span class="material-icons" style="cursor:pointer" onclick="closeEditModal()">close</span>
+            </div>
+            
+            <form id="update-profile-form">
+                <div class="form-group">
+                    <label>Profile Picture</label>
+                    <input type="file" id="profile-picture-input" class="form-control" accept="image/*">
+                </div>
 
-    <label for="name-input">Name:</label>
-    <input type="text" id="name-input">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name-input" class="form-control" placeholder="Your Name">
+                </div>
 
-    <label for="profile-picture-input">Profile Picture:</label>
-    <input type="file" id="profile-picture-input" accept="image/*">
+                <div class="form-group">
+                    <label>Bio</label>
+                    <textarea id="bio-input" class="form-control" rows="3" placeholder="Tell us about yourself..."></textarea>
+                </div>
 
-    <label for="bio-input">Bio:</label>
-    <textarea id="bio-input"></textarea>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="form-group">
+                        <label>Institution</label>
+                        <input type="text" id="institution-input" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Degree</label>
+                        <input type="text" id="degree-input" class="form-control">
+                    </div>
+                </div>
 
-    <label for="institution-input">Institution of Learning:</label>
-    <input type="text" id="institution-input">
+                <div class="form-group">
+                    <label>Profession</label>
+                    <input type="text" id="profession-input" class="form-control">
+                </div>
 
-    <label for="degree-input">Degree/Program:</label>
-    <input type="text" id="degree-input">
+                <div class="form-group">
+                    <label>Skills (comma separated)</label>
+                    <input type="text" id="skills-input" class="form-control">
+                </div>
 
-    <label for="skills-input">Skills:</label>
-    <input type="text" id="skills-input" placeholder="e.g. Web Development, Design">
+                <div class="form-group">
+                    <label>Interests</label>
+                    <input type="text" id="interests-input" class="form-control">
+                </div>
 
-    <label for="profession-input">Profession:</label>
-    <input type="text" id="profession-input">
-
-    <label for="interests-input">Interests:</label>
-    <textarea id="interests-input" placeholder="e.g. Music, Photography"></textarea>
-
-    <div class="profile-button-container">
-      <button type="submit" class="profile-button">Update Profile</button>
-      <button type="button" class="profile-button button-cancel">Cancel</button>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline btn-full" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-full">Save Changes</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </form>
-</div>
-  <div id="overlay"></div> <!-- Overlay to prevent clicks outside the form -->
 
-    <script type="module">   
+    <script type="module">
         // Import Firebase libraries
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getFirestore, updateDoc, setDoc, getDoc, getDocs, doc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, increment} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getFirestore, updateDoc, setDoc, getDoc, getDocs, doc, collection } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
 
+        const firebaseConfig = {
+          apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
+          authDomain: "my-website-d875f.firebaseapp.com",
+          projectId: "my-website-d875f",
+          storageBucket: "my-website-d875f.appspot.com",
+          messagingSenderId: "1084724880551",
+          appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
+          measurementId: "G-54E0SH3VJQ"
+        };
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyC8aA9o_8IK4a5-klFszrJbfxwiIR1W9no",
-  authDomain: "my-website-d875f.firebaseapp.com",
-  projectId: "my-website-d875f",
-  storageBucket: "my-website-d875f.appspot.com",
-  messagingSenderId: "1084724880551",
-  appId: "1:1084724880551:web:5d6a22cf1a1feb26602782",
-  measurementId: "G-54E0SH3VJQ"
-};
-
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app); // Firestore database
-const auth = getAuth(app); // Firebase Auth
-const storage = getStorage(app); 
-
-let currentUser = null;
-let userData = null; // Declare userData globally
-
-document.addEventListener('DOMContentLoaded', async () => {
-  // Extract the UID from the URL (for clicked user)
-  const urlParams = new URLSearchParams(window.location.search);
-  const uid = urlParams.get('uid');  // UID of the clicked user
-  
-  let userToDisplay;
-  const editProfileBtn = document.getElementById('editProfileBtn');
-  const userStatusText = document.getElementById('user-status-text'); // Get the user status text element
-  const userCountText = document.getElementById('user-count-text');   // Corrected variable name
-
-    onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      currentUser = user;
-
-    } else {
-      console.error("No user is logged in.");
-      window.location.href = "authentication_section.html"; // Optional redirect
-    }
-
-
-  if (uid) {
-    // If there's a UID in the URL, fetch and display the clicked user's data
-    try {
-      const userDoc = await getDoc(doc(db, "users", uid));
-      if (userDoc.exists()) {
-        userToDisplay = userDoc.data();
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const storage = getStorage(app); 
         
-        // Check if the clicked user is the current logged-in user
-        if (uid === currentUser.uid) {
-          console.log("Displaying your own profile. Show edit button.");
-          editProfileBtn.style.display = 'block'; // Show edit button
-          userStatusText.style.display = 'none';  // Hide user status text
-          userCountText.style.display = 'block';  // Show user count text
-        } else {
-          console.log("Displaying another user's profile. Hide edit button.");
-          editProfileBtn.style.display = 'none';  // Hide edit button
-          userCountText.style.display = 'none';   // Hide user count text
-          userStatusText.style.display = 'block'; // Show user status text
-        }
-      } else {
-        console.error("Clicked user's document does not exist.");
-      }
-    } catch (error) {
-      console.error("Error fetching clicked user's data:", error);
-    }
-  } else {
-    // If no UID in the URL, display the current logged-in user's data
-    try {
-      const currentUserDoc = await getDoc(doc(db, "users", currentUser.uid));
-      if (currentUserDoc.exists()) {
-        userToDisplay = currentUserDoc.data();
-        editProfileBtn.style.display = 'block'; // Show edit button for the logged-in user
-        userStatusText.style.display = 'none';  // Hide user status text
-      } else {
-        console.error("Current user's document does not exist.");
-      }
-    } catch (error) {
-      console.error("Error fetching current user's data:", error);
-        }
-      }
-     
+        let currentUser = null;
+        let userData = null;
 
-  // Display the user's details (whether it's the clicked user or the logged-in user)
-  if (userToDisplay) {
-    document.getElementById('profilePicture').src = userToDisplay.profilePicture || 'pic4.png';
-    document.getElementById('profile-title').textContent = userToDisplay.name || 'No Name';
-    document.getElementById('profile-email').textContent = userToDisplay.email;
-    document.getElementById('profile-bio').textContent = userToDisplay.bio || 'No bio available';
-    document.getElementById('profile-institution').textContent = userToDisplay.institution || 'No institution available';
-    document.getElementById('profile-degree').textContent = userToDisplay.degree || 'No degree available';
-    document.getElementById('profile-skills').textContent = userToDisplay.skills || 'No skills available';
-    document.getElementById('profile-profession').textContent = userToDisplay.profession || 'No profession available';
-    document.getElementById('profile-interests').textContent = userToDisplay.interests || 'No interests available';
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const uidParam = urlParams.get('uid');
 
-    // Add user status display
-    const lastSeen = userToDisplay.lastSeen ? formatLastSeen(userToDisplay.lastSeen) : '';
-    const status = userToDisplay.status === 'online' ? 'Online' : lastSeen ? lastSeen : 'Offline';
-    userStatusText.textContent = `${status}`; // Add a new field to show user status
-  }
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    currentUser = user;
+                    const targetUid = uidParam || user.uid;
+                    const isOwnProfile = (targetUid === user.uid);
 
-  // Retrieve total number of users from Firestore (optional)
-  try {
-    const usersSnapshot = await getDocs(collection(db, "users"));
-    const totalUsers = usersSnapshot.size - 1; // Subtract 1 for "You"
-    userCountText.textContent = `You and ${totalUsers} others are using Connect360.`;  
-  } catch (error) {
-    console.error("Error fetching user count:", error);
-  }
-  });
-});
-const formatLastSeen = (timestamp) => {
-  if (timestamp && timestamp.seconds) {
-    const date = new Date(timestamp.seconds * 1000);
-    const now = new Date();
+                    // Fetch user data
+                    try {
+                        const userDoc = await getDoc(doc(db, "users", targetUid));
+                        if(userDoc.exists()) {
+                            userData = userDoc.data();
+                            renderProfile(userData, isOwnProfile);
+                        } else {
+                            console.log("User doc not found");
+                        }
+                    } catch (e) {
+                        console.error("Error loading profile", e);
+                    }
+                    
+                    // Fetch user count
+                    getDocs(collection(db, "users")).then(snap => {
+                        const count = snap.size - 1; 
+                        document.getElementById('user-count-text').textContent = `You and ${count} others are connected on Connexa.`;
+                    });
 
-    // Create date objects without time components for comparison
-    const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    const nowOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                } else {
+                    window.location.href = "authentication_section.html";
+                }
+            });
+        });
 
-    // Check the difference in days
-    const timeDiffInDays = (nowOnly - dateOnly) / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+        function renderProfile(data, isOwner) {
+            // Images
+            document.getElementById('profilePicture').src = data.profilePicture || 'pic4.png';
+            
+            // Text Fields
+            document.getElementById('profile-title').textContent = data.name || 'User';
+            document.getElementById('profile-bio').textContent = data.bio || 'No bio available.';
+            document.getElementById('profile-email').textContent = data.email || 'Hidden';
+            document.getElementById('profile-institution').textContent = data.institution || '--';
+            document.getElementById('profile-degree').textContent = data.degree || '--';
+            document.getElementById('profile-profession').textContent = data.profession || '--';
+            document.getElementById('profile-skills').textContent = data.skills || '--';
+            document.getElementById('profile-interests').textContent = data.interests || '--';
 
-    if (timeDiffInDays < 1) {
-      return `Last seen today at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
-    } else if (timeDiffInDays < 2) {
-      return `Last seen yesterday at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
-    } else {
-      return `Last seen on ${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}`;
-    }
-  }
-  return ''; // Return empty if no timestamp
-};
-// Function to show the profile picture in full screen
-const showFullScreenImage = (src) => {
-  // Create a full-screen overlay
-  const overlay = document.createElement('div');
-  overlay.style.position = 'fixed';
-  overlay.style.top = '0';
-  overlay.style.left = '0';
-  overlay.style.width = '100%';
-  overlay.style.height = '100%';
-  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-  overlay.style.display = 'flex';
-  overlay.style.justifyContent = 'center';
-  overlay.style.alignItems = 'center';
-  overlay.style.zIndex = '2000';
-
-  // Create an image element
-  const image = document.createElement('img');
-  image.src = src;
-  image.style.maxWidth = '90%'; // Limit the max width
-  image.style.maxHeight = '90%'; // Limit the max height
-  image.style.borderRadius = '8px'; // Optional: add some styling
-
-  // Append the image to the overlay
-  overlay.appendChild(image);
-
-  // Close full-screen on click
-  overlay.addEventListener('click', () => {
-    document.body.removeChild(overlay); // Remove overlay when clicked
-  });
-
-  // Append the overlay to the body
-  document.body.appendChild(overlay);
-};
-
-// Add event listener to profile picture
-document.getElementById('profilePicture').addEventListener('click', () => {
-  const profileSrc = document.getElementById('profilePicture').src;
-  showFullScreenImage(profileSrc);
-});
-
-
-// Edit profile button click event
-document.getElementById('editProfileBtn').addEventListener('click', () => {
-  if (currentUser) {
-    showProfileUpdateDialog(currentUser); // Allow profile edit for logged-in user
-  } else {
-    console.error("Current user is not defined or not logged in.");
-    alert("Please log in to edit your profile.");
-  }
-});
-window.showProfileUpdateDialog = async (currentUser) => {
-    const dialog = document.getElementById('profile-update-dialog');
-    dialog.style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
-
-    const form = document.getElementById('update-profile-form');
-    const cancelButton = document.querySelector('.button-cancel');
-
-    // Remove any existing event listeners to avoid multiple submissions
-    form.removeEventListener('submit', handleFormSubmit);
-
-    // Attach the event listener for form submission
-    form.addEventListener('submit', handleFormSubmit);
-
-    // Attach event listener for the cancel button
-    cancelButton.addEventListener('click', () => {
-        dialog.style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    });
-
-    // Fetch user data from Firestore to get the latest bio and other fields
-    let userData;
-    try {
-        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-        if (userDoc.exists()) {
-            userData = userDoc.data();
-            document.getElementById('bio-input').value = userData.bio || '';
-            document.getElementById('name-input').value = userData.name || '';
-            document.getElementById('institution-input').value = userData.institution || '';
-            document.getElementById('degree-input').value = userData.degree || '';
-            document.getElementById('skills-input').value = userData.skills || '';
-            document.getElementById('profession-input').value = userData.profession || '';
-            document.getElementById('interests-input').value = userData.interests || '';
-        } else {
-            console.error("User document does not exist.");
-        }
-    } catch (error) {
-        console.error("Error fetching user data:", error);
-    }
-
-    console.log("Current User:", currentUser);
-
-    async function handleFormSubmit(event) {
-        event.preventDefault();
-        if (!currentUser) {
-            return;
-        }
-
-        // Collect input values
-        const name = document.getElementById('name-input').value || currentUser.displayName;
-        const bio = document.getElementById('bio-input').value || currentUser.bio;
-        const institution = document.getElementById('institution-input').value;
-        const degree = document.getElementById('degree-input').value;
-        const skills = document.getElementById('skills-input').value;
-        const profession = document.getElementById('profession-input').value;
-        const interests = document.getElementById('interests-input').value;
-        const profilePictureFile = document.getElementById('profile-picture-input').files[0];
-        
-        // Fallback to current photoURL if no new picture is uploaded
-        let profilePictureURL = userData?.profilePicture || currentUser.photoURL || 'default-pic.png'; // Default image
-
-        // If a new profile picture is selected, upload it
-        if (profilePictureFile) {
-            try {
-                alert("Uploading file, please wait");
-                const storageRef = ref(storage, `profile_pictures/${currentUser.uid}/${profilePictureFile.name}`);
-                const snapshot = await uploadBytes(storageRef, profilePictureFile);
-                profilePictureURL = await getDownloadURL(snapshot.ref);
-            } catch (error) {
-                alert("File upload failed.");
-                console.error("File upload error:", error);
-                return;
+            // Buttons & Status
+            if(isOwner) {
+                document.getElementById('editProfileBtn').style.display = 'inline-flex';
+                document.getElementById('user-status-badge').style.display = 'none';
+            } else {
+                document.getElementById('messageBtn').style.display = 'inline-flex';
+                // Logic for status
+                const badge = document.getElementById('user-status-badge');
+                badge.style.display = 'inline-flex';
+                if(data.status === 'online') {
+                    badge.textContent = 'Online';
+                    badge.style.backgroundColor = '#ecfdf5';
+                    badge.style.color = '#059669';
+                    document.getElementById('onlineIndicator').style.display = 'block';
+                } else {
+                    const lastSeen = formatLastSeen(data.lastSeen);
+                    badge.textContent = lastSeen || 'Offline';
+                    badge.style.backgroundColor = '#f3f4f6';
+                    badge.style.color = '#6b7280';
+                    document.getElementById('onlineIndicator').style.display = 'none';
+                }
             }
         }
 
-        try {
-            // Update Firebase Authentication profile
-            window.updateProfile = await(currentUser, {
-                displayName: name,
-                photoURL: profilePictureURL
-            });
-
-            const updatedUserData = {
-                email: currentUser.email,
-                uid: currentUser.uid,
-                name,
-                bio,
-                institution,
-                degree,
-                skills,
-                profession,
-                interests,
-                profilePicture: profilePictureURL, // Always include profile picture (either updated or existing)
-            };
-
-            // Update Firestore document
-            await setDoc(doc(db, "users", currentUser.uid), updatedUserData);
-
-            alert("Profile updated successfully!");
-            dialog.style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        } catch (error) {
-            alert("Failed to update profile. Please try again.");
-            console.error("Profile update error:", error);
-        }
-    }
-};
-        function showTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-pane');
-            const buttons = document.querySelectorAll('.tab-btn');
-
-            // Hide all tabs
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            // Remove active state from all buttons
-            buttons.forEach(button => {
-                button.classList.remove('active');
-            });
-
-            // Show the selected tab and activate the corresponding button
+        // --- Event Listeners & Global Helpers ---
+        
+        window.showTab = function(tabName, event) {
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+            if(event) event.currentTarget.classList.add('active');
+        }
+
+        // Modal Logic
+        const editModal = document.getElementById('editModal');
+        
+        document.getElementById('editProfileBtn').addEventListener('click', () => {
+            if(!userData) return;
+            // Populate form
+            document.getElementById('name-input').value = userData.name || '';
+            document.getElementById('bio-input').value = userData.bio || '';
+            document.getElementById('institution-input').value = userData.institution || '';
+            document.getElementById('degree-input').value = userData.degree || '';
+            document.getElementById('profession-input').value = userData.profession || '';
+            document.getElementById('skills-input').value = userData.skills || '';
+            document.getElementById('interests-input').value = userData.interests || '';
+            
+            editModal.style.display = 'flex';
+        });
+
+        window.closeEditModal = function() {
+            editModal.style.display = 'none';
+        }
+
+        // Form Submit
+        document.getElementById('update-profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = 'Saving...';
+            btn.disabled = true;
+
+            const name = document.getElementById('name-input').value;
+            const file = document.getElementById('profile-picture-input').files[0];
+            
+            let photoURL = userData.profilePicture || 'pic4.png';
+
+            try {
+                if (file) {
+                    const storageRef = ref(storage, `profile_pictures/${currentUser.uid}/${file.name}`);
+                    const snap = await uploadBytes(storageRef, file);
+                    photoURL = await getDownloadURL(snap.ref);
+                }
+
+                // Update Auth Profile
+                await updateProfile(currentUser, { displayName: name, photoURL: photoURL });
+
+                // Update Firestore
+                const updatedData = {
+                    name: name,
+                    bio: document.getElementById('bio-input').value,
+                    institution: document.getElementById('institution-input').value,
+                    degree: document.getElementById('degree-input').value,
+                    profession: document.getElementById('profession-input').value,
+                    skills: document.getElementById('skills-input').value,
+                    interests: document.getElementById('interests-input').value,
+                    profilePicture: photoURL,
+                    email: currentUser.email,
+                    uid: currentUser.uid
+                };
+
+                await setDoc(doc(db, "users", currentUser.uid), updatedData, { merge: true });
+                
+                alert("Profile updated!");
+                closeEditModal();
+                window.location.reload(); // Simple reload to reflect changes
+            } catch(error) {
+                console.error("Update failed", error);
+                alert("Failed to update profile.");
+            } finally {
+                btn.innerHTML = 'Save Changes';
+                btn.disabled = false;
+            }
+        });
+
+        // Utilities
+        window.showFullScreenImage = function(src) {
+             const overlay = document.createElement('div');
+             overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;cursor:pointer;';
+             const img = document.createElement('img');
+             img.src = src;
+             img.style.cssText = 'max-width:90%;max-height:90%;border-radius:8px;';
+             overlay.appendChild(img);
+             overlay.onclick = () => document.body.removeChild(overlay);
+             document.body.appendChild(overlay);
+        }
+
+        function formatLastSeen(timestamp) {
+            if (timestamp && timestamp.seconds) {
+                const date = new Date(timestamp.seconds * 1000);
+                const now = new Date();
+                const diffDays = (now - date) / (1000 * 60 * 60 * 24);
+                
+                if (diffDays < 1) return `Last seen today at ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+                return `Last seen on ${date.toLocaleDateString()}`;
+            }
+            return '';
         }
     </script>
 </body>
