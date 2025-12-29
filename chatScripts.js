@@ -18,6 +18,53 @@ const firebaseConfig = {
   measurementId: "G-54E0SH3VJQ"
 };
 
+document.addEventListener('DOMContentLoaded', () => {
+    const overflowMenuBar = document.getElementById('overflow-menu-Bar');
+    const chatContainer = document.querySelector('.container');
+    const backButton = document.getElementById('back-button');
+    const menuItems = document.querySelectorAll('.menu-item'); // Assuming your user list items have this class
+    
+    // Function to show Chat (Mobile)
+    function showChatOnMobile() {
+        if (window.innerWidth <= 768) {
+            chatContainer.classList.add('show-chat');
+            overflowMenuBar.classList.add('hide-sidebar');
+            backButton.style.display = 'block'; // Show back button
+        }
+    }
+
+    // Function to show User List (Mobile)
+    function showListOnMobile() {
+        chatContainer.classList.remove('show-chat');
+        overflowMenuBar.classList.remove('hide-sidebar');
+        backButton.style.display = 'none'; // Hide back button
+    }
+
+    // 1. Attach click event to the container of users (delegation)
+    // Use this if your users are added dynamically via JS
+    const userListContainer = document.getElementById('overflow-menu');
+    userListContainer.addEventListener('click', (e) => {
+        // Check if a menu-item was clicked
+        if (e.target.closest('.menu-item')) {
+            showChatOnMobile();
+        }
+    });
+
+    // 2. Attach click event to Back Button
+    if (backButton) {
+        backButton.addEventListener('click', showListOnMobile);
+    }
+
+    // 3. Handle Resize (Reset views if switching from mobile to desktop)
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            chatContainer.classList.remove('show-chat');
+            overflowMenuBar.classList.remove('hide-sidebar');
+            if(backButton) backButton.style.display = 'none';
+        }
+    });
+});
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app); // Firestore database
@@ -28,6 +75,7 @@ let currentUser = null;
 let currentChatUser = null;
 let selectedImage = null;
 let userPictures = {};
+
 
 // Function to display messages to users
 const displayMessage = (message, isError = false) => {
@@ -322,89 +370,11 @@ const updateSelectedUser = (name, status, profilePicture, email, bio) => {
   document.getElementById('user-status').textContent = status;
   document.getElementById('profile-pic').src = profilePicture ? profilePicture : 'pic4.png';
 
-  // Update the profile dialog with the selected user's details
-  document.getElementById('profile-name').textContent = name;
-  document.querySelector('.dialog-title').textContent = name;
-  document.getElementById('profile-email').textContent = email || "user@example.com"; // Default email
-  document.getElementById('profile-bio').textContent = bio || "No Bio Available"; // Default bio
-  document.getElementById('profile-picture').src = profilePicture ? profilePicture : 'pic4.png'; // Profile picture
-
-  // Add event listener to the profile picture to show user details
-
-};
-
-// Function to close the dialog
-const closeDialog = () => {
-  document.getElementById('profile-dialog').style.display = 'none';
-  // Re-enable the edit button when the dialog is closed
-  const editButton = document.getElementById('edit-button');
-  editButton.disabled = false;
-};
-
-let userProfilePictureClickListener; // To store the click event listener for user details
-
-// Show the profile dialog with user details
-const showUserDetails = (name, status, profilePicture, email, bio) => {
-  document.getElementById('overlay').style.display = 'block';
-  
-  // Disable the edit button
-  const editButton = document.getElementById('edit-button');
-  editButton.disabled = true;
-
-  // Update user details
-  document.getElementById('profile-name').textContent = name;
-  document.querySelector('.dialog-title').textContent = name;
-  document.querySelector('.dialog-status').textContent = status;
-  document.getElementById('profile-email').textContent = email || "user@example.com"; // Default email
-  document.getElementById('profile-bio').textContent = bio || "No Bio Available"; // Default bio
-  const profilePictureElement = document.getElementById('profile-picture');
-  profilePictureElement.src = profilePicture ? profilePicture : 'pic4.png'; // Profile picture
-
-  // Create the click event listener function for the profile picture
-  userProfilePictureClickListener = () => {
-    showFullScreenImage(profilePictureElement.src);
-  };
-
-  // Add click event to show full-screen image
-  profilePictureElement.addEventListener('click', userProfilePictureClickListener);
-
-  // Show the dialog
-  document.getElementById('profile-dialog').style.display = 'flex';
-};
-
-// Close Profile Dialog
-const closeProfilesDialog = () => {
-  document.getElementById('profile-dialog').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
-
-  // Remove the click event listener from the profile picture
-  const profilePictureElement = document.getElementById('profile-picture');
-  if (userProfilePictureClickListener) {
-    profilePictureElement.removeEventListener('click', userProfilePictureClickListener);
-  }
-};
-
-// Event Listeners for Buttons
-document.getElementById('close-button').addEventListener('click', closeProfilesDialog);
-document.getElementById('edit-button').addEventListener('click', () => {
-  showProfileUpdateDialog(currentUser);
-  closeProfileDialog(); // Close the profile dialog when editing
-});
-
-
-// Call this function when you want to hide the dialog
-const hideDialog = () => {
-  closeDialog();
-  // Optionally, you can remove the click event listener if needed
-  window.onclick = null;
 };
 
   onAuthStateChanged(auth, (user) => {
   if (user) {
-    currentUser = user;
-   
-   displayMessage("Login successful! Welcome back.");
-    
+    currentUser = user;  
     //document.getElementById('overlay').style.display = 'none';
     loadUsers();
     updateOnlineStatus(currentUser.uid);
@@ -507,11 +477,6 @@ const loadMessages = (chatUserId) => {
         chatBox.scrollTop = chatBox.scrollHeight;
     });
 };
-const downloadImage = (src, fileName) => {
-    if (window.Android) {
-        window.Android.downloadImage(src, fileName); // Pass both src and fileName to Android
-    }
-};
 
 // Function to open image in full screen with overlay and download button
 const openFullScreenImage = (src) => {
@@ -557,7 +522,7 @@ const openFullScreenImage = (src) => {
     downloadButton.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent closing the overlay
         const fileName = `image-${new Date().getTime()}.jpg`; // Dynamic filename
-        downloadImage(src, fileName);
+        downloadImageToStorage(src, fileName);
     });
 
     // Add click event to exit full screen
@@ -570,6 +535,15 @@ const openFullScreenImage = (src) => {
     overlay.appendChild(downloadButton);
     document.body.appendChild(overlay);
 };
+
+function downloadImageToStorage(url, fileName) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
 const openBottomSheet = (messageRef, currentText, chatId, message) => {
     const bottomSheet = document.createElement('div');
@@ -722,111 +696,7 @@ const formattTime = (timestamp) => {
   }
   return ''; // Return empty if no timestamp
 };
-let profilePictureClickListener; // To store the click event listener
 
-const showProfileDialog = async () => {
-  const editButton = document.getElementById('edit-button');
-  editButton.disabled = false;
-  document.querySelector('.dialog-title').textContent = "Welcome to S.C Space!";
-
-  if (currentUser) {
-    try {
-      // Fetch user data from Firestore
-      const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-      
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-                
-        // Update dialog elements with user data
-        const profilePictureElement = document.getElementById('profile-picture');
-        profilePictureElement.src = userData.profilePicture || 'pic4.png';             
-        document.getElementById('profile-name').textContent = userData.name || 'No Name';
-        document.getElementById('profile-email').textContent = userData.email;
-        document.getElementById('profile-bio').textContent = userData.bio || 'No bio available'; // Add bio
-        document.querySelector('.dialog-status').textContent = "You're visible as online";
-
-        // Create the click event listener function
-        profilePictureClickListener = () => {
-          showFullScreenImage(profilePictureElement.src);
-        };
-
-        // Add click event to show full-screen image
-        profilePictureElement.addEventListener('click', profilePictureClickListener);
-
-        // Show the dialog
-        document.getElementById('profile-dialog').style.display = 'flex';
-        document.getElementById('overlay').style.display = 'block';
-      } else {
-        alert("User document does not exist."); // Alert if user document doesn't exist
-      }
-    } catch (error) {
-      alert("Error fetching user data: " + error.message); // Alert in case of error
-    }
-  } else {
-    alert("No current user is signed in."); // Alert if no user is signed in
-  }
-};
-
-window.onload = async function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('showProfile') === 'true') {
-        await showProfileDialog(); // Call the async function with await
-    }
-};
-
-
-// Function to show the profile picture in full screen
-const showFullScreenImage = (src) => {
-  // Create a full-screen overlay
-  const overlay = document.createElement('div');
-  overlay.style.position = 'fixed';
-  overlay.style.top = '0';
-  overlay.style.left = '0';
-  overlay.style.width = '100%';
-  overlay.style.height = '100%';
-  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-  overlay.style.display = 'flex';
-  overlay.style.justifyContent = 'center';
-  overlay.style.alignItems = 'center';
-  overlay.style.zIndex = '2000';
-
-  // Create an image element
-  const image = document.createElement('img');
-  image.src = src;
-  image.style.maxWidth = '90%'; // Limit the max width
-  image.style.maxHeight = '90%'; // Limit the max height
-  image.style.borderRadius = '8px'; // Optional: add some styling
-
-  // Append the image to the overlay
-  overlay.appendChild(image);
-
-  // Close full-screen on click
-  overlay.addEventListener('click', () => {
-    document.body.removeChild(overlay); // Remove overlay when clicked
-  });
-
-  // Append the overlay to the body
-  document.body.appendChild(overlay);
-};
-
-// Close Profile Dialog
-const closeProfileDialog = () => {
-  document.getElementById('profile-dialog').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
-
-  // Remove the click event listener from the profile picture
-  const profilePictureElement = document.getElementById('profile-picture');
-  if (profilePictureClickListener) {
-    profilePictureElement.removeEventListener('click', profilePictureClickListener);
-  }
-};
-
-// Event Listeners for Buttons
-document.getElementById('close-button').addEventListener('click', closeProfileDialog);
-document.getElementById('edit-button').addEventListener('click', () => {
-  showProfileUpdateDialog(currentUser);
-  closeProfileDialog(); // Close the profile dialog when editing
-});
   const markAsRead = async (chatId, messageId) => {
   const messageRef = doc(db, "chats", chatId, "messages", messageId);
   
@@ -930,112 +800,7 @@ const updateMessageStatus = async (chatUserId, messageId, newStatus) => {
       return uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
     };
 
-
-  const showProfileUpdateDialog = async (currentUser) => {
-    const dialog = document.getElementById('profile-update-dialog');
-    dialog.style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
-
-    const form = document.getElementById('update-profile-form');
-    const cancelButton = document.querySelector('.button-cancel'); // Select the cancel button using its class
-
-    // Remove any existing event listeners to avoid multiple submissions
-    form.removeEventListener('submit', handleFormSubmit);
-
-    // Attach the event listener for form submission
-    form.addEventListener('submit', handleFormSubmit);
-
-    // Attach event listener for the cancel button
-    cancelButton.addEventListener('click', () => {
-        dialog.style.display = 'none'; // Close the dialog
-        document.getElementById('overlay').style.display = 'none';
-    });
-
-    // Pre-fill the form with current values
-    document.getElementById('name-input').value = currentUser.displayName || '';
-    
-    // Fetch user data from Firestore to get the latest bio
-    try {
-        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-        if (userDoc.exists()) {
-            const userData = userDoc.data();
-            document.getElementById('bio-input').value = userData.bio || ''; // Populate bio field with current bio
-        } else {
-            console.error("User document does not exist.");
-            document.getElementById('bio-input').value = ''; // Fallback if user data is not found
-        }
-    } catch (error) {
-        console.error("Error fetching user data:", error);
-        document.getElementById('bio-input').value = ''; // Fallback in case of error
-    }
-
-    // Log the current user object for debugging
-    console.log("Current User:", currentUser);
-    console.log("Current Bio:", currentUser.bio); // Log the current bio for debugging
-
-    async function handleFormSubmit(event) {
-        event.preventDefault();
-        if (!currentUser) {
-            return;
-        }
-
-        const name = document.getElementById('name-input').value || currentUser.displayName; // Use current name if none provided
-        const bioInput = document.getElementById('bio-input').value; // Get the bio input
-        const bio = bioInput !== '' ? bioInput : currentUser.bio; // Use current bio if the new input is empty
-        const profilePictureFile = document.getElementById('profile-picture-input').files[0];
-        let profilePictureURL = use4.photoURL; // Use existing photo URL if no new picture is uploaded
-
-        // If a new profile picture is selected, upload it
-        if (profilePictureFile) {
-            try {
-                alert("Uploading file, please wait");
-                const storageRef = ref(storage, `profile_pictures/${currentUser.uid}/${profilePictureFile.name}`);
-                const snapshot = await uploadBytes(storageRef, profilePictureFile);
-                profilePictureURL = await getDownloadURL(snapshot.ref);
-            } catch (error) {
-                alert("File upload failed. Error details below:");
-                alert(`Error code: ${error.code}`);
-                alert(`Error message: ${error.message}`);
-                alert(`Error stack: ${error.stack}`);
-                return;
-            }
-        }
-
-        try {
-            // Update the profile only with new name and profile picture if provided
-            await updateProfile(currentUser, {
-                displayName: name,
-                photoURL: profilePictureURL // Use the existing or new profile picture URL
-            });
-
-            // Prepare data for Firestore update, ensuring bio is valid
-            const userData = {
-                email: currentUser.email,
-                uid: currentUser.uid,
-                name: name, // Store the updated or existing name
-                bio: bio, // Store the updated or existing bio
-                profilePicture: profilePictureURL // Store the updated or existing profile picture URL
-            };
-
-            // Update Firestore with user data
-            await setDoc(doc(db, "users", currentUser.uid), userData);
-
-            alert("Profile updated successfully!");
-            dialog.style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        } catch (error) {
-            alert("Failed to update profile. Please try again.");
-            console.error("Failed to update profile:", error);
-        }
-    }
-};
-const sendTextMessage = () => {
-  const messageInput = document.getElementById("message-input");
-  const message = messageInput.value;
-  sendMessage(message); // Send the text message
-  messageInput.value = ""; // Clear the input after sending
-};
-// Modify the sendMessage function to accept an audio URL
+// sendMessage function to accept an audio URL
 const sendMessage = async (message, image, audioURL) => {
   if (!currentChatUser) {
     alert("Please select a user to chat with.");
@@ -1203,29 +968,7 @@ const openRecordingDialog = () => {
           document.getElementById('message-input').value = "";
         }
       });
-   document.getElementById('my-profile-button').addEventListener('click', showProfileDialog);
-     
-        document.getElementById('overflow-button').addEventListener('click', () => {
-        const menu = document.getElementById('overflow-menu');
-        loadUsers(); // Ensure the menu is updated before showing
-        //menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
-      });
-    });
-    // Hide overflow menu when clicking outside
-    document.addEventListener('click', (event) => {
-      const menu = document.getElementById('overflow-menu');
-      const button = document.getElementById('overflow-button');
-      if (!menu.contains(event.target) && event.target !== button) {
-        //menu.style.display = 'none';
-      }
-    });
-
-  document.getElementById('overflow-button').addEventListener('click', () => {
-        const menu = document.getElementById('overflow-menu');
-        loadUsers(); // Ensure the menu is updated before showing
-       // menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'none' : 'block';
-      });
-    
+    });    
     // Hide overflow menu when clicking outside
     document.addEventListener('click', (event) => {
       const menu = document.getElementById('overflow-menu');

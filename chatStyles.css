@@ -1,814 +1,543 @@
-/* chatStyles.css */
-/* Reset default margin/padding */
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
+:root {
+  /* Premium Color Palette */
+  --primary-color: #3b82f6; /* Modern Blue */
+  --primary-gradient: linear-gradient(135deg, #3b82f6, #2563eb);
+  --secondary-bg: #f3f4f6;
+  --white: #ffffff;
+  --text-dark: #1f2937;
+  --text-grey: #6b7280;
+  --border-color: #e5e7eb;
+  
+  /* Status Colors */
+  --success: #10b981;
+  --danger: #ef4444;
+  
+  /* Shadows & Glass */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--secondary-bg);
+  color: var(--text-dark);
+  overflow: hidden; /* Prevent body scroll */
 }
-#overflow-menu-Bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 30%;
-      height: 100%;
-      background: #f5f5f5;
-      border-right: 1px solid #ccc;
-      padding: 10px;
-      overflow-y: auto;
-    }
-    #overflow-menu {
-      margin-top: 200px; /* Space for title */
-    }
 
-    /* Top bar */
-.menu-top-bar {
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* =========================================
+   2. MAIN LAYOUT (SIDEBAR + CHAT)
+   ========================================= */
+
+/* Wrapper to hold Sidebar and Chat side-by-side */
+.app-wrapper {
   display: flex;
-  position: fixed;
-  flex-direction: column;
-  margin-top: 0;
-  padding: 10px;
-    width: 28%;
-    height: 180px;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  z-index: 10;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
-/* Search container */
+/* --- Sidebar Area --- */
+#overflow-menu-Bar {
+  width: 320px; /* Fixed width for desktop */
+  min-width: 300px;
+  height: 100%;
+  background: var(--white);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+}
+
+/* Fixed Header in Sidebar */
+.menu-top-bar {
+  padding: 20px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Scrollable User List */
+#overflow-menu {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  margin-top: 0; /* Reset previous margin */
+}
+
+/* --- Chat Area --- */
+.container {
+  flex: 1; /* Takes remaining width */
+  position: relative; /* Changed from fixed */
+  top: auto; left: auto; /* Reset fixed positions */
+  width: auto;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background Pattern for Chat */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0.4;
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* =========================================
+   3. COMPONENT STYLES
+   ========================================= */
+
+/* Search Bar */
 .search-container {
   position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  width: 100%;
 }
 
 .search-container input {
-  flex: 1;
-  padding: 8px 35px 8px 12px;
-  border-radius: 25px;
-  border: 1px solid #ccc;
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--secondary-bg);
   font-size: 14px;
-  outline: none;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 }
 
 .search-container input:focus {
-  border-color: #007BFF;
-  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+  background: var(--white);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
 }
 
 .search-icon {
   position: absolute;
-  right: 12px;
-  font-size: 20px;
-  color: #888;
-  pointer-events: none;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-grey);
 }
 
-/* Action buttons container */
-.menu-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.action-btn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 20px;
-  background: #f0f8ff;
-  cursor: pointer;
-  font-size: 13px;
-  color: #007BFF;
-  transition: all 0.2s ease;
-}
-
-.action-btn:hover {
-  background: #007BFF;
-  color: #fff;
-}
-
-/* User menu items */
+/* Menu Items (Users) */
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 8px;
+  gap: 12px;
+  padding: 12px;
   border-radius: 12px;
   margin-bottom: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  background: transparent;
+  border: 1px solid transparent;
 }
 
 .menu-item:hover {
-  background: #f0f8ff;
-  transform: translateX(2px);
+  background: var(--secondary-bg);
 }
 
-/* Profile picture small */
-.profile-pic-small {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #007BFF;
+.menu-item.active {
+  background: #eff6ff;
+  border-color: #dbeafe;
 }
 
-.menu-item .memberUserName {
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  color: #608ff5 !important;
-  margin-bottom: 6px;
-  display: block;
-}
-
-/* Status colors */
-.status-online {
-  color: green !important;
-  font-weight: 900 !important;
-}
-
-.status-offline {
-  color: #888 !important;
-}
-
-.status-recent {
-  color: rgb(99, 95, 89) !important;
-  font-style: italic;
-}
-
-    /* Chat container */
-    .container {
-      position: fixed;
-      top: 0;
-      left: 38%;
-      width: 60%;
-      height: 100vh;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      border-left: 1px solid #ccc;
-    }
-
-    /* User info at top */
-    #user-info {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    #user-info img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    /* Chat box */
-    #chat-box {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-    }
-
-    /* Message input container */
-    .message-input-container {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      border-top: 1px solid #ddd;
-      background: #fafafa;
-    }
-
-    .message-input-container input[type="text"] {
-      flex: 1;
-      padding: 8px 10px;
-      margin: 0 5px;
-      border-radius: 20px;
-      border: 1px solid #ccc;
-    }
-
-    .message-input-container button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 5px;
-      color: #007BFF;
-    }
-
-    /* Modal for images */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 100;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.8);
-    }
-
-    .modal-content {
-      display: block;
-      margin: 10% auto;
-      max-width: 80%;
-    }
-
-    .clotse {
-      position: absolute;
-      top: 15px;
-      right: 35px;
-      color: #fff;
-      font-size: 40px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* Recording dialog */
-    .dialog {
-      display: none;
-      position: fixed;
-      z-index: 200;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-
-
-
-    h1 {
-      margin: 0;
-      padding: 15px;
-      background-color: #007BFF;
-      color: white;
-      font-size: 24px;
-      text-align: start;
-      position: relative;
-    }
-
-    .bottom-sheet {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: white;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-   transition: background-color 0.3s;
-  flex: 1; 
-  z-index: 1000;
-  max-height: 50%; /* Adjust as needed */
-  overflow-y: auto; /* Allows scrolling if content exceeds height */
-  border-top-left-radius: 16px; /* Rounded corners */
-  border-top-right-radius: 16px; /* Rounded corners */
-  padding: 16px; /* Add padding for content spacing */
-  display: flex;
-  flex-direction: column;
-}
-
-.option {
-  padding: 12px; /* Spacing for each option */
-  cursor: pointer; /* Pointer cursor for clickable items */
-}
-
-.option:hover {
-  background-color: #f0f0f0; /* Hover effect */
-}
-
-.close {
-  margin-top: 16px; /* Space between options and close button */
-  text-align: center; /* Center the close button */
-  color: #007BFF; /* Link color */
-  cursor: pointer;
-}
-
-.edit-dialog {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#edit-message-input {
-  width: 90%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  font-size: 16px;
-}
-
-.button-container {
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-  margin-top: 12px;
-}
-
-#confirm-edit {
-  background-color: #007BFF; /* Green */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-  flex: 1; /* Allows button to grow */
-  margin-right: 8px; /* Space between buttons */
-}
-
-.close {
-  color: #888;
-  cursor: pointer;
-  text-decoration: underline;
-  flex: 1; /* Allows close to grow */
-  text-align: center; /* Center the text */
-}
-
-.close:hover {
-  color: #333;
-}
-
-.close:hover {
-  color: #333;
-}
-
-@keyframes slide-up {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-/* Default time status styling */
-.time-status {
-  font-size: 11px;
-  text-align: right;
-}
-
-/* Time color for sent messages */
-.sent .time-status {
-  color: #E0FFFF; /* White for better contrast on blue background */
-}
-
-/* Time color for received messages */
-.received .time-status {
-  color: #555555; /* Darker gray for better contrast on light blue background */
-}
-.status {
-  font-style: italic;
-  color: #E0FFFF;
-}   
-  
-   #user-info {
-  display: flex; /* Align items horizontally */
-  align-items: center; /* Center vertically */
-  margin: 8px 0; /* Adjust spacing */
-  padding: 10px 15px; /* Add padding for spacing */
-  background-color: #ffffff; /* Background color */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow all around */
-  transition: box-shadow 0.3s ease; /* Smooth transition effect */
-}
-
-/* Optional: Add a hover effect for a modern look */
-#user-info:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover */
-}
-
-/* Optional: Add a hover effect for a modern look */
-#user-info:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover */
-}
-    #profile-pic {
+  .profile-pic {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       margin-left: -5px;
       margin-right: 10px;
     }
-  .profile-pic-small {
-  width: 70px; /* Set width */
-  height: 70px; /* Set height */
-  border-radius: 50%; /* Makes the image round */
-  object-fit: cover; /* Ensures the image covers the area without distortion */
+
+.profile-pic-small {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--white);
+  box-shadow: var(--shadow-sm);
 }
 
-    #selected-user {
-      font-size: 16px;
-      margin: 10px 0;
-      font-weight: bold;
-    }
+.menu-item .memberUserName {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-dark);
+  margin-bottom: 2px;
+}
 
-    #user-status {
-      font-size: 13px;
-      color: gray;
-    }
+/* Chat Header */
+#user-info {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
 
-  .encryption-message {
-  text-align: center;
+#user-info img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+  box-shadow: var(--shadow-sm);
+}
+
+#selected-user {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+#user-status {
+  font-size: 13px;
+  color: var(--success);
+  font-weight: 500;
+}
+
+/* Chat Box (Messages Area) */
+#chat-box {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1;
+}
+
+/* Message Input Area */
+.message-input-container {
+  padding: 20px;
+  background: var(--white);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+}
+
+.message-input-container input[type="text"] {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: 1px solid var(--border-color);
+  background: var(--secondary-bg);
+  font-size: 15px;
+  transition: all 0.3s;
+}
+
+.message-input-container input[type="text"]:focus {
+  background: var(--white);
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.message-input-container button {
+  background: none;
+  border: none;
+  cursor: pointer;
   padding: 10px;
-  font-size: 12px;
-  color: #777;
-  background-color: #f1f1f1;
-  border-bottom: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  color: var(--primary-color);
+  border-radius: 50%;
+  transition: background 0.2s;
 }
 
-/* Container for all messages */
+.message-input-container button:hover {
+  background: #eff6ff;
+}
+
+/* =========================================
+   4. MESSAGE BUBBLES
+   ========================================= */
+
 .message-container {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 5px; /* Adds space between messages */
+  width: 100%;
+  margin-bottom: 2px;
 }
 
-/* Profile picture styles */
-.profile-pic {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  margin-right: 5px;
-  margin-left: -5px;
-  align-self: flex-start;
-}
-/* Styles for the profile dialog */
-#profile-dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Ensure the dialog is on top */
-    width: 350px; /* Set a fixed width for consistency */
-    display: none; /* Initially hidden */
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center items horizontally */
+.message {
+  padding: 10px 16px;
+  border-radius: 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  position: relative;
+  max-width: 70%;
+  box-shadow: var(--shadow-sm);
+  word-wrap: break-word;
 }
 
-/* Styles for dialog content */
-.dialog-content {
-    padding: 20px;
-    text-align: center; /* Center text */
-    width: 100%; /* Ensure the content takes full width of the dialog */
+/* Sent Messages */
+.sent {
+  justify-content: flex-end;
 }
 
-/* Styles for the dialog title */
-.dialog-title {
-    font-size: 24px; /* Increase font size for prominence */
-    margin-bottom: 15px; /* Space below the title */
-    color: #333; /* Dark color for better readability */
-    border-bottom: 2px solid #ccc; /* Add a bottom border */
-    padding-bottom: 8px; /* Add padding to move the title away from the border */
-    width: 100%; /* Make the border span the entire width of the container */
-    text-align: center; /* Keep the title text centered */
-}
-
-/* Profile picture styles */
-.profile-pic-large {
-    width: 200px; /* Set a fixed width for the profile picture */
-    height: 200px; /* Set a fixed height for the profile picture */
-    border-radius: 50%; /* Circular profile picture */
-    margin-bottom: 15px; /* Space below the image */
-}
-
-/* Styles for the profile dialog status */
-.dialog-status {
-    font-size: 13px; /* Smaller font size */
-    font-weight: 400; /* Light font weight */
-    color: #ffffff; /* White text color */
-    background-color: #25D366; /* WhatsApp-like green background */
-    padding: 4px 8px; /* Add some padding around the text */
-    border-radius: 12px; /* Rounded corners for a label-like effect */
-    margin: 10px auto; /* Add space from the elements above and center the status */
-    display: block; /* Keep it compact around the text */
-    text-align: center; /* Center the text inside the status */
-    width: fit-content; /* Shrinks the width around the content */
-}
-
-/* Profile details section */
-.profile-details {
-    text-align: left;
-    width: calc(100% - 40px); /* Ensure the content stays within the container, accounting for padding */
-    padding-left: 20px;
-    padding-right: 20px; /* Add padding on the right to prevent overflow */
-    word-wrap: break-word; /* Allow long words or text to wrap within the container */
-}
-
-/* Ensure individual text lines are spaced properly */
-.profile-details p {
-    margin-bottom: 10px;
-    color: #555; 
-    overflow-wrap: break-word; /* Handle long text breaking gracefully */
-    word-wrap: break-word; /* Ensure long words wrap properly */
-}
-
-
-/* Styles for the buttons container */
-.dialog-buttons {
-    display: flex; /* Flexbox layout for buttons */
-    justify-content: space-around; /* Space buttons evenly */
-    width: 100%; /* Ensure the button container takes full width */
-}
-
-/* Styles for buttons */
-.dialog-button {
-    padding: 10px 15px; /* Padding for the button */
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Increase font size */
-    transition: background-color 0.3s; /* Smooth transition for hover effects */
-}
-
-/* Edit button styles */
-#edit-button {
-    background-color: #2196F3; /* Blue color */
-    color: white; /* White text */
-}
-
-/* Edit button hover effect */
-#edit-button:hover {
-    background-color: #1976D2; /* Darker blue on hover */
-}
-
-/* Close button styles */
-#close-button {
-    background-color: #f44336; /* Red color */
-    color: white; /* White text */
-}
-
-/* Close button hover effect */
-#close-button:hover {
-    background-color: #e53935; /* Darker red on hover */
-}
-/* Styles for received messages */
-.received .message {
-    display: inline-block;
-    background-color: #CCE7FF; /* Light blue for received messages */
-    border: 1px solid #A0C3E8; /* Slightly darker border for contrast */
-    padding: 10px; /* Increased padding for better spacing */
-    border-radius: 15px; /* More rounded corners */
-    max-width: 80%; /* Adjust message width */
-    margin-bottom: 6px; /* Space between messages */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    word-wrap: break-word; /* Ensure long words break within the container */
-}
-
-/* Adjust for received messages containing images */
-.received .message img {
-    max-width: 100%; /* Ensure the image fits within the container */
-    height: auto; /* Maintain aspect ratio */
-}
-
-/* Reduce size for received messages containing images */
-.received .message:has(img) {
-    max-width: 50%; /* Reduce width for received messages with images */
-}
-
-/* Optional: Hover effect for received messages */
-.received .message:hover {
-    background-color: #B2D4FF; /* Slightly darker blue on hover */
-}
-
-/* Styles for sent messages */
 .sent .message {
-    display: inline-block;
-    background-color: #007BFF; /* Blue background for sent messages */
-    color: #ffffff; /* White text color for contrast */
-    border: 1px solid #0056b3; /* Slightly darker border for contrast */
-    padding: 10px; /* Increased padding for better spacing */
-    border-radius: 15px; /* More rounded corners */
-    max-width: 80%; /* Adjust message width */
-    margin-left: auto; /* Align to the right */
-    margin-bottom: 6px; /* Space between messages */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    word-wrap: break-word; /* Ensure long words break within the container */
+  background: var(--primary-gradient);
+  color: var(--white);
+  border-bottom-right-radius: 4px; /* Distinct shape */
+  border: none;
 }
 
-/* Adjust for sent messages containing images */
-.sent .message img {
-    max-width: 100%; /* Ensure the image fits within the container */
-    height: auto; /* Maintain aspect ratio */
+.sent .time-status {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  margin-top: 4px;
+  text-align: right;
+  display: block;
 }
 
-/* Reduce size for sent messages containing images */
-.sent .message:has(img) {
-    max-width: 50%; /* Reduce width for sent messages with images */
+/* Received Messages */
+.received {
+  justify-content: flex-start;
 }
 
-/* Optional: Hover effect for sent messages */
-.sent .message:hover {
-    background-color: #0056b3; /* Slightly darker blue on hover */
+.received .message {
+  background: var(--white);
+  color: var(--text-dark);
+  border-bottom-left-radius: 4px; /* Distinct shape */
+  border: 1px solid var(--border-color);
 }
 
-/* Center the dialog on the screen */
-#profile-update-dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    border: none; /* Removed border for a cleaner look */
-    width: 300px;
-    background-color: #ffffff; /* White background for contrast */
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Softer shadow */
-    border-radius: 10px; /* Rounded corners */
-    z-index: 1000; /* Ensure it's above other elements */
+.received .time-status {
+  color: var(--text-grey);
+  font-size: 11px;
+  margin-top: 4px;
+  text-align: right;
+  display: block;
 }
 
-/* Title styling */
-#profile-update-dialog h2 {
-    color: #007bff; /* Blue color */
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ddd;
-    font-size: 1.5em; /* Slightly larger title */
+/* =========================================
+   5. MODALS & DIALOGS
+   ========================================= */
+
+/* Backdrop Filter for Modals */
+.modal, #profile-dialog, #recording-dialog, #profile-update-dialog {
+  backdrop-filter: blur(5px);
 }
 
-/* Form styling */
-#update-profile-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* Generic Dialog Styling */
+.dialog-box {
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 25px;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Input fields styling */
-#update-profile-form label {
-    text-align: left;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333; /* Darker text color for better readability */
+@keyframes popIn {
+  from { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
-#update-profile-form input[type="text"],
-#update-profile-form input[type="file"] {
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #ddd; /* Lighter border color */
-    border-radius: 5px; /* Slightly larger border radius */
-    transition: border-color 0.3s; /* Transition for border color on focus */
+/* Fix specific modals based on your ID names */
+#profile-dialog, #recording-dialog, #profile-update-dialog {
+  /* Inherit generic styles by ensuring these IDs use the properties above */
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  border: none;
 }
 
-#update-profile-form input[type="text"]:focus,
-#update-profile-form input[type="file"]:focus {
-    border-color: #007bff; /* Change border color on focus */
-    outline: none; /* Remove outline */
+/* Close Button (Fixed Typo: clotse -> close-modal) */
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  color: var(--white);
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.close-modal:hover { transform: scale(1.1); }
+
+/* Buttons inside Dialogs */
+.dialog-button, .profile-button, #send-audio-button, #confirm-edit {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
 }
 
-/* Button styling */
-.profile-button {
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px; /* Rounded corners */
-    font-weight: bold; /* Make button text bold */
-    transition: background-color 0.3s; /* Transition for background color */
+#edit-button, #send-audio-button, #confirm-edit {
+  background: var(--primary-color);
+  color: white;
 }
 
-/* Cancel button styling */
-.button-cancel {
-    background-color: #f44336; /* Red */
-    color: white;
+#edit-button:hover, #send-audio-button:hover, #confirm-edit:hover {
+  background: #2563eb;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
-/* Button hover effect */
-.button-cancel:hover {
-    background-color: #c62828; /* Darker red on hover */
+#close-button, #cancel-audio-button, .button-cancel {
+  background: #fee2e2;
+  color: var(--danger);
 }
 
-.profile-button-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
+#close-button:hover, #cancel-audio-button:hover, .button-cancel:hover {
+  background: #fecaca;
 }
 
-/* Flex layout for buttons */
-.profile-button-container .profile-button {
-    flex: 1;
-    background-color: #007bff; /* Primary button color */
-    color: white;
+/* --- Floating Profile Button --- */
+#my-profile-button {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 100; /* Ensure it floats above everything */
 }
 
-/* Primary button hover effect */
-.profile-button-container .profile-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-/* Modal Styles */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.8); /* Black with opacity */
+#my-profile-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
 }
 
-.modal-content {
-    margin: auto;
-    display: block;
-    max-width: 90%; /* Responsive width */
-    max-height: 90%; /* Responsive height */
-}
+/* --- Mobile Transitions & Overrides --- */
+@media screen and (max-width: 768px) {
+  /* Hide the back button by default, JS toggles it */
+  #back-button {
+    display: none; 
+  }
 
-.clotse {
+  /* The User List (Sidebar) */
+  #overflow-menu-Bar {
+    width: 100% !important; /* Force full width */
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
     position: absolute;
-    top: 15px;
-    right: 25px;
-    color: white;
-    font-size: 35px;
-    font-weight: bold;
-    cursor: pointer;
-}
-/* Styles for the recording dialog */
-#recording-dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Ensure the dialog is on top */
-}
+    z-index: 20;
+  }
 
-/* Styles for dialog content */
-#recording-dialog .dialog-content {
-    padding: 20px;
-    text-align: center;
-}
-
-/* Styles for buttons */
-#recording-dialog button {
-    padding: 10px 20px; /* Add padding for better click area */
-    margin: 10px; /* Spacing between buttons */
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Increase font size */
-}
-
-/* Send button styles */
-#send-audio-button {
-    background-color: #4CAF50; /* Green color */
-    color: white; /* Text color */
-    transition: background-color 0.3s; /* Smooth transition */
-}
-
-/* Send button hover effect */
-#send-audio-button:hover {
-    background-color: #45a049; /* Darker green on hover */
-}
-
-/* Cancel button styles */
-#cancel-audio-button {
-    background-color: #f44336; /* Red color */
-    color: white; /* Text color */
-    transition: background-color 0.3s; /* Smooth transition */
-}
-
-/* Cancel button hover effect */
-#cancel-audio-button:hover {
-    background-color: #e53935; /* Darker red on hover */
-}
-
-/* Recording status styles */
-#recording-status {
-    margin: 10px 0; /* Spacing above and below */
-    font-weight: bold; /* Bold text */
-}
-
-/* Overlay styling */
-#overlay {
-    position: fixed;
+  /* The Chat Container */
+  .container {
+    width: 100% !important; /* Force full width */
+    position: fixed; /* Fixed to cover screen */
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
-    z-index: 999; /* Below the dialog */
+    z-index: 30;
+    transform: translateX(100%); /* Hidden to the right by default */
+    transition: transform 0.3s ease-in-out;
+    background: #fff;
+  }
+
+  /* Class added by JS to slide chat in */
+  .container.show-chat {
+    transform: translateX(0);
+  }
+
+  /* Class added by JS to push sidebar away (optional visual effect) */
+  #overflow-menu-Bar.hide-sidebar {
+    transform: translateX(-30%); /* Slight parallax effect */
+  }
+  
+  /* Adjust Title Padding on Mobile */
+  .menu-top-bar h3 {
+    font-size: 24px !important;
+  }
 }
 
-    .menu-item:hover { background-color: #f0f0f0; }
-    input[type="email"], input[type="password"] { padding: 10px; margin: 5px; width: 100%; }
+/* =========================================
+   6. RESPONSIVENESS
+   ========================================= */
+
+/* Tablet and Mobile */
+@media screen and (max-width: 768px) {
+  .app-wrapper {
+    position: relative;
+  }
+
+  /* Make sidebar full width initially */
+  #overflow-menu-Bar {
+    width: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    display: flex; /* Toggle this via JS usually, or assume side-by-side logic */
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  /* Chat container covers sidebar when active */
+  .container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    z-index: 30;
+    transform: translateX(100%); /* Hidden by default on mobile */
+    transition: transform 0.3s ease;
+  }
+
+  /* Utility class to show chat on mobile (You need to toggle this with JS) */
+  .container.show-chat {
+    transform: translateX(0);
+  }
+
+  /* Utility class to hide sidebar when chat is open */
+  #overflow-menu-Bar.hide-sidebar {
+    transform: translateX(-20%);
+  }
+
+  /* Message Widths on Mobile */
+  .message {
+    max-width: 85%;
+  }
+  
+  /* Buttons */
+  .menu-actions {
+    flex-wrap: wrap;
+  }
+}
