@@ -150,8 +150,8 @@ const loadUsers = () => {
         menuItem.innerHTML = `
           <img src="${userPictures[user.uid]}" alt="Profile Pic" class="profile-pic-small">
           <div>
-            <span class="memberUserName">${user.name}</span>
-            <span class="${statusClass}">${statusText}</span>
+            <span class="memberUserName">${user.name}</span> <br>
+            <span style="color: var(--text-grey); font-size: 13px;" class="${statusClass}">${statusText}</span>
           </div>
         `;
 
@@ -162,7 +162,10 @@ const loadUsers = () => {
           loadMessages(currentChatUser);
         });
 
-        userList.appendChild(menuItem);
+        if (user.name != null && user.name.trim() !== "") {
+          userList.appendChild(menuItem);
+        }
+        
       }
     });
   });
@@ -189,6 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const uidToShow = currentChatUser || currentUser.uid; // Use currentChatUser UID if set, otherwise fallback to logged-in user
   window.location.href = `profile_page.html?uid=${uidToShow}`;
 };
+
+document.getElementById('my-profile-button').onclick = () => {
+  // Redirect to the logged-in user's profile page
+  window.location.href = `profile_page.html?uid=${currentUser.uid}`;
+};
+
 // Function to update Firestore with typing status
 const setTypingStatus = (userId, isTyping) => {
   const userRef = doc(db, "users", userId);
@@ -403,7 +412,7 @@ const loadMessages = (chatUserId) => {
 
         chatBox.innerHTML += `
             <div class="encryption-message">
-                Messages sent by Student Center are end-to-end encrypted. Nobody outside this chat, not even Student Center, can access them.
+                Messages sent by Connexa are end-to-end encrypted. Nobody outside this chat, not even Connexa, can access or read them.
             </div>
         `;
 

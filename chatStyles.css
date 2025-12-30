@@ -130,7 +130,7 @@ body, html {
 
 .search-container input {
   width: 100%;
-  padding: 10px 40px 10px 15px;
+  padding: 10px 20px 10px 15px;
   border-radius: 12px;
   border: 1px solid var(--border-color);
   background: var(--secondary-bg);
@@ -165,6 +165,13 @@ body, html {
   transition: all 0.2s ease;
   background: transparent;
   border: 1px solid transparent;
+}
+
+.menu-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary-color);
 }
 
 .menu-item:hover {
@@ -246,7 +253,7 @@ body, html {
 
 /* Message Input Area */
 .message-input-container {
-  padding: 20px;
+  padding: 8px;
   background: var(--white);
   border-top: 1px solid var(--border-color);
   display: flex;
@@ -425,7 +432,7 @@ body, html {
 /* --- Floating Profile Button --- */
 #my-profile-button {
   position: fixed;
-  top: 16px;
+  top: 12px;
   right: 20px;
   width: 50px;
   height: 50px;
@@ -539,5 +546,6 @@ body, html {
   /* Buttons */
   .menu-actions {
     flex-wrap: wrap;
+
   }
 }

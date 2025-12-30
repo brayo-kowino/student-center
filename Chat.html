@@ -12,33 +12,16 @@
 </head>
 <body>
 
-<div id="profile-update-dialog" style="display:none;">
-  <h2>Please hang on a minute to complete your profile</h2>
-  <form id="update-profile-form">
-    <label for="name-input">Name:</label>
-    <input type="text" id="name-input">
-
-    <label for="profile-picture-input">Profile Picture:</label>
-    <input type="file" id="profile-picture-input" accept="image/*">
-
-    <label for="bio-input">Bio:</label>
-    <textarea id="bio-input"></textarea>
-
-    <div class="profile-button-container">
-      <button type="submit" class="profile-button">Update Profile</button>
-      <button type="button" class="profile-button button-cancel">Cancel</button>
-    </div> 
-  </form>
-</div>
-
 <div class="app-wrapper">
 <!-- Left Menu -->
   <div id="overflow-menu-Bar">
 
   <!-- Top Bar -->
   <div class="menu-top-bar">
-     <h3 class="menu-title" style="color: rgb(31, 163, 240); font-size: 28px; font-weight: 800; padding: 0px;">Connexa</h3>
-    <!-- Search Box -->
+      <a href="sc_hompage.html" class="menu-title" style="font-style: none; text-decoration: none;">
+            <span class="material-icons" style="color:var(--primary-color)">hub</span>
+            Connexa
+        </a>
     <div class="search-container">
       <span class="material-icons search-icon">search</span>
       <input type="text" id="user-search" placeholder="Search users...">
@@ -46,18 +29,26 @@
 
     <!-- Action Buttons -->
     <div class="menu-actions">
-      <button class="action-btn" id="ai-link">
-        <span class="material-icons">smart_toy</span>
-        AI
+      <button class="action-btn action-btn-blue" id="ai-link" title="AI Assistant">
+        <span class="material-icons"></span>
+        <span style="font-weight: bold;">Smart360AI</span>
       </button>
-      <button class="action-btn">
+      <button class="action-btn action-btn-blue" title="Settings">
         <span class="material-icons">settings</span>
+        <span></span>
       </button>
-      <button class="action-btn">
-        <span class="material-icons">add</span>
+      <button class="action-btn action-btn-blue" title="Dashboard">
+        <span class="material-icons">dashboard</span>
+        <span></span>
       </button>
     </div>
   </div>
+
+  <style>
+    .action-btn-blue {
+      color: var(--primary-color) !important;
+    }
+  </style>
 
   <!-- User List -->
   <div id="overflow-menu">
@@ -82,7 +73,7 @@
     </div>
 
     <!-- Image Modal -->
-    <div id="image-modal" class="modal">
+    <div id="image-modal" class="modal" style="display: none;">
       <span class="clotse" id="modal-close">&times;</span>
       <img class="modal-content" id="modal-image" />
       <div id="caption"></div>
@@ -115,28 +106,6 @@
   </div>
   </div>
 
-  <!-- Profile Dialog -->
- <div id="profile-dialog" class="dialog">
-  <div class="dialog-content">
-    <h2 class="dialog-title">Welcome to S.C Space!</h2>
-    <img id="profile-picture" class="profile-pic-large" src="pic4.png" alt="Profile Picture">
-    
-    <h3 class="dialog-status">You're seen as active now</h3>
-         
-    <!-- Wrap the profile details inside a container with left alignment -->
-    <div class="profile-details">
-      <p><strong>Name:</strong> <span id="profile-name">User Name</span></p>
-      <p><strong>Email:</strong> <span id="profile-email">user@example.com</span></p>
-      <p><strong>Bio:</strong> <span id="profile-bio">No bio available</span></p>
-    </div>
-    
-    <div class="dialog-buttons">
-      <button id="edit-button" class="dialog-button">Edit</button>
-      <button id="close-button" class="dialog-button">Close</button>
-    </div>
-  </div>
-</div>
-</div>  
     <button id="my-profile-button">
   <span class="material-icons" style="font-size: 24px;">account_circle</span>
 </button>
