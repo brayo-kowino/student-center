@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Center | Connexa</title>
+    <style>
+        :root {
+            /* Premium Color Palette */
+            --bg-body: #F9FAFB;
+            --bg-card: #FFFFFF;
+            --bg-sidebar: #FFFFFF;
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --text-muted: #9CA3AF;
+            --accent-color: #2563EB; /* Royal Blue */
+            --accent-hover: #1D4ED8;
+            --border-color: #E5E7EB;
+            --danger-color: #DC2626;
+            
+            /* Spacing & Layout */
+            --sidebar-width: 280px;
+            --max-content-width: 900px;
+            --header-height: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--bg-card);
+            height: var(--header-height);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .header-actions .btn {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text-secondary);
+            margin-left: 20px;
+            transition: color 0.2s;
+        }
+
+        .header-actions .btn:hover {
+            color: var(--accent-color);
+        }
+
+        .header-actions .btn-primary {
+            background-color: var(--text-primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+        
+        .header-actions .btn-primary:hover {
+            background-color: #000;
+            color: white;
+        }
+
+        /* --- Layout Container --- */
+        .container {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            height: calc(100vh - var(--header-height));
+            overflow-y: auto;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h5 {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+        
+        .sidebar h5:first-child { margin-top: 0; }
+
+        .nav-link {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+            padding-left: 10px;
+            margin-left: -12px;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color);
+            border-left-color: var(--border-color);
+        }
+
+        .nav-link.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            border-left-color: var(--accent-color);
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 60px 80px;
+            max-width: 100%;
+        }
+
+        .legal-wrapper {
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+        }
+
+        /* --- Typography & Elements --- */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .last-updated {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* --- Callout Box --- */
+        .callout {
+            background-color: #EFF6FF; /* Light Blue */
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .callout-strict {
+            background-color: #FEF2F2; /* Light Red */
+            border-left: 4px solid var(--danger-color);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .callout h4 {
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        /* --- Footer --- */
+        .legal-footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* --- Responsive Mobile --- */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none; /* In real app, make this a hamburger menu */
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+            header {
+                padding: 0 20px;
+            }
+            .header-actions .btn {
+                display: none;
+            }
+            .header-actions .btn-primary {
+                display: inline-block;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Connexa<span>.</span></a>
+        <div class="header-actions">
+            <a href="#" class="btn">Help Center</a>
+            <a href="#" class="btn btn-primary">Back to App</a>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <aside class="sidebar">
+            <h5>General</h5>
+            <a href="#introduction" class="nav-link active">Introduction</a>
+            <a href="#acceptance" class="nav-link">Acceptance of Terms</a>
+            
+            <h5>Terms of Service</h5>
+            <a href="#user-conduct" class="nav-link">User Conduct & Strict Liability</a>
+            <a href="#termination" class="nav-link">Account Termination</a>
+            <a href="#ip" class="nav-link">Intellectual Property</a>
+            <a href="#disclaimers" class="nav-link">Disclaimers & Liability</a>
+
+            <h5>Privacy Policy</h5>
+            <a href="#data-collection" class="nav-link">Data Collection</a>
+            <a href="#data-usage" class="nav-link">Data Usage & Retention</a>
+            <a href="#security" class="nav-link">Security Protocols</a>
+            <a href="#contact" class="nav-link">Contact Legal</a>
+        </aside>
+
+        <main class="main-content">
+            <div class="legal-wrapper">
+                
+                <h1 id="introduction">Terms of Service & Privacy Policy</h1>
+                <span class="last-updated">Last Updated: December 30, 2025</span>
+
+                <p>Welcome to Connexa. By accessing our platform, you agree to be bound by these legal terms. We operate with strict adherence to user safety, data privacy, and professional conduct. Please read this document carefully.</p>
+
+                <h2 id="acceptance">1. Acceptance of Terms</h2>
+                <p>Connexa ("We," "Us," "Our") provides a communication and messaging gateway (the "Service") to you ("User"). By registering an account, accessing, or using the Service, you confirm that you have read, understood, and agreed to be bound by these Terms. If you do not agree, you are strictly prohibited from using the Service.</p>
+
+                <h2 id="user-conduct">2. User Conduct & Strict Liability</h2>
+                <p>Connexa is a professional environment. We maintain a zero-tolerance policy regarding the abuse of our platform. By using the Service, you agree NOT to:</p>
+                <ul>
+                    <li>Use the Service for any illegal purpose or in violation of any local, state, national, or international law.</li>
+                    <li>Harass, threaten, demean, embarrass, or otherwise harm any other user of the Service.</li>
+                    <li>Reverse engineer, decompile, disassemble, or attempt to discover the source code of the Service.</li>
+                    <li>Attempt to bypass any security measures or access mechanisms (including "Connexa Message Gateway" backend protocols).</li>
+                </ul>
+
+                <div class="callout-strict">
+                    <h4>Strict Enforcement</h4>
+                    <p>Connexa utilizes automated monitoring and user reporting to enforce these rules. Violations result in <strong>immediate, permanent account suspension</strong> without prior warning and forfeiture of any premium status or data.</p>
+                </div>
+
+                <h2 id="termination">3. Account Termination</h2>
+                <p>We reserve the absolute right to modify, suspend, or discontinue your account or access to the Service at any time, for any reason, without notice or liability. If we believe you are violating these Terms, creating legal liability, or negatively impacting our brand integrity, your access will be revoked.</p>
+
+                <h2 id="ip">4. Intellectual Property</h2>
+                <p>The Connexa platform, including its code, design, layout ("Premium Layout"), and infrastructure, is the exclusive property of Connexa. You are granted a limited, non-exclusive, non-transferable license to use the Service for personal or internal business communications.</p>
+
+                <h2 id="disclaimers">5. Disclaimers & Limitation of Liability</h2>
+                <p>The Service is provided on an "AS IS" and "AS AVAILABLE" basis. Connexa expressly disclaims all warranties of any kind. We are not liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or goodwill.</p>
+
+                <div style="margin: 80px 0; border-top: 2px dashed var(--border-color);"></div>
+
+                <h1 id="privacy">Privacy Policy</h1>
+                <p>Your privacy is critical. This section outlines how Connexa collects, processes, and secures your data.</p>
+
+                <h2 id="data-collection">1. Information We Collect</h2>
+                <h3>A. Information You Provide</h3>
+                <p>We collect information you provide directly to us, such as when you create an account, update your profile, or communicate with other users. This includes specific data points like email addresses, usernames, and chat logs.</p>
+
+                <h3>B. Technical Data</h3>
+                <p>We automatically collect certain information when you access the Service, including device type, IP address, and interaction metrics to optimize the "Connex" experience.</p>
+
+                <h2 id="data-usage">2. How We Use Your Data</h2>
+                <p>We use the data collected strictly for the following purposes:</p>
+                <ul>
+                    <li><strong>Service Operation:</strong> To facilitate message delivery via our gateway.</li>
+                    <li><strong>Security:</strong> To detect and prevent fraud, abuse, and security incidents.</li>
+                    <li><strong>Improvement:</strong> To analyze usage trends and improve the UI/UX of the platform.</li>
+                </ul>
+
+                <h2 id="security">3. Security Protocols</h2>
+                <p>Connexa implements industry-standard encryption and security measures (including secure backend configurations) to protect your information. However, no method of transmission over the Internet is 100% secure.</p>
+                
+                <div class="callout">
+                    <h4>Data Integrity</h4>
+                    <p>We do not sell your personal data to third parties. Your communication logs are private and are only accessed if required by law or to enforce our Terms of Service.</p>
+                </div>
+
+                <h2 id="contact">4. Contact Legal</h2>
+                <p>If you have questions regarding these Terms or our Privacy practices, please contact our Compliance Officer at:</p>
+                <p><strong>Email:</strong> legal@connexa-platform.com<br>
+                <strong>Address:</strong> Connexa HQ, Legal Dept.</p>
+
+                <footer class="legal-footer">
+                    &copy; 2025 Connexa Platform. All rights reserved. Strict adherence to these terms is mandatory.
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('h1, h2');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                links.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
