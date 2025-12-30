@@ -3,234 +3,468 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iskify360 Help Center</title>
+    <title>Help Center | Connexa</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+        :root {
+            /* Premium Theme Variables */
+            --primary-color: #2563EB; /* Royal Blue */
+            --primary-dark: #1E40AF;
+            --bg-body: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --bg-sidebar: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --border-color: #E5E7EB;
+            --success-color: #10B981;
+            
+            /* Layout */
+            --header-height: 70px;
+            --sidebar-width: 280px;
+            --content-max-width: 900px;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            color: #2c3e50;
-        }
-        p {
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             line-height: 1.6;
-        }
-        .section {
-            margin-bottom: 20px;
-            padding: 15px;
-            border-left: 4px solid #2196F3;
-            background: #f0f8ff;
-        }
-        .faq {
-            background-color: #e7f3fe;
-            padding: 15px;
-            border-left: 4px solid #2196F3;
-        }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #2c3e50;
-            color: white;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* FAQ styling */
-        .faq-item {
-            margin-bottom: 10px;
+        /* --- Header --- */
+        header {
+            background-color: var(--bg-card);
+            height: var(--header-height);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo span { color: var(--primary-color); }
+
+        .header-right a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-left: 20px;
+            transition: color 0.2s;
+        }
+        
+        .header-right a:hover { color: var(--primary-color); }
+
+        /* --- Main Layout --- */
+        .wrapper {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            height: 100%;
+            padding: 40px 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-title {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .nav-link {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 10px 0;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            padding-left: 12px;
+            margin-bottom: 5px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background: linear-gradient(90deg, #EFF6FF 0%, transparent 100%);
+            font-weight: 600;
+        }
+
+        /* --- Content Area --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 60px 80px;
+        }
+
+        .content-container {
+            max-width: var(--content-max-width);
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        p { margin-bottom: 16px; color: var(--text-muted); }
+
+        a { color: var(--primary-color); text-decoration: none; font-weight: 500; }
+        a:hover { text-decoration: underline; }
+
+        /* --- Info Cards / Lists --- */
+        .info-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            background: var(--bg-card);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .info-item strong {
+            display: block;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        /* --- Accordion FAQ --- */
+        .faq-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+        .faq-item:last-child { border-bottom: none; }
 
         .faq-question {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            text-align: left;
+            background: none;
             border: none;
             width: 100%;
+            padding: 20px 24px;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
             cursor: pointer;
-            font-size: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: background 0.2s;
         }
+
+        .faq-question:hover { background-color: #F9FAFB; color: var(--primary-color); }
 
         .faq-answer {
-            display: none;
-            padding: 10px;
-            background-color: #f9f9f9;
-            font-size: 14px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 24px;
+            background-color: #F9FAFB;
         }
 
-        .faq-question:hover {
-            background-color: #45a049;
+        .faq-answer p { padding: 20px 0; margin: 0; font-size: 0.95rem; }
+
+        .icon-plus {
+            font-size: 1.2rem;
+            font-weight: 300;
+            transition: transform 0.3s;
         }
 
-        .plus-sign {
-            font-size: 20px;
+        .active .icon-plus { transform: rotate(45deg); color: var(--primary-color); }
+
+        /* --- Footer --- */
+        .page-footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
-        .faq-item.active .faq-answer {
-            display: block;
-        }
-
-        .faq-item.active .plus-sign {
-            transform: rotate(45deg);
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 30px 20px; }
+            .info-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Iskify360 Help Center</h1>
-        <p>Find answers to your questions, troubleshoot problems, and get support for your Iskify360 experience.</p>
 
-<div class="section">
-    <h2>Getting Started</h2>
-    <p>To begin using Iskify360 Online services, please proceed to our <a href="authentication_section.html">authentication page</a>, agree to our policy, and create your account.</p>
-    <ul>
-        <li><strong>Agree to Our Policy:</strong> Review and accept our terms to ensure a safe and compliant experience.</li>
-        <li><strong>Create Your Account:</strong> Follow the steps to register and set up your profile.</li>
-        <li><strong>Log In:</strong> Access your account using your email and password or a connected account.</li>
-    </ul>
-</div>
-
-        <div class="section">
-    <h2>Account Management</h2>
-    <p>You have full discretion over managing your account, updating settings, and enhancing security. However, Iskify360 reserves the right to store your account information and may modify or delete it in the event of a believed policy violation.</p>
-    <ul>
-        <li><strong>Updating Your Profile:</strong> Make changes to your personal details and settings.</li>
-        <li><strong>Resetting Your Password:</strong> Easily reset your password if you've forgotten it or want to improve security.</li>
-        <li><strong>Deactivating or Deleting Your Account:</strong> Control your account status as needed. Be aware that Iskify360 may take action in case of policy violations.</li>
-    </ul>
-</div>
-
-<div class="section">
-    <h2>Getting Started with Iskify360 Online Services</h2>
-    <p>To experience the full potential of our messaging, group collaboration, file sharing, and more, ensure you have an active account and follow our policy guidelines.</p>
-    <ul>
-        <li><strong>Stay Active:</strong> Keep your account active to enjoy all the features we offer.</li>
-        <li><strong>Follow Our Policy Guidelines:</strong> Adhere to our guidelines to ensure a safe and productive experience.</li>
-        <li><strong>Maximize Your Experience:</strong> Enjoy seamless communication, collaboration, and sharing with Iskify360 Online.</li>
-    </ul>
-</div>
-        <div class="section">
-            <h2>Privacy & Security</h2>
-            <p>Learn how we protect your data and how to manage your privacy settings.</p>
-            <ul>
-                <li>Adjusting privacy settings</li>
-                <li>Blocking and reporting users</li>
-                <li>Understanding data collection and security</li>
-                <li><a href="https://iskify360.netlify.app/download">Terms of Service & Privacy Policy</a></li>
-            </ul>
+    <header>
+        <a href="" class="logo">Connexa<span>.</span></a>
+        <div class="header-right">
+            <p style="font-weight: 500; color: var(--text-muted);">Help Center</p>
         </div>
+    </header>
 
-        <div class="section">
-            <h2>Content & Community Guidelines</h2>
-            <p>Follow our policies to ensure a safe and respectful community.</p>
-            <ul>
-                <li>What type of content is allowed</li>
-                <li>Prohibited activities and consequences</li>
-                <li>How to report violations</li>
-                <li><a href="https://iskify360.netlify.app/download">Read Full Terms & Community Policies</a></li>
-            </ul>
-        </div>
+    <div class="wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-title">Help Categories</div>
+            <a href="#welcome" class="nav-link active">Welcome</a>
+            <a href="#getting-started" class="nav-link">Getting Started</a>
+            <a href="#account" class="nav-link">Account Management</a>
+            <a href="#privacy" class="nav-link">Privacy & Security</a>
+            <a href="#guidelines" class="nav-link">Guidelines</a>
+            <a href="#faq" class="nav-link">FAQs</a>
+            <a href="#support" class="nav-link">Contact Support</a>
+        </aside>
 
-        <div class="section faq">
-    <h2>Frequently Asked Questions (FAQs)</h2>
-    <div class="faq-item">
-        <button class="faq-question">How do I reset my password? <span class="plus-sign">+</span></button>
-        <div class="faq-answer">
-            <p>Go to account settings and select "Reset Password." Follow the on-screen instructions to create a new password.</p>
-        </div>
+        <main class="main-content">
+            <div class="content-container">
+                
+                <section id="welcome">
+                    <h1>Connexa Help Center</h1>
+                    <p class="intro-text">Find answers to your questions, troubleshoot issues, and optimize your Connexa experience.</p>
+                </section>
+
+                <section id="getting-started">
+                    <h2>Getting Started</h2>
+                    <p>To begin using Connexa services, please ensure you have completed the secure authentication process.</p>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <strong>1. Agree to Policy</strong>
+                            Review and accept our terms to ensure a safe and compliant experience.
+                        </li>
+                        <li class="info-item">
+                            <strong>2. Create Account</strong>
+                            Register using your professional email to set up your primary profile.
+                        </li>
+                        <li class="info-item">
+                            <strong>3. Verification</strong>
+                            Access your account securely after verifying your identity credentials.
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="account">
+                    <h2>Account Management</h2>
+                    <p>You have full control over managing your account, updating settings, and enhancing security. Connexa maintains strict data integrity protocols regarding your account information.</p>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <strong>Profile Updates</strong>
+                            Modify your personal details, bio, and visual identity settings.
+                        </li>
+                        <li class="info-item">
+                            <strong>Security Reset</strong>
+                            Initiate a secure password reset if you suspect unauthorized access.
+                        </li>
+                        <li class="info-item">
+                            <strong>Deactivation</strong>
+                            Control your account status. Note that Connexa reserves the right to suspend accounts found in violation of our Terms.
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="privacy">
+                    <h2>Privacy & Security</h2>
+                    <p>We utilize enterprise-grade security to protect your data. Learn how to manage your privacy settings.</p>
+                    <ul>
+                        <li>Adjusting privacy visibility settings.</li>
+                        <li>Blocking and reporting users for policy violations.</li>
+                        <li>Understanding data collection and retention protocols.</li>
+                        <li><a href="#">Read Full Terms of Service & Privacy Policy</a></li>
+                    </ul>
+                </section>
+
+                <section id="guidelines">
+                    <h2>Content & Community Guidelines</h2>
+                    <p>Follow our strict policies to ensure a professional community environment.</p>
+                    <ul>
+                        <li>Authorized content types and media sharing.</li>
+                        <li>Prohibited activities, harassment policies, and consequences.</li>
+                        <li>Protocol for reporting violations to the Compliance Team.</li>
+                    </ul>
+                </section>
+
+                <section id="faq">
+                    <h2>Frequently Asked Questions</h2>
+                    <div class="faq-wrapper">
+                        
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                How do I reset my password securely?
+                                <span class="icon-plus">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Navigate to account settings and select "Security" > "Reset Password." You will be required to verify your email address before creating new credentials.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                Can I recover a deleted account?
+                                <span class="icon-plus">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Contact the Support Team within 30 days of deactivation for recovery. After this grace period, data is permanently purged from our servers in accordance with GDPR.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                How do I update my profile verification?
+                                <span class="icon-plus">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Navigate to your profile dashboard. Select the edit icon to upload new imagery or update your bio information. Changes reflect immediately across the platform.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                Where can I view my data privacy logs?
+                                <span class="icon-plus">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Data transparency is key at Connexa. You can request a full data archive via the "Privacy & Data" tab in your user settings.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section id="support">
+                    <h2>Contact & Support</h2>
+                    <p>For specialized assistance, our team is available. Reviews generally take 24-48 hours, but may extend up to 72 hours during peak periods. To submit a support ticket, please use the form below or use the <a href="https://odhiambobrian.dev/connexa_platform">Submit a Priority Ticket for faster response.</a></p>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <strong>Email Support</strong>
+                            <a href="mailto:support@connexa-platform.com">support@connexa-platform.com</a>
+                        </li>
+                        <li class="info-item">
+                            <strong>Help Desk</strong>
+                            <a href="https://odhiambobrian.dev/connexa_platform">Submit a Priority Ticket</a>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="contact-form">
+                    <h2>Send us a Message</h2>
+                    <form name="contact" method="POST" netlify>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Name</label>
+                            <input type="text" name="name" required style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Email</label>
+                            <input type="email" name="email" required style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Message</label>
+                            <textarea name="message" rows="6" required style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; font-family: inherit;"></textarea>
+                        </div>
+                        <button type="submit" style="background-color: var(--primary-color); color: white; padding: 12px 24px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Send Message</button>
+                    </form>
+                </section>
+
+                <footer class="page-footer">
+                    &copy; 2025 Connexa. All Rights Reserved.
+                </footer>
+            </div>
+        </main>
     </div>
-
-    <div class="faq-item">
-        <button class="faq-question">Can I recover a deleted account? <span class="plus-sign">+</span></button>
-        <div class="faq-answer">
-            <p>Contact support within 30 days for account recovery. After that period, the account will be permanently deleted.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question">How do I change my profile picture? <span class="plus-sign">+</span></button>
-        <div class="faq-answer">
-            <p>Navigate to your profile page, tap on the photo icon, and upload a new image from your gallery or take a new one.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question">My app is not responding. What should I do? <span class="plus-sign">+</span></button>
-        <div class="faq-answer">
-            <p>Try closing and reopening the app. If it continues to freeze, clear the app's cache or reinstall it. You can also restart your phone to resolve minor glitches. <strong>Please note that if the app is not responding, crashing, or freezing frequently, this could indicate missing permissions or insufficient resources, which may severely affect the app's functionality and potentially cause it to stop working entirely.</strong></p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question">Why am I missing notifications from the Assignment Tracker? <span class="plus-sign">+</span></button>
-        <div class="faq-answer">
-            <p>Make sure notifications are enabled in both the app and your device settings. If you're still missing notifications, check if the app has the required permissions to access your notifications.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question">How do I update the app? <span class="plus-sign">+</span></button>
-        <div class="faq-answer">
-            <p>Since the app is not available on the Play Store, updates are sent directly through the app UI. When an update is available, you will be prompted to download and install it through the app. Follow the on-screen instructions to complete the update.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question">Why is my app crashing or freezing? <span class="plus-sign">+</span></button>
-        <div class="faq-answer">
-            <p>Frequent crashes or freezing can be caused by insufficient storage, missing permissions, or an outdated app version. Make sure your device has enough storage, the app has the necessary permissions, and that you are using the latest app version.</p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question">Why is the media player or video player crashing or showing limited files? <span class="plus-sign">+</span></button>
-        <div class="faq-answer">
-            <p>If the media player or video player is crashing or showing limited files, it may be due to insufficient permissions or a bug in the app. Ensure that your app is updated to the latest version and that the necessary permissions are granted. If the issue persists, you can try restarting the app or reinstalling it. <strong>Please note that the application is still in an active development phase, and some bugs may occur. These bugs will be addressed through continuous updates.</strong></p>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question">How can I rescan my storage if media files are not showing up? <span class="plus-sign">+</span></button>
-        <div class="faq-answer">
-            <p>If media files are not showing up and the media player is not responding as expected, you can try manually rescanning your device's storage. To do this, go to the app's media player screen and select "Rescan Storage." from a menu accessible when a three dot icon is clicked. The icons are on the bottom right next to "Now Playing." If the issue persists after rescanning, you may need to contact support for further assistance.</p>
-        </div>
-    </div>
-
-</div>
-
-   <div class="section">
-    <h2>Contact & Support</h2>
-    <p>Need further assistance? Reach out to us.</p>
-    <ul>
-        <li>Email: <a href="mailto:iskify360.tech@gmail.com">support@iskify360.com</a></li>
-        <li>Live Chat: Available on our website</li>
-        <li>Help Desk: <a href="issues_form.html" target="_blank">Submit a request via our support page</a></li>
-         </ul>
-       </div>
-    </div>
-
-    <footer>
-        &copy; 2025 Iskify360. All Rights Reserved.
-    </footer>
 
     <script>
-        // JavaScript to handle the toggle effect for showing/hiding answers
-        document.querySelectorAll('.faq-question').forEach(function (question) {
-            question.addEventListener('click', function () {
-                var parentItem = question.closest('.faq-item');
-                parentItem.classList.toggle('active');
+        // FAQ Accordion Logic
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const isActive = button.classList.contains('active');
+                
+                // Close all others
+                document.querySelectorAll('.faq-question').forEach(otherBtn => {
+                    otherBtn.classList.remove('active');
+                    otherBtn.nextElementSibling.style.maxHeight = null;
+                });
+
+                // Toggle current
+                if (!isActive) {
+                    button.classList.add('active');
+                    const panel = button.nextElementSibling;
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        });
+
+        // Sidebar Active State on Scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
             });
         });
     </script>
