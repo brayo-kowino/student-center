@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Iskify360 - Engineering the future of digital systems, 3D design, and professional tech solutions.">
-    <title>Iskify360 | Engineering & Digital Ecosystem</title>
+    <meta name="description" content="Iskify360 - Software, engineering, and digital solutions.">
+    <title>Iskify360 | Tech & Engineering Solutions</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
 
     <script>
         tailwind.config = {
@@ -20,30 +22,15 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        display: ['Space Grotesk', 'sans-serif'],
                     },
                     colors: {
-                        brand: {
-                            base: '#020617',    /* Ultra Dark Slate */
-                            surface: '#0F172A', /* Elevated Slate */
-                            blue: '#3B82F6',    /* Tech Blue */
-                            cyan: '#06B6D4',    /* Neon Cyan */
-                        }
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-15px)' },
+                        corporate: {
+                            light: '#F8FAFC',   /* Light Background */
+                            white: '#FFFFFF',
+                            blue: '#0369A1',    /* Main Blue */
+                            teal: '#0F766E',    /* Accent Color */
+                            dark: '#0F172A',    /* Dark Text */
+                            gray: '#475569'     /* Light Text */
                         }
                     }
                 }
@@ -54,520 +41,561 @@
     <style>
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
         }
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
-        /* Custom Webkit Scrollbar */
+        /* Custom Light Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #06B6D4; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #F8FAFC; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
     </style>
 </head>
-<body class="bg-brand-base text-slate-300 antialiased overflow-x-hidden selection:bg-brand-cyan selection:text-brand-base">
+<body class="bg-corporate-light text-corporate-dark antialiased overflow-x-hidden selection:bg-corporate-blue selection:text-white">
 
-    <header class="fixed top-0 w-full z-50 transition-all duration-300 border-b border-white/5" id="navbar">
-        <div class="absolute inset-0 bg-brand-base/70 backdrop-blur-xl z-0"></div>
+    <!-- Navbar -->
+    <header class="fixed top-0 w-full z-50 transition-all duration-300 border-b border-gray-200" id="navbar">
+        <div class="absolute inset-0 bg-white/90 backdrop-blur-lg z-0"></div>
         
         <div class="relative z-10 max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             
             <a href="#" class="flex items-center gap-3 group">
-                <div class="relative p-1 w-full h-12 rounded-full md:rounded-xl overflow-hidden border border-white/10 shadow-[0_0_15px_rgba(6,182,212,0.3)] group-hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] group-hover:border-brand-cyan/50 transition-all duration-300">
-                    <img src="iskify360_brand_image.png" onerror="this.src='https://via.placeholder.com/40'" alt="Iskify360 Logo" class="w-full h-full object-cover">
+                <!-- Original Logo Restored -->
+                <div class="relative w-auto h-12 rounded-xl overflow-hidden group-hover:border-corporate-blue/30 transition-all duration-300">
+                    <img src="iskify360_brand_image.png" onerror="this.src='https://via.placeholder.com/48'" alt="Iskify360 Logo" class="w-full h-full object-cover">
                 </div>
-                <span class="font-display font-bold text-2xl text-white tracking-tight"></span>
+                <span class="hidden font-bold text-xl text-corporate-dark tracking-tight">Iskify360</span>
             </a>
 
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="text-sm font-semibold text-slate-300 hover:text-white transition-colors">Platform</a>
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex items-center space-x-8">
+                <a href="#about" class="text-sm font-medium text-corporate-gray hover:text-corporate-blue transition-colors">About Us</a>
                 
+                <!-- Rich Dropdown: Services -->
                 <div class="relative group py-6">
-                    <button class="text-sm font-semibold text-slate-300 group-hover:text-brand-cyan transition-colors flex items-center gap-2">
-                        Core Services <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300 group-hover:-rotate-180"></i>
+                    <button class="text-sm font-medium text-corporate-gray group-hover:text-corporate-blue transition-colors flex items-center gap-1">
+                        Services <span class="material-symbols-outlined text-lg transition-transform duration-300 group-hover:rotate-180">expand_more</span>
                     </button>
                     
-                    <div class="absolute top-full left-1/2 -translate-x-1/2 w-[600px] bg-brand-surface/90 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 p-6 grid grid-cols-2 gap-4">
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 w-[650px] bg-white border border-gray-100 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 p-6 flex gap-6">
                         
-                        <a href="#services" class="block p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all group/item">
-                            <div class="flex items-center gap-3 mb-2">
-                                <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-layer-group"></i></div>
-                                <h4 class="font-display font-bold text-white group-hover/item:text-brand-cyan">Engineering & 3D</h4>
-                            </div>
-                            <p class="text-xs text-slate-400 leading-relaxed">Precision 2D/3D CAD modeling and structural digital simulations.</p>
-                        </a>
+                        <div class="w-1/3 bg-corporate-light p-6 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-corporate-dark mb-2">What We Do</h4>
+                            <p class="text-sm text-corporate-gray leading-relaxed">We build websites, apps, and strong 3D engineering designs for your business needs.</p>
+                        </div>
 
-                        <a href="#services" class="block p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all group/item">
-                            <div class="flex items-center gap-3 mb-2">
-                                <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400"><i class="fa-solid fa-shield-halved"></i></div>
-                                <h4 class="font-display font-bold text-white group-hover/item:text-brand-cyan">Cyber Systems</h4>
-                            </div>
-                            <p class="text-xs text-slate-400 leading-relaxed">Network security, penetration testing, and IT infrastructure.</p>
-                        </a>
-
-                        <a href="#services" class="block p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all group/item">
-                            <div class="flex items-center gap-3 mb-2">
-                                <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400"><i class="fa-solid fa-code"></i></div>
-                                <h4 class="font-display font-bold text-white group-hover/item:text-brand-cyan">Software Dev</h4>
-                            </div>
-                            <p class="text-xs text-slate-400 leading-relaxed">Full-stack web and native Android application architecture.</p>
-                        </a>
-
-                        <a href="#services" class="block p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all group/item">
-                            <div class="flex items-center gap-3 mb-2">
-                                <div class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400"><i class="fa-solid fa-file-signature"></i></div>
-                                <h4 class="font-display font-bold text-white group-hover/item:text-brand-cyan">Pro Documentation</h4>
-                            </div>
-                            <p class="text-xs text-slate-400 leading-relaxed">Technical whitepapers, research reports, and academic compilation.</p>
-                        </a>
+                        <div class="w-2/3 grid grid-cols-2 gap-4">
+                            <a href="#services" class="flex items-start gap-3 p-3 rounded-lg hover:bg-corporate-light transition-colors border border-transparent hover:border-gray-100">
+                                <span class="material-symbols-outlined text-corporate-blue bg-blue-50 p-2 rounded-lg">architecture</span>
+                                <div>
+                                    <h5 class="text-sm font-bold text-corporate-dark">Engineering & 3D</h5>
+                                    <p class="text-xs text-corporate-gray mt-1">Accurate 3D models and plans.</p>
+                                </div>
+                            </a>
+                            <a href="#services" class="flex items-start gap-3 p-3 rounded-lg hover:bg-corporate-light transition-colors border border-transparent hover:border-gray-100">
+                                <span class="material-symbols-outlined text-corporate-teal bg-teal-50 p-2 rounded-lg">phone_iphone</span>
+                                <div>
+                                    <h5 class="text-sm font-bold text-corporate-dark">Software Dev</h5>
+                                    <p class="text-xs text-corporate-gray mt-1">Websites and mobile apps.</p>
+                                </div>
+                            </a>
+                            <a href="#services" class="flex items-start gap-3 p-3 rounded-lg hover:bg-corporate-light transition-colors border border-transparent hover:border-gray-100">
+                                <span class="material-symbols-outlined text-indigo-600 bg-indigo-50 p-2 rounded-lg">security</span>
+                                <div>
+                                    <h5 class="text-sm font-bold text-corporate-dark">Cyber Security</h5>
+                                    <p class="text-xs text-corporate-gray mt-1">Keeping your data safe.</p>
+                                </div>
+                            </a>
+                            <a href="#services" class="flex items-start gap-3 p-3 rounded-lg hover:bg-corporate-light transition-colors border border-transparent hover:border-gray-100">
+                                <span class="material-symbols-outlined text-amber-600 bg-amber-50 p-2 rounded-lg">edit_document</span>
+                                <div>
+                                    <h5 class="text-sm font-bold text-corporate-dark">Documentation</h5>
+                                    <p class="text-xs text-corporate-gray mt-1">Writing professional reports.</p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Rich Dropdown: Products -->
                 <div class="relative group py-6">
-                    <button class="text-sm font-semibold text-slate-300 group-hover:text-brand-cyan transition-colors flex items-center gap-2">
-                        Ecosystem <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300 group-hover:-rotate-180"></i>
+                    <button class="text-sm font-medium text-corporate-gray group-hover:text-corporate-blue transition-colors flex items-center gap-1">
+                        Our Products <span class="material-symbols-outlined text-lg transition-transform duration-300 group-hover:rotate-180">expand_more</span>
                     </button>
                     
-                    <div class="absolute top-full -left-4 w-64 bg-brand-surface/90 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 p-3 flex flex-col gap-2">
-                        <a href="https://odhiambobrian.dev/chat_system" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors">
-                            <i class="fa-solid fa-network-wired text-brand-blue"></i>
+                    <div class="absolute top-full -left-4 w-[320px] bg-white border border-gray-100 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 p-4 space-y-2">
+                        <a href="#products" class="flex items-center gap-4 p-3 rounded-xl hover:bg-corporate-light transition-colors border border-transparent hover:border-gray-100">
+                            <span class="material-symbols-outlined text-corporate-blue bg-blue-50 p-2 rounded-lg">chat</span>
                             <div>
-                                <h4 class="text-sm font-bold text-white">Connexa Platform</h4>
-                                <p class="text-[10px] text-slate-400">Communication Network</p>
+                                <h4 class="text-sm font-bold text-corporate-dark">Sonar</h4>
+                                <p class="text-xs text-corporate-gray">Messaging & Networking App</p>
                             </div>
                         </a>
-                        <a href="https://iskify360.netlify.app/download" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors">
-                            <i class="fa-brands fa-android text-emerald-400"></i>
+                        <a href="#products" class="flex items-center gap-4 p-3 rounded-xl hover:bg-corporate-light transition-colors border border-transparent hover:border-gray-100">
+                            <span class="material-symbols-outlined text-purple-600 bg-purple-50 p-2 rounded-lg">play_circle</span>
                             <div>
-                                <h4 class="text-sm font-bold text-white">Iskify360 App Mobile</h4>
-                                <p class="text-[10px] text-slate-400">Android Productivity</p>
+                                <h4 class="text-sm font-bold text-corporate-dark">Echo360</h4>
+                                <p class="text-xs text-corporate-gray">Media Player & Streaming</p>
+                            </div>
+                        </a>
+                        <a href="#products" class="flex items-center gap-4 p-3 rounded-xl hover:bg-corporate-light transition-colors border border-transparent hover:border-gray-100">
+                            <span class="material-symbols-outlined text-emerald-600 bg-emerald-50 p-2 rounded-lg">account_balance</span>
+                            <div>
+                                <h4 class="text-sm font-bold text-corporate-dark">BMFINANCE</h4>
+                                <p class="text-xs text-corporate-gray">Smart Loans & Savings</p>
                             </div>
                         </a>
                     </div>
                 </div>
 
-                <a href="#vision" class="text-sm font-semibold text-slate-300 hover:text-white transition-colors">Our Vision</a>
+                <a href="#contact" class="text-sm font-medium text-corporate-gray hover:text-corporate-blue transition-colors">Contact</a>
             </nav>
 
-            <div class="hidden md:block">
-                <a href="#contact" class="relative group inline-flex items-center justify-center px-6 py-2.5 font-bold text-white bg-brand-cyan/10 border border-brand-cyan/30 rounded-full overflow-hidden transition-all hover:border-brand-cyan hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]">
-                    <span class="relative z-10 flex items-center gap-2">Initiate Contact</span>
-                    <div class="absolute inset-0 w-0 bg-brand-cyan transition-all duration-[250ms] ease-out group-hover:w-full z-0"></div>
+            <div class="hidden lg:block">
+                <a href="#contact" class="inline-flex items-center justify-center px-6 py-2.5 text-sm font-bold text-white bg-corporate-blue rounded-lg shadow-md hover:bg-blue-800 hover:shadow-lg transition-all">
+                    Start a Project
                 </a>
             </div>
 
-            <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
-                <i class="fa-solid fa-bars-staggered"></i>
+            <button id="mobile-menu-btn" class="lg:hidden text-corporate-dark focus:outline-none">
+                <span class="material-symbols-outlined text-3xl">menu</span>
             </button>
         </div>
     </header>
 
-    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        
-        <div class="absolute inset-0 z-0 bg-brand-base">
-            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-40 mix-blend-screen">
-                <source src="p_viideo.mp4" type="video/mp4">
-            </video>
-            <div class="absolute inset-0 bg-gradient-to-b from-brand-base/90 via-brand-base/60 to-brand-base"></div>
-        </div>
-
-        <div class="relative z-10 max-w-6xl mx-auto px-6 text-center pt-32 pb-24 reveal flex flex-col items-center">
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
             
-            <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-brand-blue text-xs font-mono uppercase tracking-widest mb-8 backdrop-blur-md shadow-[0_0_20px_rgba(6,182,212,0.2)]">
-                <i class=""></i> Innovate. Learn. Connect.
+            <div class="reveal">
+                <div class="hidden inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-corporate-blue text-xs font-bold uppercase tracking-wide mb-6 shadow-sm">
+                    <span class="material-symbols-outlined text-sm">rocket_launch</span>
+                    Fast, Safe & Reliable
+                </div>
+
+                <h1 class="text-5xl lg:text-7xl font-extrabold text-corporate-dark leading-[1.1] mb-6">
+                    We build the tools you need to <span class="text-transparent bg-clip-text bg-gradient-to-r from-corporate-blue to-corporate-teal">succeed.</span>
+                </h1>
+
+                <p class="text-lg text-corporate-gray mb-10 max-w-xl leading-relaxed">
+                    Iskify360 is a tech company that gives you complete solutions. We build websites, make mobile apps, create 3D engineering designs, and keep your data safe.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="#products" class="bg-corporate-blue text-white px-8 py-3.5 rounded-lg font-bold shadow-md hover:bg-blue-800 transition-colors flex items-center gap-2">
+                        See Our Products <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                    <a href="#services" class="bg-white border border-gray-200 text-corporate-dark px-8 py-3.5 rounded-lg font-bold shadow-sm hover:bg-gray-50 transition-colors">
+                        View Services
+                    </a>
+                </div>
             </div>
 
-            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tighter mb-8 leading-[1.1]">
-                We are; <br />
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-green-700 to-red-600">the Builders.</span>
-            </h1>
-
-            <p class="text-lg md:text-xl text-slate-400 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
-                Knowledge is the fuel; we build the engine. Iskify360 is a multi-disciplinary platform for engineering &  productivity-based software, precision 2D & 3D modelling, cyber-based systems and services, and industry-grade documentation.
-            </p>
-
-            
-
-            <div class="relative group mt-4">
-                <div class="absolute -inset-1 bg-gradient-to-r from-brand-blue to-emerald-400 rounded-2xl blur opacity-20 group-hover:opacity-50 transition duration-500"></div>
-                
-                <div class="relative flex flex-col sm:flex-row items-center gap-6 p-5 px-8 bg-brand-surface/80 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl">
+            <!-- Educative Media Banner -->
+            <div class="relative reveal h-[450px] lg:h-[550px] bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden flex flex-col">
+                <div class="h-12 bg-gray-50 border-b border-gray-100 flex items-center justify-between px-4">
+                    <div class="flex gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                    </div>
+                    <span class="text-xs font-mono text-gray-400">our_skills.tech</span>
+                </div>
+                <div class="flex-1 bg-corporate-light p-8 flex flex-col items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
                     
-                    <div class="flex items-center gap-4 border-b sm:border-b-0 sm:border-r border-white/10 pb-4 sm:pb-0 sm:pr-8">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-blue to-brand-cyan p-[2px]">
-                            <div class="w-full h-full bg-brand-base rounded-full flex items-center justify-center text-white font-bold font-display text-sm tracking-widest">
-                                BO
+                    <span class="material-symbols-outlined text-[10rem] text-corporate-blue/10 absolute z-0">engineering</span>
+                    
+                    <div class="relative z-10 w-full max-w-sm space-y-4">
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                            <span class="material-symbols-outlined text-corporate-blue bg-blue-50 p-2 rounded-lg">smartphone</span>
+                            <div class="text-left">
+                                <p class="text-sm font-bold text-corporate-dark">App Development</p>
+                                <p class="text-xs text-corporate-gray">Fast and easy to use apps.</p>
                             </div>
                         </div>
-                        <div class="text-left">
-                            <p class="text-[10px] text-brand-cyan font-mono uppercase tracking-widest mb-0.5">Founder & Lead Architect</p>
-                            <p class="text-white font-bold text-sm">Brian Odhiambo</p>
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4 ml-8">
+                            <span class="material-symbols-outlined text-corporate-teal bg-teal-50 p-2 rounded-lg">view_in_ar</span>
+                            <div class="text-left">
+                                <p class="text-sm font-bold text-corporate-dark">3D Modeling</p>
+                                <p class="text-xs text-corporate-gray">Detailed engineering designs.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                            <span class="material-symbols-outlined text-indigo-500 bg-indigo-50 p-2 rounded-lg">shield_lock</span>
+                            <div class="text-left">
+                                <p class="text-sm font-bold text-corporate-dark">Cyber Security</p>
+                                <p class="text-xs text-corporate-gray">Protecting your information.</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <div class="reveal">
+                    <div class="inline-flex items-center gap-2 mb-4 text-corporate-teal font-bold text-sm tracking-wide uppercase">
+                        <span class="material-symbols-outlined">history_edu</span> Our Story
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-corporate-dark mb-6">Mixing Engineering with Modern Tech.</h2>
                     
-                    <div class="flex items-center gap-4 text-left">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                            <i class="fa-solid fa-power-off"></i>
+                    <div class="space-y-4 text-corporate-gray leading-relaxed text-lg mb-8">
+                        <p>
+                            <strong>Started in June 2024</strong>, Iskify360 was built to combine hard engineering skills with modern computer software. 
+                        </p>
+                        <p>
+                            Our founder, Brian Odhiambo, saw a big need while studying Mining and Mineral Processing Engineering at Jomo Kenyatta University of Agriculture and Technology (JKUAT). The engineering field needs exact measurements and tough calculations. But it also needs good software to organize and show that data clearly.
+                        </p>
+                        <p>
+                            Iskify360 fixes this problem. We take the careful planning used in heavy engineering and apply it to building apps, websites, and keeping data safe. 
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-5 bg-corporate-light rounded-xl border border-gray-200">
+                        <div class="w-14 h-14 rounded-full bg-corporate-blue text-white flex items-center justify-center font-bold text-xl shadow-md">
+                            BO
                         </div>
                         <div>
-                            <p class="text-[10px] text-emerald-400 font-mono uppercase tracking-widest mb-0.5">System Initialization</p>
-                            <p class="text-white font-bold text-sm">Established June 2024</p>
+                            <p class="text-sm text-corporate-gray font-bold uppercase tracking-wide">Founder</p>
+                            <p class="text-lg font-bold text-corporate-dark">Brian Odhiambo</p>
                         </div>
                     </div>
-
                 </div>
+
+                <div class="reveal grid grid-cols-2 gap-4">
+                    <div class="bg-blue-50 rounded-2xl p-6 h-64 flex flex-col justify-end border border-blue-100">
+                        <span class="material-symbols-outlined text-4xl text-corporate-blue mb-auto">construction</span>
+                        <h4 class="font-bold text-corporate-dark text-lg mb-1">Strong Rules</h4>
+                        <p class="text-xs text-corporate-gray">Using engineering logic to write better code.</p>
+                    </div>
+                    <div class="bg-teal-50 rounded-2xl p-6 h-64 flex flex-col justify-end border border-teal-100 mt-8">
+                        <span class="material-symbols-outlined text-4xl text-corporate-teal mb-auto">developer_mode</span>
+                        <h4 class="font-bold text-corporate-dark text-lg mb-1">New Tech</h4>
+                        <p class="text-xs text-corporate-gray">Using tools like Java and Firebase to build fast systems.</p>
+                    </div>
+                </div>
+
             </div>
-
-        </div>
-
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/30 animate-bounce text-2xl z-10 pointer-events-none">
-            <i class="fa-solid fa-angles-down"></i>
         </div>
     </section>
 
-    <section id="services" class="py-32 bg-brand-base relative z-10">
-        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-30 pointer-events-none"></div>
-
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+    <!-- Services Overview -->
+    <section id="services" class="py-24 bg-corporate-light">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl lg:text-4xl font-bold text-corporate-dark mb-4 text-center reveal">Our Main Services</h2>
+            <p class="text-lg text-corporate-gray text-center max-w-2xl mx-auto mb-16 reveal">We offer complete solutions to help your business grow and stay safe online.</p>
             
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                
+                <!-- Service 1 -->
+                <div class="reveal bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
+                        <span class="material-symbols-outlined text-3xl text-corporate-blue">devices</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-corporate-dark mb-3">Software & Apps</h3>
+                    <p class="text-corporate-gray leading-relaxed mb-6 text-sm">
+                        We build websites and mobile apps from start to finish. If you need a custom dashboard for your company or a mobile app for your users, we can build it.
+                    </p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="text-xs font-bold text-corporate-gray bg-gray-50 px-3 py-1 rounded-full border border-gray-200">Websites</span>
+                        <span class="text-xs font-bold text-corporate-gray bg-gray-50 px-3 py-1 rounded-full border border-gray-200">Android Apps</span>
+                        <span class="text-xs font-bold text-corporate-gray bg-gray-50 px-3 py-1 rounded-full border border-gray-200">Databases</span>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="reveal bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-14 h-14 bg-teal-50 rounded-xl flex items-center justify-center mb-6">
+                        <span class="material-symbols-outlined text-3xl text-corporate-teal">view_in_ar</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-corporate-dark mb-3">Engineering & 3D Design</h3>
+                    <p class="text-corporate-gray leading-relaxed mb-6 text-sm">
+                        We create accurate 2D blueprints and 3D models. We help you plan and see your engineering projects clearly before they are built.
+                    </p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="text-xs font-bold text-corporate-gray bg-gray-50 px-3 py-1 rounded-full border border-gray-200">AutoCAD</span>
+                        <span class="text-xs font-bold text-corporate-gray bg-gray-50 px-3 py-1 rounded-full border border-gray-200">SolidWorks</span>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="reveal bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-14 h-14 bg-indigo-50 rounded-xl flex items-center justify-center mb-6">
+                        <span class="material-symbols-outlined text-3xl text-indigo-600">verified_user</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-corporate-dark mb-3">Cyber Security</h3>
+                    <p class="text-corporate-gray leading-relaxed mb-6 text-sm">
+                        We protect your computers and networks from hackers. We test your systems to find weak spots and fix them so your information stays private.
+                    </p>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="reveal bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-14 h-14 bg-amber-50 rounded-xl flex items-center justify-center mb-6">
+                        <span class="material-symbols-outlined text-3xl text-amber-600">edit_document</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-corporate-dark mb-3">Professional Writing</h3>
+                    <p class="text-corporate-gray leading-relaxed mb-6 text-sm">
+                        We write clear and accurate reports. Whether you need an academic paper edited or a technical business document created, we do it right.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Expanded Products Ecosystem Section -->
+    <section id="products" class="py-24 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="mb-20 text-center max-w-3xl mx-auto reveal">
-                <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">What We Do.</h2>
-                <p class="text-slate-400 text-lg">We provide end-to-end solutions across multiple engineering and technological disciplines.</p>
+                <div class="inline-flex items-center gap-2 mb-4 text-corporate-blue font-bold text-sm tracking-wide uppercase">
+                    <span class="material-symbols-outlined">apps</span> Our Products
+                </div>
+                <h2 class="text-3xl lg:text-4xl font-bold text-corporate-dark mb-4">Apps Made By Iskify360</h2>
+                <p class="text-lg text-corporate-gray">We have built our own tools for messaging, entertainment, and money management.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
                 
-                <div class="md:col-span-2 md:row-span-2 bg-gradient-to-br from-brand-surface to-brand-base rounded-[2rem] p-10 border border-white/10 relative overflow-hidden group hover:border-brand-blue/50 transition-all shadow-2xl reveal">
-                    <i class="fa-brands fa-react absolute -bottom-20 -right-20 text-[20rem] text-brand-blue/5 group-hover:text-brand-blue/10 group-hover:rotate-180 transition-all duration-[3s] ease-in-out"></i>
-                    
-                    <div class="relative z-10 flex flex-col h-full">
-                        <div class="flex items-center gap-4 mb-8">
-                            <div class="w-14 h-14 rounded-2xl bg-brand-blue/20 border border-brand-blue/30 flex items-center justify-center text-brand-blue text-2xl backdrop-blur-md">
-                                <i class="fa-solid fa-laptop-code"></i>
+                <!-- Sonar Messenger -->
+                <div class="reveal group bg-corporate-light border border-gray-200 rounded-3xl p-10 hover:border-blue-200 hover:shadow-lg transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-16 h-16 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-corporate-blue text-3xl shadow-sm">
+                                <span class="material-symbols-outlined">chat</span>
                             </div>
-                            <span class="text-brand-blue font-mono text-[10px] uppercase tracking-widest border border-brand-blue/30 px-3 py-1 rounded-full">Software Engineering</span>
+                            <span class="bg-blue-100 text-corporate-blue text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Communication</span>
                         </div>
-                        
-                        <h3 class="font-display text-4xl font-bold text-white mb-4">Digital Ecosystems</h3>
-                        <p class="text-slate-400 text-lg mb-8 max-w-md leading-relaxed">
-                            Full-stack web architecture and native Android app development. We are the creators of the <strong>Connexa</strong> communication platform and the <strong>Echo360</strong> media platform.
+                        <h3 class="text-3xl font-bold text-corporate-dark mb-3">Sonar Messenger</h3>
+                        <p class="text-corporate-gray leading-relaxed mb-8">
+                            Connect with others easily. Sonar is our fast and secure app for sending messages and building your professional network. It is safe, simple, and perfect for team collaboration.
                         </p>
-                        
-                        <div class="mt-auto flex flex-wrap gap-4">
-                            <a href="#" class="bg-brand-blue hover:bg-white hover:text-brand-base text-white font-bold px-6 py-3 rounded-xl transition-colors flex items-center gap-2">
-                                Connexa is currently restricted to certain users <i class="fa-solid fa-arrow-right"></i>
-                            </a>
-                            <a href="https://iskify360.netlify.app/download" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold px-6 py-3 rounded-xl transition-colors flex items-center gap-2">
-                                <i class="fab fa-android text-emerald-400"></i> Iskify360 Suite
-                            </a>
-                        </div>
                     </div>
+                    <a href="https://sonarmessenger.netlify.app/" class="inline-flex items-center gap-2 text-corporate-blue font-bold group-hover:underline">
+                        Get Sonar Messenger <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
                 </div>
 
-                <div class="md:col-span-1 md:row-span-2 bg-brand-surface rounded-[2rem] p-10 border border-white/10 relative overflow-hidden group hover:border-brand-cyan/50 transition-all shadow-2xl reveal flex flex-col justify-between">
-                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1)_0,transparent_70%)] group-hover:scale-150 transition-transform duration-700"></div>
-                    <i class="fa-solid fa-cubes absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[10rem] text-brand-cyan/5 group-hover:text-brand-cyan/10 transition-colors duration-500"></i>
-
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-xl bg-brand-cyan/20 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan text-xl mb-6 backdrop-blur-md">
-                            <i class="fa-solid fa-drafting-compass"></i>
+                <!-- Echo360 -->
+                <div class="reveal group bg-corporate-light border border-gray-200 rounded-3xl p-10 hover:border-purple-200 hover:shadow-lg transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-16 h-16 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-purple-600 text-3xl shadow-sm">
+                                <span class="material-symbols-outlined">play_circle</span>
+                            </div>
+                            <span class="bg-purple-100 text-purple-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Entertainment</span>
                         </div>
-                        <h3 class="font-display text-2xl font-bold text-white mb-3">Engineering Design</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Precision CAD drafting, comprehensive 2D blueprints, and complex 3D architectural and mechanical modeling.
+                        <h3 class="text-3xl font-bold text-corporate-dark mb-3">Echo360</h3>
+                        <p class="text-corporate-gray leading-relaxed mb-8">
+                            Enjoy your favorite content anywhere. We offer the Echo360 web streaming platform and the Echo360 mobile media player app. The mobile app comes with great tools to manage your music and videos easily.
                         </p>
                     </div>
-                    
-                    <div class="relative z-10 mt-8 p-4 bg-brand-base/50 rounded-xl border border-white/5">
-                        <p class="text-xs text-brand-cyan font-mono uppercase mb-2">Systems Output</p>
-                        <div class="flex gap-2 flex-wrap">
-                            <span class="text-xs bg-white/5 px-2 py-1 rounded text-slate-300 border border-white/10">AutoCAD</span>
-                            <span class="text-xs bg-white/5 px-2 py-1 rounded text-slate-300 border border-white/10">Inventor</span>
-                            <span class="text-xs bg-white/5 px-2 py-1 rounded text-slate-300 border border-white/10">InkScape</span>
-                            <span class="text-xs bg-white/5 px-2 py-1 rounded text-slate-300 border border-white/10">SolidWorks</span>
-                        </div>
-                    </div>
+                    <a href="https://echo360media.netlify.app/about" class="inline-flex items-center gap-2 text-purple-600 font-bold group-hover:underline">
+                        Visit Echo360 <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
                 </div>
+            </div>
 
-                <div class="md:col-span-1 bg-brand-surface rounded-[2rem] p-8 border border-white/10 relative overflow-hidden group hover:border-emerald-500/50 transition-all shadow-2xl reveal">
-                    <i class="fa-solid fa-shield-virus absolute -right-6 -top-6 text-8xl text-emerald-500/5 group-hover:text-emerald-500/10 transition-colors duration-500"></i>
-                    <div class="relative z-10 h-full flex flex-col">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-display text-xl font-bold text-white">Cyber Services</h3>
-                            <i class="fa-solid fa-terminal text-emerald-400"></i>
+            <!-- BMFINANCE (Full Width for emphasis or can just be 3rd item) -->
+            <div class="grid lg:grid-cols-1 gap-8">
+                <div class="reveal group bg-corporate-light border border-gray-200 rounded-3xl p-10 hover:border-emerald-200 hover:shadow-lg transition-all flex flex-col lg:flex-row items-center gap-10">
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-6 lg:hidden">
+                            <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Finance</span>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
-                            Network auditing (Nmap), security integrations, web upgrades, and selective IT services.
+                        <h3 class="text-3xl font-bold text-corporate-dark mb-3">BMFINANCE</h3>
+                        <p class="text-corporate-gray leading-relaxed mb-6">
+                            Manage your money smartly. BMFINANCE is our platform for secure savings and loans. It is built with advanced math and computer algorithms to automatically calculate fair loan limits and track funds in real-time. 
                         </p>
-                        <a href="#contact" class="mt-auto text-emerald-400 text-sm font-bold hover:underline flex items-center gap-2">
-                            Learn More <i class="fa-solid fa-arrow-right"></i>
+                        <a href="https://bmfinance.me/" class="inline-flex items-center gap-2 text-emerald-600 font-bold group-hover:underline">
+                            Learn About BMFINANCE <span class="material-symbols-outlined text-sm">arrow_forward</span>
                         </a>
                     </div>
-                </div>
-
-                <div class="md:col-span-2 bg-brand-surface rounded-[2rem] p-8 border border-white/10 relative overflow-hidden group hover:border-purple-500/50 transition-all shadow-2xl reveal flex items-center gap-8">
-                    <div class="flex-grow relative z-10">
-                        <h3 class="font-display text-2xl font-bold text-white mb-3">Professional Documentation</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed max-w-md">
-                            Industry-standard technical whitepapers, academic research compilation, corporate reporting, and advanced data analytics.
-                        </p>
+                    <div class="shrink-0 w-32 h-32 rounded-3xl bg-white border border-gray-200 flex items-center justify-center text-emerald-600 text-6xl shadow-sm">
+                        <span class="material-symbols-outlined">account_balance</span>
                     </div>
-                    <div class="shrink-0 hidden sm:flex w-24 h-24 rounded-2xl bg-purple-500/10 border border-purple-500/20 items-center justify-center text-4xl text-purple-400 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 relative z-10">
-                        <i class="fa-solid fa-file-contract"></i>
-                    </div>
-                    <div class="absolute right-0 top-0 w-64 h-full bg-gradient-to-l from-purple-500/10 to-transparent z-0"></div>
                 </div>
-
             </div>
+
         </div>
     </section>
 
-    <section id="our_applications" class="py-32 bg-brand-surface relative z-10 border-t border-white/5">
-        
-        <div class="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] bg-[size:24px_24px] opacity-50 pointer-events-none"></div>
-
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-            
-            <div class="mb-20 text-center max-w-3xl mx-auto reveal">
+    <!-- Clean Contact & Location Section -->
+    <section id="contact" class="py-24 bg-corporate-light">
+        <div class="max-w-6xl mx-auto px-6 reveal">
+            <div class="bg-white rounded-[2.5rem] p-10 md:p-16 border border-gray-200 shadow-xl grid lg:grid-cols-5 gap-16 items-center relative overflow-hidden">
                 
-                <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Our Applications.</h2>
-                <p class="text-slate-400 text-lg hidden">Engineered for communication, media processing, and academic productivity.</p>
-            </div>
+                <!-- Background decorative elements -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-bl-full pointer-events-none opacity-50"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-teal-50 rounded-tr-full pointer-events-none opacity-50"></div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 auto-rows-[340px]">
-                    <i class="fa-solid fa-network-wired absolute -bottom-20 -right-20 text-[20rem] text-brand-blue/5 group-hover:text-brand-blue/10 group-hover:scale-110 transition-all duration-[2s] ease-in-out"></i>
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-brand-blue/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-brand-blue/20 transition-colors duration-700"></div>
-
-                    <div class="relative z-10 flex flex-col h-full justify-center lg:w-2/3">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-16 h-16 rounded-2xl bg-brand-blue/20 border border-brand-blue/30 flex items-center justify-center text-brand-blue text-3xl backdrop-blur-md shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                                <i class="fa-solid fa-brain"></i>
+                <div class="lg:col-span-2 relative z-10">
+                    <div class="inline-flex items-center gap-2 mb-4 text-corporate-blue font-bold text-sm tracking-wide uppercase">
+                        <span class="material-symbols-outlined">radar</span> Our Office
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-corporate-dark mb-6">Get In Touch.</h2>
+                    <p class="text-corporate-gray mb-10 leading-relaxed">
+                        Do you need a new website, a 3D design, or help with your business technology? Reach out to us today. We are ready to help.
+                    </p>
+                    
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-corporate-blue shadow-sm">
+                                <span class="material-symbols-outlined text-2xl">mail</span>
                             </div>
                             <div>
-                                <h3 class="font-display text-4xl font-bold text-white">Connexa</h3>
-                                <span class="text-brand-blue font-mono text-[10px] uppercase tracking-widest">Communication & AI Integration</span>
+                                <p class="text-xs text-corporate-gray font-bold uppercase tracking-wide mb-1">Email Us</p>
+                                <a href="mailto:iskify360.tech@gmail.com" class="text-corporate-dark font-bold text-lg hover:text-corporate-blue transition-colors">iskify360.tech@gmail.com</a>
                             </div>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-8 max-w-xl">
-                            Our flagship network. A secure, scalable platform engineered for seamless peer connectivity, advanced artificial intelligence assistance, and robust academic collaboration. This is also the database brain for all our internal applications, including Assignmate and Echo360 and many other services which are not in the public domain.
-                        </p>
-                        <a href="terms_of_service2.html" class="hover:bg-white hover:text-brand-base text-white text-sm font-bold px-6 py-3 rounded-xl transition-colors flex items-center gap-2 w-max underline">
-                            This is a highly secure platform, Learn More <i class="fa-solid fa-arrow-right"></i></a>                      
-                    </div>
-
-                <a href="https://echo360media.live/about" class="group block bg-gradient-to-br from-brand-base to-brand-surface rounded-[2rem] p-10 border border-white/10 relative overflow-hidden hover:border-purple-500/50 transition-all shadow-2xl reveal flex flex-col justify-between">
-                    <i class="fa-solid fa-compact-disc absolute -bottom-10 -right-10 text-[12rem] text-purple-500/5 group-hover:text-purple-500/10 group-hover:rotate-180 transition-all duration-[3s] ease-in-out"></i>
-                    
-                    <div class="relative z-10">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl backdrop-blur-md">
-                                <i class="fa-solid fa-waveform-lines"></i>
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-corporate-teal shadow-sm">
+                                <span class="material-symbols-outlined text-2xl">pin_drop</span>
                             </div>
-                            <span class="text-purple-400 font-mono text-[10px] border border-purple-500/30 px-3 py-1 rounded-full uppercase tracking-widest">Local Media Engine</span>
-                        </div>
-                        <h3 class="font-display text-3xl font-bold text-white mb-3">Echo360</h3>
-                        <p class="text-slate-400 text-base leading-relaxed">
-                            A media and entertainment platform. Features Echo360 Tv streaming service, and Echo360 local media player mobile app with advanced playback capabilities, equalizers, library management, and more media processing features.
-                        </p>
-                    </div>
-                    <div class="relative z-10 mt-auto text-purple-400 font-bold text-sm flex items-center gap-2 group-hover:underline">
-                        Learn More <i class="fa-solid fa-play text-xs"></i>
-                    </div>
-                </a>
-
-                <a href="#" class="group block bg-gradient-to-br from-brand-base to-brand-surface rounded-[2rem] p-10 border border-white/10 relative overflow-hidden hover:border-emerald-500/50 transition-all shadow-2xl reveal flex flex-col justify-between">
-                    <i class="fa-solid fa-list-check absolute -bottom-10 -right-10 text-[12rem] text-emerald-500/5 group-hover:text-emerald-500/10 group-hover:-translate-y-4 transition-all duration-[1s] ease-in-out"></i>
-                    
-                    <div class="relative z-10">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl backdrop-blur-md">
-                                <i class="fa-solid fa-book-bookmark"></i>
+                            <div>
+                                <p class="text-xs text-corporate-gray font-bold uppercase tracking-wide mb-1">Location</p>
+                                <p class="text-corporate-dark font-bold text-lg">Westlands, Nairobi, Kenya</p>
                             </div>
-                            <span class="text-emerald-400 font-mono text-[10px] border border-emerald-500/30 px-3 py-1 rounded-full uppercase tracking-widest">Productivity Suite</span>
-                        </div>
-                        <h3 class="font-display text-3xl font-bold text-white mb-3">Assignmate</h3>
-                        <p class="text-slate-400 text-base leading-relaxed">
-                            Your academic copilot. A dedicated productivity system built to track strict engineering deadlines, organize coursework, and optimize task management.
-                        </p>
-                    </div>
-                    <div class="relative z-10 mt-auto text-emerald-400 font-bold text-sm flex items-center gap-2 group-hover:underline">
-                        Access Assignmate <i class="fa-solid fa-arrow-right text-xs"></i>
-                    </div>
-                </a>
-
-                <div class="md:col-span-2 group bg-brand-base/50 rounded-[2rem] p-8 border border-dashed border-white/20 relative overflow-hidden transition-all shadow-inner reveal flex flex-col sm:flex-row items-center gap-8 backdrop-blur-sm opacity-80 hover:opacity-100 cursor-wait">
-                    
-                    <div class="shrink-0 relative w-24 h-24 rounded-full border-2 border-brand-cyan/20 flex items-center justify-center overflow-hidden bg-brand-cyan/5">
-                        <div class="w-full h-full border-r-2 border-brand-cyan rounded-full animate-spin absolute" style="animation-duration: 3s;"></div>
-                        <i class="fa-solid fa-microchip text-brand-cyan text-3xl animate-pulse"></i>
-                    </div>
-
-                    <div class="flex-grow text-center sm:text-left">
-                        <div class="flex items-center justify-center sm:justify-start gap-3 mb-2">
-                            <span class="text-brand-cyan font-mono text-[10px] uppercase tracking-widest">Project Skunkworks</span>
-                            <span class="bg-amber-500/10 text-amber-500 text-[9px] font-bold px-2 py-0.5 rounded border border-amber-500/20"><i class="fa-solid fa-lock text-[8px] mr-1"></i> RESTRICTED</span>
-                        </div>
-                        <h3 class="font-display text-2xl font-bold text-white mb-2">Next-Gen Architectures</h3>
-                        <p class="text-slate-500 text-sm max-w-2xl">
-                            Our engineers are actively compiling and testing new internal applications. Source codes are currently classified under active development. Stand by for future deployment updates.
-                        </p>
-                    </div>
-
-                    <div class="hidden lg:flex shrink-0 w-48 h-2 bg-white/5 rounded-full overflow-hidden">
-                        <div class="w-2/3 h-full bg-brand-cyan/50 rounded-full relative overflow-hidden">
-                            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent animate-[shimmer_1.5s_infinite]"></div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-        </div>
-
-        <style>
-            @keyframes shimmer {
-                0% { transform: translateX(-100%); }
-                100% { transform: translateX(100%); }
-            }
-        </style>
-    </section>
-
-    <section id="contact" class="py-32 bg-brand-surface relative z-10 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            
-            <div class="bg-brand-base rounded-[3rem] p-10 md:p-16 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden reveal">
-                <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-cyan/10 blur-[100px] rounded-full pointer-events-none"></div>
-
-                <div class="grid lg:grid-cols-2 gap-16 relative z-10">
-                    <div>
-                        <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">Establish Connection.</h2>
-                        <p class="text-slate-400 text-lg mb-10 leading-relaxed">
-                            Whether you need well-designed 2D and 3D engineering models, custom software architecture, secure cyber systems, selected IT services, or a support query, our team is ready to deploy.
-                        </p>
-                        
-                        <div class="space-y-6">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-brand-cyan"><i class="fa-solid fa-envelope"></i></div>
-                                <div>
-                                    <p class="text-xs text-slate-500 font-mono uppercase tracking-widest">Electronic Mail</p>
-                                    <a href="mailto:iskify360.tech@gmail.com" class="text-white font-semibold hover:text-brand-cyan transition-colors">iskify360.tech@gmail.com</a>
-                                </div>
+                <div class="lg:col-span-3 bg-corporate-light rounded-3xl p-8 border border-gray-200 relative z-10">
+                    <h3 class="text-xl font-bold text-corporate-dark mb-6 border-b border-gray-200 pb-4">Send a Message</h3>
+                    <form name="iskify-inquiry" class="space-y-5">
+                        <div class="grid sm:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-bold text-corporate-dark mb-2">Your Name</label>
+                                <input type="text" required class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3.5 text-corporate-dark focus:border-corporate-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="Brian Odhiambo">
                             </div>
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-brand-cyan"><i class="fa-solid fa-location-crosshairs"></i></div>
-                                <div>
-                                    <p class="text-xs text-slate-500 font-mono uppercase tracking-widest">Physical Coordinates</p>
-                                    <p class="text-white font-semibold">Westlands, Nairobi, Kenya</p>
-                                </div>
+                            <div>
+                                <label class="block text-sm font-bold text-corporate-dark mb-2">Your Email</label>
+                                <input type="email" required class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3.5 text-corporate-dark focus:border-corporate-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="email@domain.com">
                             </div>
                         </div>
-                    </div>
 
-                    <div class="bg-brand-surface/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-                        <form name="iskify-inquiry" method="POST" data-netlify="true" class="space-y-5">
-                            <input type="hidden" name="form-name" value="iskify-inquiry" />
-                            
-                            <div class="grid grid-cols-2 gap-5">
-                                <div>
-                                    <label class="block text-xs font-mono text-slate-400 mb-2 uppercase">Client Designation</label>
-                                    <input type="text" name="name" required class="w-full bg-brand-base border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan outline-none transition-all placeholder:text-slate-600" placeholder="Full Name">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-mono text-slate-400 mb-2 uppercase">Return Signal (Email)</label>
-                                    <input type="email" name="email" required class="w-full bg-brand-base border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan outline-none transition-all placeholder:text-slate-600" placeholder="address@domain.com">
-                                </div>
+                        <div>
+                            <label class="block text-sm font-bold text-corporate-dark mb-2">What Do You Need?</label>
+                            <div class="relative">
+                                <select required class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3.5 text-corporate-dark focus:border-corporate-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all appearance-none cursor-pointer">
+                                    <option value="" disabled selected>Select an option...</option>
+                                    <option>Software & App Development</option>
+                                    <option>Engineering & 3D Design</option>
+                                    <option>Cyber Security</option>
+                                    <option>Writing & Documents</option>
+                                    <option>Other Question</option>
+                                </select>
+                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">expand_more</span>
                             </div>
+                        </div>
 
-                            <div>
-                                <label class="block text-xs font-mono text-slate-400 mb-2 uppercase">Service Required</label>
-                                <div class="relative">
-                                    <select name="service" required class="w-full bg-brand-base border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan outline-none transition-all appearance-none cursor-pointer">
-                                        <option value="" disabled selected>Select an engineering/tech service...</option>
-                                        <option value="Software Development">Software & App Development</option>
-                                        <option value="Engineering & 3D">Engineering 2D/3D Design</option>
-                                        <option value="Cyber Services">Cyber Security & IT</option>
-                                        <option value="Documentation">Professional Documentation</option>
-                                        <option value="Other">Other Inquiry</option>
-                                    </select>
-                                    <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs pointer-events-none"></i>
-                                </div>
-                            </div>
+                        <div>
+                            <label class="block text-sm font-bold text-corporate-dark mb-2">Your Message</label>
+                            <textarea rows="4" required class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3.5 text-corporate-dark focus:border-corporate-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none" placeholder="Tell us how we can help you..."></textarea>
+                        </div>
 
-                            <div>
-                                <label class="block text-xs font-mono text-slate-400 mb-2 uppercase">Mission Parameters</label>
-                                <textarea name="message" rows="4" required class="w-full bg-brand-base border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan outline-none transition-all resize-none placeholder:text-slate-600" placeholder="Describe your project requirements..."></textarea>
-                            </div>
-
-                            <button type="submit" class="w-full bg-gradient-to-r from-brand-blue to-brand-cyan text-white font-bold py-4 rounded-lg shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
-                                Send Request
-                            </button>
-                        </form>
-                    </div>
+                        <button type="submit" class="w-full bg-corporate-dark text-white font-bold py-4 rounded-xl shadow-md hover:bg-corporate-blue transition-colors flex items-center justify-center gap-2">
+                            Send Request <span class="material-symbols-outlined text-sm">send</span>
+                        </button>
+                    </form>
                 </div>
+
             </div>
-            
         </div>
     </section>
 
-    <footer class="bg-brand-base border-t border-white/10 pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
-                <a href="#" class="flex items-center gap-3 group">
-                    
-                    <span class="font-display font-bold text-xl text-white">We hope to see you back again!</span>
-                </a>
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 border-b border-gray-100 pb-10">
+                <div class="flex items-center gap-3">
+                    <div class="w-auto h-10 rounded-lg overflow-hidden">
+                        <img src="iskify360_brand_image.png" onerror="this.src='https://via.placeholder.com/40'" alt="Iskify360 Logo" class="w-full h-full object-cover">
+                    </div>
+                    <span class="hidden font-bold text-xl text-corporate-dark">Iskify360</span>
+                </div>
                 
-                <div class="flex gap-4">
-                    <a href="https://x.com/BrianOdhia67569" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-cyan transition-all"><i class="fab fa-x-twitter"></i></a>
-                    <a href="https://www.linkedin.com/in/brian-odhiambo-4646b4327" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-cyan transition-all"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://www.instagram.com/eng_brayo" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-brand-cyan transition-all"><i class="fab fa-instagram"></i></a>
+                <div class="flex gap-6">
+                    <a href="#" class="text-sm font-bold text-corporate-gray hover:text-corporate-blue transition-colors flex items-center gap-1">
+                        <span class="material-symbols-outlined text-lg">work</span> LinkedIn
+                    </a>
+                    <a href="#" class="text-sm font-bold text-corporate-gray hover:text-corporate-blue transition-colors flex items-center gap-1">
+                        <span class="material-symbols-outlined text-lg">tag</span> Twitter / X
+                    </a>
                 </div>
             </div>
             
-            <div class="border-t border-white/5 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-mono">
-                <p>© <span id="year"></span> ISKIFY360. ALL SYSTEM RIGHTS RESERVED.</p>
-                <div class="flex gap-4">
-                    <a href="#" class="hover:text-brand-cyan transition-colors">PRIVACY_POLICY</a>
-                    <a href="#" class="hover:text-brand-cyan transition-colors">SYSTEM_STATUS</a>
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-corporate-gray font-medium">
+                <p>© <span id="year"></span> Iskify360. All Rights Reserved.</p>
+                <div class="flex gap-6">
+                    <a href="terms_service.html" class="hover:text-corporate-dark transition-colors">Privacy Policy</a>
+                    <a href="terms_service.html" class="hover:text-corporate-dark transition-colors">Terms of Service</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-brand-base/98 backdrop-blur-3xl z-[100] transform translate-x-full transition-transform duration-500 md:hidden flex flex-col pt-24 px-8 pb-10">
-        <button id="close-menu-btn" class="absolute top-8 right-8 text-3xl text-slate-500 hover:text-white focus:outline-none">
-            <i class="fa-solid fa-xmark"></i>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-[100] transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col pt-24 px-8 pb-10">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-corporate-dark focus:outline-none bg-gray-100 p-2 rounded-full">
+            <span class="material-symbols-outlined text-2xl">close</span>
         </button>
         
-        <p class="text-brand-cyan font-mono text-xs uppercase tracking-widest mb-6">System Navigation</p>
+        <p class="text-corporate-gray text-xs font-bold uppercase tracking-widest mb-6 border-b border-gray-100 pb-4">Menu</p>
         <nav class="flex flex-col space-y-6">
-            <a href="#services" class="mobile-link text-3xl font-display font-bold text-white hover:text-brand-cyan">Core Services</a>
-            <a href="https://odhiambobrian.dev/chat_system" class="mobile-link text-3xl font-display font-bold text-white hover:text-brand-cyan">Connexa</a>
-            <a href="https://iskify360.netlify.app/download" class="mobile-link text-3xl font-display font-bold text-white hover:text-brand-cyan">IskiApp</a>
-            <a href="#contact" class="mobile-link text-3xl font-display font-bold text-white hover:text-brand-cyan">Contact HQ</a>
+            <a href="#about" class="mobile-link text-2xl font-bold text-corporate-dark hover:text-corporate-blue flex items-center gap-3">
+                <span class="material-symbols-outlined text-corporate-gray">info</span> About Us
+            </a>
+            <a href="#services" class="mobile-link text-2xl font-bold text-corporate-dark hover:text-corporate-blue flex items-center gap-3">
+                <span class="material-symbols-outlined text-corporate-gray">architecture</span> Services
+            </a>
+            <a href="#products" class="mobile-link text-2xl font-bold text-corporate-dark hover:text-corporate-blue flex items-center gap-3">
+                <span class="material-symbols-outlined text-corporate-gray">apps</span> Our Products
+            </a>
+            <a href="#contact" class="mobile-link text-2xl font-bold text-corporate-dark hover:text-corporate-blue flex items-center gap-3">
+                <span class="material-symbols-outlined text-corporate-gray">location_on</span> Contact
+            </a>
         </nav>
-        
+
         <div class="mt-auto">
-            <a href="#contact" class="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-brand-blue to-brand-cyan text-white font-bold py-4 rounded-xl text-lg">
-                Initialize Contact <i class="fa-solid fa-satellite-dish"></i>
+            <a href="#contact" class="flex items-center justify-center gap-2 w-full bg-corporate-blue text-white font-bold py-4 rounded-xl text-lg shadow-md">
+                Send a Message <span class="material-symbols-outlined">arrow_forward</span>
             </a>
         </div>
     </div>
 
     <script>
+        // Set Year dynamically
         document.getElementById('year').textContent = new Date().getFullYear();
 
+        // Navbar Shadow on Scroll
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('shadow-lg', 'bg-brand-base/90');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-sm', 'bg-white/95');
+                nav.classList.remove('bg-white/90');
             } else {
-                nav.classList.remove('shadow-lg', 'bg-brand-base/90');
+                nav.classList.remove('shadow-sm', 'bg-white/95');
+                nav.classList.add('bg-white/90');
             }
         });
 
-        // Mobile Nav Logic
+        // Mobile Menu Logic
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const closeMenuBtn = document.getElementById('close-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
