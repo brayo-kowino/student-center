@@ -320,84 +320,50 @@
 
     <!-- ============ ABOUT ============ -->
     <section id="about" class="py-24 bg-white border-t border-line">
-        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
-
-            <div class="reveal">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-2xl mb-12 reveal">
                 <p class="text-xs font-mono font-semibold uppercase tracking-widest text-brand mb-3">About Iskify360</p>
-                <h2 class="font-display text-3xl md:text-4xl font-bold text-navy mb-6">Knowledge is the fuel. We build the engine.</h2>
-                <p class="text-muted leading-relaxed mb-5">
-                    Iskify360 was founded by <strong class="text-navy">Brian Odhiambo</strong> in June 2024, based in Westlands, Nairobi. We started as an engineering and software practice with a simple idea: most companies need more than one specialist to get a project done right, and switching between vendors wastes time and money.
-                </p>
-                <p class="text-muted leading-relaxed mb-8">
-                    So we built one team that covers software, engineering design, cyber security, and documentation. Whether you need an app built, a mechanical part modeled in 3D, a network audited, or a report written to a professional standard, you work with people who already understand your project from the first conversation.
-                </p>
-
-                <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="flex gap-3 p-4 rounded-xl bg-cloud border border-line">
-                        <span class="material-symbols-outlined text-brand">verified</span>
-                        <div>
-                            <h4 class="font-semibold text-navy text-sm mb-1">Full accountability</h4>
-                            <p class="text-xs text-muted leading-relaxed">One team owns your project from start to finish. No handoffs, no gaps.</p>
-                        </div>
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-navy mb-4">Knowledge is the fuel. We build the engine.</h2>
+                <p class="text-muted text-lg">One unified team covering software, engineering design, cyber security, and documentation.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 reveal">
+                <!-- Vertical Tabs -->
+                <div class="lg:col-span-4 flex flex-col gap-3" role="tablist">
+                    <button class="about-tab-btn text-left px-5 py-4 rounded-xl border-2 border-brand bg-cloud font-semibold text-navy flex items-center gap-3 transition-all" data-target="about-mission">
+                        <span class="material-symbols-outlined text-brand">rocket_launch</span> The Agency
+                    </button>
+                    <button class="about-tab-btn text-left px-5 py-4 rounded-xl border-2 border-transparent hover:bg-cloud font-semibold text-muted flex items-center gap-3 transition-all" data-target="about-accountability">
+                        <span class="material-symbols-outlined text-teal">verified</span> Accountability
+                    </button>
+                    <button class="about-tab-btn text-left px-5 py-4 rounded-xl border-2 border-transparent hover:bg-cloud font-semibold text-muted flex items-center gap-3 transition-all" data-target="about-handson">
+                        <span class="material-symbols-outlined text-emerald-600">precision_manufacturing</span> Hands-on Delivery
+                    </button>
+                    <button class="about-tab-btn text-left px-5 py-4 rounded-xl border-2 border-transparent hover:bg-cloud font-semibold text-muted flex items-center gap-3 transition-all" data-target="about-teach">
+                        <span class="material-symbols-outlined text-amber">school</span> Built to Teach
+                    </button>
+                </div>
+                
+                <!-- Panels -->
+                <div class="lg:col-span-8 bg-cloud border border-line rounded-3xl p-8 md:p-12 relative min-h-[250px] flex items-center">
+                    <div class="about-panel block animate-[fadeIn_0.3s_ease-out]" id="about-mission">
+                        <h3 class="font-display text-2xl font-bold text-navy mb-4">Why we exist</h3>
+                        <p class="text-muted text-lg leading-relaxed mb-4">Founded in Nairobi, Iskify360 was built on a simple idea: switching between vendors wastes time and money.</p>
+                        <p class="text-muted text-lg leading-relaxed">Whether you need an app built, a 3D model designed, or a network audited, you work with people who understand your project from day one.</p>
                     </div>
-                    <div class="flex gap-3 p-4 rounded-xl bg-cloud border border-line">
-                        <span class="material-symbols-outlined text-teal">precision_manufacturing</span>
-                        <div>
-                            <h4 class="font-semibold text-navy text-sm mb-1">Hands-on delivery</h4>
-                            <p class="text-xs text-muted leading-relaxed">We work directly on your project. No outsourcing to third parties.</p>
-                        </div>
+                    <div class="about-panel hidden animate-[fadeIn_0.3s_ease-out]" id="about-accountability">
+                        <h3 class="font-display text-2xl font-bold text-navy mb-4">No handoffs, no gaps.</h3>
+                        <p class="text-muted text-lg leading-relaxed mb-4">One team owns your project from start to finish. You talk directly to the engineers doing the work, not through a thick layer of account managers.</p>
                     </div>
-                    <div class="flex gap-3 p-4 rounded-xl bg-cloud border border-line">
-                        <span class="material-symbols-outlined text-emerald-600">school</span>
-                        <div>
-                            <h4 class="font-semibold text-navy text-sm mb-1">Built to teach, too</h4>
-                            <p class="text-xs text-muted leading-relaxed">We explain what we build, so your team understands the system, not just the result.</p>
-                        </div>
+                    <div class="about-panel hidden animate-[fadeIn_0.3s_ease-out]" id="about-handson">
+                        <h3 class="font-display text-2xl font-bold text-navy mb-4">We build it ourselves.</h3>
+                        <p class="text-muted text-lg leading-relaxed mb-4">We work directly on your project. No outsourcing to third parties or hidden contractors. The people you talk to are the people writing the code and drawing the models.</p>
                     </div>
-                    <div class="flex gap-3 p-4 rounded-xl bg-cloud border border-line">
-                        <span class="material-symbols-outlined text-amber">bolt</span>
-                        <div>
-                            <h4 class="font-semibold text-navy text-sm mb-1">Fast, direct communication</h4>
-                            <p class="text-xs text-muted leading-relaxed">You talk to the people doing the work, not a layer of account managers.</p>
-                        </div>
+                    <div class="about-panel hidden animate-[fadeIn_0.3s_ease-out]" id="about-teach">
+                        <h3 class="font-display text-2xl font-bold text-navy mb-4">Empowering your team.</h3>
+                        <p class="text-muted text-lg leading-relaxed mb-4">We explain what we build, so your team truly understands the system, not just the end result. We believe in knowledge transfer as a core deliverable.</p>
                     </div>
                 </div>
-            </div>
-
-            <div class="reveal">
-                <p class="text-xs font-mono font-semibold uppercase tracking-widest text-faint mb-6">Our story so far</p>
-                <ol class="relative border-l-2 border-line pl-8 space-y-10">
-                    <li class="relative">
-                        <span class="absolute -left-[38px] top-0 w-5 h-5 rounded-full bg-brand ring-4 ring-blue-50"></span>
-                        <p class="text-xs font-mono text-brand font-semibold uppercase tracking-widest mb-1">June 2024</p>
-                        <h4 class="font-display font-bold text-navy text-lg mb-2">Iskify360 is founded</h4>
-                        <p class="text-sm text-muted leading-relaxed">Brian Odhiambo starts Iskify360 in Nairobi as an engineering and software practice, with the first version of the Connexa platform in development.</p>
-                    </li>
-                    <li class="relative">
-                        <span class="absolute -left-[38px] top-0 w-5 h-5 rounded-full bg-teal ring-4 ring-teal-50"></span>
-                        <p class="text-xs font-mono text-teal font-semibold uppercase tracking-widest mb-1">Late 2024</p>
-                        <h4 class="font-display font-bold text-navy text-lg mb-2">First products launch</h4>
-                        <p class="text-sm text-muted leading-relaxed">Eeskia and IskiMedia go live, alongside the Iskify360 Android app. Cyber security and documentation services are added to the offering.</p>
-                    </li>
-                    <li class="relative">
-                        <span class="absolute -left-[38px] top-0 w-5 h-5 rounded-full bg-amber ring-4 ring-amber-50"></span>
-                        <p class="text-xs font-mono text-amber font-semibold uppercase tracking-widest mb-1">Mid 2025</p>
-                        <h4 class="font-display font-bold text-navy text-lg mb-2">Sonar v1.0 released</h4>
-                        <p class="text-sm text-muted leading-relaxed">The first public version of Sonar is released, with a focus on secure messaging and collaboration for small teams.</p>
-                    </li>
-                    <li class="relative">
-                        <span class="absolute -left-[38px] top-0 w-5 h-5 rounded-full bg-emerald-600 ring-4 ring-emerald-50"></span>
-                        <p class="text-xs font-mono text-emerald-600 font-semibold uppercase tracking-widest mb-1">2025 – today</p>
-                        <h4 class="font-display font-bold text-navy text-lg mb-2">Serving clients across disciplines</h4>
-                        <p class="text-sm text-muted leading-relaxed">We take on engineering design, software, and security projects for outside clients, while continuing to grow our own product line.</p>
-                    </li>
-                    <li class="relative">
-                        <span class="absolute -left-[38px] top-0 w-5 h-5 rounded-full bg-amber ring-4 ring-amber-50"></span>
-                        <p class="text-xs font-mono text-amber font-semibold uppercase tracking-widest mb-1">In progress</p>
-                        <h4 class="font-display font-bold text-navy text-lg mb-2">New internal tools</h4>
-                        <p class="text-sm text-muted leading-relaxed">Our engineers are building the next set of internal applications. Details will be shared as they're ready to launch.</p>
-                    </li>
-                </ol>
             </div>
         </div>
     </section>
@@ -428,131 +394,104 @@
             </div>
 
             <!-- Panels -->
-            <div class="bg-white border border-line rounded-3xl shadow-sm p-8 md:p-12 reveal">
-
-                <div class="tab-panel active" id="panel-software">
-                    <div class="grid lg:grid-cols-3 gap-10">
-                        <div class="lg:col-span-2">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-brand"><span class="material-symbols-outlined">code</span></div>
-                                <h3 class="font-display text-2xl font-bold text-navy">Software Development</h3>
+            <div class="bg-white border border-line rounded-3xl shadow-sm p-6 md:p-10 reveal min-h-[300px]">
+                    <div class="tab-panel active" id="panel-software">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-brand"><span class="material-symbols-outlined">code</span></div>
+                                    <h3 class="font-display text-2xl font-bold text-navy">Software Development</h3>
+                                </div>
+                                <p class="text-muted leading-relaxed mb-4">We build full-stack web applications and native Android apps. We also build and run our own products, so we know exactly what it takes to maintain software long after launch.</p>
                             </div>
-                            <p class="text-muted leading-relaxed mb-6">We build full-stack web applications and native Android apps. This is also the team behind our own products, Sonar and IskiMedia, so we build software knowing what it takes to run and maintain it long after launch.</p>
-                            <ul class="space-y-3">
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Web applications</strong>; from a company website to a full internal system.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Android apps</strong>; native mobile apps built for real daily use.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">APIs and backend systems</strong>; the data and logic layer behind your product.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Ongoing support</strong>; fixes, updates, and new features after launch.</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="text-xs font-mono uppercase tracking-widest text-faint mb-3">Tools we use</p>
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">React</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Node.js</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Kotlin</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Firebase</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Python</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">REST &amp; GraphQL</span>
-                            </div>
-                            <div class="p-4 rounded-xl bg-blue-50 border border-blue-100">
-                                <p class="text-xs text-navy leading-relaxed"><span class="material-symbols-outlined text-brand text-base align-text-center">info</span> We built and run <strong>Sonar</strong> and <strong>IskiMedia</strong> ourselves a proof this team ships and maintains real products.</p>
+                            <div class="bg-cloud rounded-2xl p-6 border border-line flex flex-col justify-center">
+                                <h4 class="font-semibold text-navy mb-3 text-sm">Capabilities & Tools</h4>
+                                <ul class="space-y-2 mb-4">
+                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> Web & Android Apps</li>
+                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> APIs & Backend Systems</li>
+                                </ul>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">React</span>
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">Node.js</span>
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">Kotlin</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="tab-panel" id="panel-engineering">
-                    <div class="grid lg:grid-cols-3 gap-10">
-                        <div class="lg:col-span-2">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center text-teal"><span class="material-symbols-outlined">design_services</span></div>
-                                <h3 class="font-display text-2xl font-bold text-navy">Engineering &amp; 3D Design</h3>
+                    <div class="tab-panel" id="panel-engineering">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-teal"><span class="material-symbols-outlined">design_services</span></div>
+                                    <h3 class="font-display text-2xl font-bold text-navy">Engineering & 3D Design</h3>
+                                </div>
+                                <p class="text-muted leading-relaxed mb-4">We produce precise 2D drawings and 3D models for mechanical, architectural, and product design work. Every model is built to be manufacturing-ready, not just a visual.</p>
                             </div>
-                            <p class="text-muted leading-relaxed mb-6">We produce precise 2D drawings and 3D models for mechanical, architectural, and product design work. Every model is built to be manufacturing-ready, not just a visual.</p>
-                            <ul class="space-y-3">
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">2D CAD drafting</strong>; clean, accurate technical drawings.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">3D modeling</strong>; mechanical parts, products, and architectural structures.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Structural simulation</strong>; checking how a design behaves before it's built.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Manufacturing-ready output</strong>; files prepared for the workshop or factory floor.</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="text-xs font-mono uppercase tracking-widest text-faint mb-3">Tools we use</p>
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">AutoCAD</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Inventor</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">SolidWorks</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Inkscape</span>
-                            </div>
-                            <div class="p-4 rounded-xl bg-teal-50 border border-teal-100">
-                                <p class="text-xs text-navy leading-relaxed"><span class="material-symbols-outlined text-teal text-base align-text-center">info</span> Bring us a sketch, a rough measurement, or a written spec so we can turn it into a build-ready model.</p>
+                            <div class="bg-cloud rounded-2xl p-6 border border-line flex flex-col justify-center">
+                                <h4 class="font-semibold text-navy mb-3 text-sm">Capabilities & Tools</h4>
+                                <ul class="space-y-2 mb-4">
+                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> 2D CAD Drafting</li>
+                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> Manufacturing-Ready 3D Models</li>
+                                </ul>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">AutoCAD</span>
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">Inventor</span>
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">SolidWorks</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="tab-panel" id="panel-cyber">
-                    <div class="grid lg:grid-cols-3 gap-10">
-                        <div class="lg:col-span-2">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600"><span class="material-symbols-outlined">security</span></div>
-                                <h3 class="font-display text-2xl font-bold text-navy">Cyber Security &amp; IT</h3>
+                    <div class="tab-panel" id="panel-cyber">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600"><span class="material-symbols-outlined">security</span></div>
+                                    <h3 class="font-display text-2xl font-bold text-navy">Cyber Security & IT</h3>
+                                </div>
+                                <p class="text-muted leading-relaxed mb-4">We check your systems for weak points before someone else finds them, and keep your day-to-day IT running smoothly with a clear, plain-English report.</p>
                             </div>
-                            <p class="text-muted leading-relaxed mb-6">We check your systems for weak points before someone else finds them, and we keep your day-to-day IT running smoothly.</p>
-                            <ul class="space-y-3">
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Network audits</strong>; a full check of your network for vulnerabilities.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Penetration testing</strong>; controlled attempts to find and fix security gaps.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Security hardening</strong>; closing the gaps we find, with a clear report.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">IT support</strong>; day-to-day help with infrastructure and systems.</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="text-xs font-mono uppercase tracking-widest text-faint mb-3">Tools we use</p>
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Nmap</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Wireshark</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Firewall configuration</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Endpoint security</span>
-                            </div>
-                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-100">
-                                <p class="text-xs text-navy leading-relaxed"><span class="material-symbols-outlined text-emerald-600 text-base align-text-center">info</span> Every audit ends with a plain-English report what we found, what it means, and what to fix first.</p>
+                            <div class="bg-cloud rounded-2xl p-6 border border-line flex flex-col justify-center">
+                                <h4 class="font-semibold text-navy mb-3 text-sm">Capabilities & Tools</h4>
+                                <ul class="space-y-2 mb-4">
+                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> Network Audits & Pen Testing</li>
+                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> IT Support & Hardening</li>
+                                </ul>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">Nmap</span>
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">Wireshark</span>
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">Endpoint Security</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="tab-panel" id="panel-docs">
-                    <div class="grid lg:grid-cols-3 gap-10">
-                        <div class="lg:col-span-2">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber"><span class="material-symbols-outlined">description</span></div>
-                                <h3 class="font-display text-2xl font-bold text-navy">Professional Documentation</h3>
+                    <div class="tab-panel" id="panel-docs">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber"><span class="material-symbols-outlined">description</span></div>
+                                    <h3 class="font-display text-2xl font-bold text-navy">Professional Documentation</h3>
+                                </div>
+                                <p class="text-muted leading-relaxed mb-4">Good work needs to be written down clearly. We produce documentation that reads well and holds up to professional and academic scrutiny.</p>
                             </div>
-                            <p class="text-muted leading-relaxed mb-6">Good work needs to be written down clearly. We produce documentation that reads well and holds up to professional and academic scrutiny.</p>
-                            <ul class="space-y-3">
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Technical whitepapers</strong>; clear explanations of complex systems.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Research compilation</strong>; organizing and writing up academic research.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Corporate reports</strong>; the kind of reporting your stakeholders expect.</span></li>
-                                <li class="flex gap-3 items-start"><span class="material-symbols-outlined text-emerald-600 text-xl">task_alt</span><span class="text-sm text-muted"><strong class="text-navy">Data analysis write-ups</strong>; turning numbers into a readable story.</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <p class="text-xs font-mono uppercase tracking-widest text-faint mb-3">Good for</p>
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Students</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Startups</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Engineering teams</span>
-                                <span class="text-xs bg-cloud px-3 py-1.5 rounded-full text-navy border border-line font-medium">Researchers</span>
-                            </div>
-                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-100">
-                                <p class="text-xs text-navy leading-relaxed"><span class="material-symbols-outlined text-amber text-base align-text-center">info</span> Send us your notes, data, or draft and we'll shape it into a document you can hand over with confidence.</p>
+                            <div class="bg-cloud rounded-2xl p-6 border border-line flex flex-col justify-center">
+                                <h4 class="font-semibold text-navy mb-3 text-sm">Capabilities & Audience</h4>
+                                <ul class="space-y-2 mb-4">
+                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> Technical Whitepapers</li>
+                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check</span> Research & Data Reports</li>
+                                </ul>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">Startups</span>
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">Researchers</span>
+                                    <span class="text-xs bg-white px-2 py-1 rounded-md border border-line font-medium">Engineering Teams</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
         </div>
     </section>
 
@@ -565,79 +504,78 @@
                 <p class="text-muted text-lg leading-relaxed">Alongside client work, we build and run our own software. Here's what's live today, and how each product fits together.</p>
             </div>
 
-            <div class="space-y-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-12 gap-6 reveal">
 
                 <!-- Sonar -->
-                <div class="grid lg:grid-cols-2 gap-10 items-center reveal">
-                    <div class="order-2 lg:order-1">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-brand text-xs font-mono font-semibold uppercase tracking-widest mb-4">
-                            <span class="material-symbols-outlined text-base">lock</span> Restricted access
+                <div class="lg:col-span-7 bg-white rounded-3xl border border-line p-8 md:p-12 flex flex-col justify-between group hover:shadow-xl hover:border-brand transition-all relative overflow-hidden min-h-[380px] lg:h-[420px]">
+                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-50 rounded-full blur-3xl opacity-50 group-hover:scale-150 transition-transform duration-700"></div>
+                    <div class="relative z-10">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-brand text-xs font-mono font-semibold uppercase tracking-widest mb-8 border border-blue-100">
+                            <span class="material-symbols-outlined text-[14px]">lock</span> Restricted access
                         </div>
-                        <h3 class="font-display text-3xl font-bold text-navy mb-4">Sonar</h3>
-                        <p class="text-muted leading-relaxed mb-4">Our flagship platform for secure communication and collaboration. Sonar combines messaging with AI-assisted tools, and it also acts as the shared data backbone for our other apps, including Eeskia and IskiMedia.</p>
-                        <p class="text-sm text-muted leading-relaxed mb-6">Because of the sensitive data it handles, Sonar is currently available to approved users only. We're happy to walk you through how access works.</p>
-                        <a href="https://sonarmessenger.netlify.app/terms" class="inline-flex items-center gap-2 text-navy font-bold text-sm hover:text-brand transition-colors">
-                            Learn about Sonar <span class="material-symbols-outlined text-base">arrow_forward</span>
-                        </a>
+                        <img src="https://sonarmessenger.netlify.app/sonar-nav-logo.svg" alt="Sonar logo" class="h-10 mb-6"/>
+                        <p class="text-muted leading-relaxed mb-8 max-w-md">Our flagship platform for secure communication and collaboration. Sonar combines messaging with AI-assisted tools, and acts as the shared data backbone for our other apps.</p>
+                        <div class="mt-auto flex flex-wrap gap-3">
+                            <a href="https://sonarmessenger.netlify.app/" target="_blank" class="inline-flex items-center gap-2 bg-brand text-white font-bold text-sm px-6 py-3 rounded-xl hover:bg-navy transition-colors shadow-sm">
+                                Explore Sonar <span class="material-symbols-outlined text-base">explore</span>
+                            </a>
+                            <a href="https://sonarmessenger.netlify.app/terms" target="_blank" class="inline-flex items-center gap-2 text-navy font-bold text-sm hover:text-brand transition-colors px-5 py-3 rounded-xl border border-line bg-cloud hover:border-brand/30">
+                                Access terms
+                            </a>
+                        </div>
                     </div>
-                    <div class="order-1 lg:order-2 bg-gradient-to-br from-blue-50 to-cloud rounded-3xl border border-line p-10 flex items-center justify-center">
-                        <img src="https://sonarmessenger.netlify.app/sonar-nav-logo.svg" alt="Sonar logo" class="w-auto h-24"/>
+                </div>
+
+                <!-- Eeskia -->
+                <div class="lg:col-span-5 bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-3xl border border-emerald-100 p-8 md:p-12 flex flex-col justify-between group hover:shadow-xl hover:border-emerald-300 transition-all relative overflow-hidden min-h-[380px] lg:h-[420px]">
+                    <div class="absolute -bottom-10 -right-10 opacity-10 transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-700">
+                        <span class="material-symbols-outlined" style="font-size: 200px;">school</span>
+                    </div>
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-emerald-700 text-xs font-mono font-semibold uppercase tracking-widest mb-8 shadow-sm self-start">
+                            <span class="material-symbols-outlined text-[14px]">public</span> Live now
+                        </div>
+                        <h3 class="font-display text-3xl font-bold text-navy mb-4">Eeskia</h3>
+                        <p class="text-emerald-900 leading-relaxed mb-8">A CBC grading and school management system for Kenya. Handles weighted CATs, pathway rankings, and fee management.</p>
+                        <a href="https://eeskia.iskify360.tech/" target="_blank" class="mt-auto inline-flex items-center gap-2 text-emerald-800 font-bold text-sm hover:text-emerald-600 transition-colors bg-white hover:bg-emerald-50 px-5 py-3 rounded-xl shadow-sm self-start border border-emerald-100">
+                            Visit Eeskia <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
                     </div>
                 </div>
 
                 <!-- IskiMedia -->
-                <div class="grid lg:grid-cols-2 gap-10 items-center reveal">
-                    <div class="bg-gradient-to-br from-purple-50 to-cloud rounded-3xl border border-line p-10 flex items-center justify-center">
-                        <img src="https://echo360media.live/echotv_logo-Photoroom.png" alt="IskiMedia logo" class="w-24 h-24"/>
+                <div class="lg:col-span-5 bg-gradient-to-br from-purple-50 to-cloud rounded-3xl border border-purple-100/50 p-8 md:p-12 flex flex-col justify-between group hover:shadow-xl hover:border-purple-300 transition-all relative overflow-hidden min-h-[380px]">
+                    <div class="absolute -right-6 -bottom-6 opacity-10 transform group-hover:scale-110 transition-all duration-700">
+                        <img src="https://echo360media.live/echotv_logo-Photoroom.png" alt="" class="w-48 h-48 grayscale"/>
                     </div>
-                    <div>
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-purple-600 text-xs font-mono font-semibold uppercase tracking-widest mb-4">
-                            <span class="material-symbols-outlined text-base">public</span> Live now
+                    <div class="relative z-10">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-purple-600 border border-purple-100 text-xs font-mono font-semibold uppercase tracking-widest mb-8 shadow-sm self-start">
+                            <span class="material-symbols-outlined text-[14px]">play_circle</span> Live now
                         </div>
                         <h3 class="font-display text-3xl font-bold text-navy mb-4">IskiMedia</h3>
-                        <p class="text-muted leading-relaxed mb-4">A media platform with two parts. <strong class="text-navy">IskiMedia TV</strong> is our streaming service. The <strong class="text-navy">IskiMedia local player</strong> is a mobile app for playing your own media, with equalizers, library management, and format support built in.</p>
-                        <a href="https://echo360media.live/about" class="inline-flex items-center gap-2 text-navy font-bold text-sm hover:text-brand transition-colors">
-                            Visit IskiMedia <span class="material-symbols-outlined text-base">arrow_forward</span>
+                        <p class="text-muted leading-relaxed mb-8 max-w-sm">A streaming service and local media player with equalizers, library management, and heavy format support.</p>
+                        <a href="https://echo360media.live/about" class="mt-auto inline-flex items-center gap-2 text-navy font-bold text-sm hover:text-purple-600 transition-colors">
+                            Visit IskiMedia <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- BMFINANCE -->
-                <div class="grid lg:grid-cols-2 gap-10 items-center reveal">
-                    <div class="bg-gradient-to-br from-blue-50 to-cloud rounded-3xl border border-line p-10 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-brand" style="font-size: 96px;">account_balance</span>
+                <div class="lg:col-span-7 bg-navy rounded-3xl border border-navy-light p-8 md:p-12 flex flex-col justify-between group hover:shadow-xl transition-all relative overflow-hidden min-h-[380px]">
+                    <div class="absolute -bottom-20 -right-10 text-white/5 transform group-hover:scale-110 group-hover:-translate-y-4 transition-all duration-700 pointer-events-none">
+                        <span class="material-symbols-outlined" style="font-size: 280px;">account_balance</span>
                     </div>
-                    <div class="order-2 lg:order-1">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-brand text-xs font-mono font-semibold uppercase tracking-widest mb-4">
-                            <span class="material-symbols-outlined text-base">public</span> Live now
-                        </div>
-                        <h3 class="font-display text-3xl font-bold text-navy mb-4">BMFINANCE</h3>
-                        <p class="text-muted leading-relaxed mb-4">A simple, secure, and fast online savings and credit investment platform. BMFINANCE is built for small businesses and individuals who want to manage their finances without the hassle of traditional banking.</p>
-                        <a href="https://bmfinance.me/" class="inline-flex items-center gap-2 text-navy font-bold text-sm hover:text-brand transition-colors">
-                            Visit BMFINANCE <span class="material-symbols-outlined text-base">arrow_forward</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Eeskia -->
-                <div class="grid lg:grid-cols-2 gap-10 items-center reveal">
-                    <div class="order-2 lg:order-1">
-                        <div class="bg-white border border-line rounded-[4px] p-6 md:p-8 flex flex-col h-full reveal">
-                            <div class="flex-1">
-                                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cloud border border-line text-xs font-semibold text-muted mb-6">
-                                    <span class="material-symbols-outlined text-base">school</span> Public
-                                </div>
-                                <h3 class="font-display text-3xl font-bold text-navy mb-4">Eeskia</h3>
-                                <p class="text-muted leading-relaxed mb-4">A CBC grading and school management system for Kenya. Eeskia handles weighted CATs, pathway rankings, fee management, attendance, and timetables with printable report cards in one click.</p>
-                                <ul class="space-y-2 mb-8">
-                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">done</span> Rubric-based CBC grading</li>
-                                    <li class="flex items-center gap-2 text-sm text-muted"><span class="material-symbols-outlined text-emerald-600 text-[18px]">done</span> Real-time attendance &amp; fees</li>
-                                </ul>
+                    <div class="relative z-10 flex flex-col h-full justify-between">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white border border-white/20 text-xs font-mono font-semibold uppercase tracking-widest mb-8 backdrop-blur-sm self-start">
+                                <span class="material-symbols-outlined text-[14px]">public</span> Live now
                             </div>
+                            <h3 class="font-display text-3xl font-bold text-white mb-4">BMFINANCE</h3>
+                            <p class="text-slate-300 leading-relaxed mb-8 max-w-lg">A simple, secure, and fast online savings and credit investment platform. Built for individuals who want to manage finances without the hassle of traditional banking.</p>
                         </div>
-                    </div>
-                    <div class="order-1 lg:order-2 bg-gradient-to-br from-emerald-50 to-cloud rounded-3xl border border-line p-10 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-emerald-600" style="font-size: 96px;">checklist</span>
+                        <a href="https://bmfinance.me/" class="inline-flex items-center gap-2 text-white font-bold text-sm hover:text-brand transition-colors bg-white/10 hover:bg-white/20 px-5 py-3 rounded-xl backdrop-blur-sm self-start border border-white/10">
+                            Visit BMFINANCE <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
                     </div>
                 </div>
 
@@ -766,8 +704,17 @@
                 </div>
             </div>
 
-            <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
-                <p>© <span id="year"></span> Iskify360. All rights reserved.</p>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+                <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-6">
+                    <p>© <span id="year"></span> Iskify360. All rights reserved.</p>
+                    <span class="hidden sm:inline text-white/20">|</span>
+                    <p class="flex items-center gap-1.5">
+                        Founded & Built by 
+                        <a href="https://www.linkedin.com/in/brian-odhiambo-4646b4327" target="_blank" class="text-white hover:text-brand font-semibold transition-colors flex items-center gap-1">
+                            Brian Odhiambo <span class="material-symbols-outlined text-[12px]">open_in_new</span>
+                        </a>
+                    </p>
+                </div>
                 <div class="flex gap-6">
                     <a href="terms_service.html" class="hover:text-white transition-colors">Terms of Service</a>
                 </div>
@@ -825,6 +772,33 @@
 
         tabButtons.forEach(btn => btn.addEventListener('click', () => activateTab(btn.dataset.tab)));
         tabLinks.forEach(link => link.addEventListener('click', () => activateTab(link.dataset.tab)));
+
+        // About tabs
+        const aboutTabBtns = document.querySelectorAll('.about-tab-btn');
+        const aboutPanels = document.querySelectorAll('.about-panel');
+
+        aboutTabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // reset all buttons
+                aboutTabBtns.forEach(b => {
+                    b.classList.remove('border-brand', 'bg-cloud', 'text-navy');
+                    b.classList.add('border-transparent', 'text-muted');
+                });
+                // set active button
+                btn.classList.remove('border-transparent', 'text-muted');
+                btn.classList.add('border-brand', 'bg-cloud', 'text-navy');
+
+                // reset panels
+                aboutPanels.forEach(p => {
+                    p.classList.remove('block');
+                    p.classList.add('hidden');
+                });
+                
+                // set active panel
+                document.getElementById(btn.dataset.target).classList.remove('hidden');
+                document.getElementById(btn.dataset.target).classList.add('block');
+            });
+        });
     </script>
 </body>
 </html>
