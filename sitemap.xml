@@ -4,43 +4,13 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     
     <url>
-        <loc>https://studentcenterhq.netlify.app/</loc>
-        <lastmod>2024-10-23T14:03:17+00:00</lastmod>
+        <loc>https://iskify360.netlify.app/</loc>
+        <lastmod>2026-08-27T12:00:00+00:00</lastmod>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://studentcenterhq.netlify.app/sc_hompage</loc>
-        <lastmod>2024-10-23T14:03:17+00:00</lastmod>
-        <priority>0.90</priority>
-    </url>
-    <url>
-        <loc>https://studentcenterhq.netlify.app/download</loc>
-        <lastmod>2024-10-23T14:03:17+00:00</lastmod>
-        <priority>0.90</priority>
-    </url>
-    <url>
-        <loc>https://studentcenterhq.netlify.app/ceramics</loc>
-        <lastmod>2024-10-23T14:03:17+00:00</lastmod>
-        <priority>0.90</priority>
-    </url>
-    <url>
-        <loc>https://studentcenterhq.netlify.app/about_dev</loc>
-        <lastmod>2024-10-23T14:03:17+00:00</lastmod>
-        <priority>0.90</priority> <!-- Updated priority -->
-    </url>
-    <url>
-        <loc>https://studentcenterhq.netlify.app/profile_page</loc>
-        <lastmod>2024-10-23T14:03:17+00:00</lastmod>
-        <priority>0.64</priority>
-    </url>
-    <url>
-        <loc>https://studentcenterhq.netlify.app/chat</loc>
-        <lastmod>2024-10-23T14:03:17+00:00</lastmod>
-        <priority>0.90</priority>
-    </url>
-    <url>
-        <loc>https://studentcenterhq.netlify.app/authentication_section</loc>
-        <lastmod>2024-10-23T14:03:17+00:00</lastmod>
-        <priority>0.64</priority>
+        <loc>https://iskify360.netlify.app/terms_service</loc>
+        <lastmod>2026-08-27T12:00:00+00:00</lastmod>
+        <priority>0.80</priority>
     </url>
 </urlset>
