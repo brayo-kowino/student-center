@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iskify360.tech/sitemap.xml
